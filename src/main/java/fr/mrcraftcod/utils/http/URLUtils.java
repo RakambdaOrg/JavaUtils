@@ -1,9 +1,7 @@
 package fr.mrcraftcod.utils.http;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.StringEscapeUtils;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -27,7 +25,7 @@ public class URLUtils
 		return urls;
 	}
 
-	public static List<String> pullLinks(URL url) throws URISyntaxException, UnirestException
+	public static List<String> pullLinks(URL url) throws Exception
 	{
 		return pullLinks(URLHandler.getJsoup(url).body().html());
 	}

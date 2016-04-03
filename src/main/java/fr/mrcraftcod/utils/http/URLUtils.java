@@ -27,13 +27,13 @@ public class URLUtils
 
 	public static List<String> pullLinks(URL url) throws Exception
 	{
-		return pullLinks(URLHandler.getJsoup(url).body().html());
+		return pullLinks(URLHandler.getJsoup(url).html());
 	}
 
 	public static List<String> pullLinks(String text)
 	{
 		LinkedList<String> links = new LinkedList<>();
-		Matcher matcher = Pattern.compile("\\(?\\b(http://|https://|www[.])[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]").matcher(text);
+		Matcher matcher = Pattern.compile("\\(?\\b(http://|https://|www[.])[-A-Za-z0-9+&@#/\\\\%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]").matcher(text);
 		while(matcher.find())
 		{
 			String urlString = matcher.group();

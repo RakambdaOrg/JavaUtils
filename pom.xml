@@ -6,7 +6,7 @@
 
     <groupId>mrcraftcod</groupId>
     <artifactId>utils</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.5</version>
     <distributionManagement>
         <repository>
             <id>dropbox.repo</id>

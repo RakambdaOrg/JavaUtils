@@ -1,6 +1,5 @@
 package fr.mrcraftcod.utils.http;
 
-import com.mashape.unirest.http.Headers;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -26,6 +25,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -57,11 +57,13 @@ public class URLHandler
 	public static long getConnectionLinkLength(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException, UnirestException
 	{
 		GetRequest req = headRequest(url, headers, params);
-		HttpResponse<String> result = req.asString();
+		Map<String, List<String>> header = req.asBinary().getHeaders();
 		long length = 0;
-		Headers header = result.getHeaders();
 		if(header.containsKey("content-length"))
 			for(String value : header.get("content-length"))
+				length += Long.parseLong(value);
+		else if(header.containsKey("Content-Length"))
+			for(String value : header.get("Content-Length"))
 				length += Long.parseLong(value);
 		return length;
 	}

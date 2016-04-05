@@ -1,4 +1,4 @@
-package fr.mrcraftcod.utils.awt;
+package fr.mrcraftcod.utils;
 
 import java.awt.image.BufferedImage;
 

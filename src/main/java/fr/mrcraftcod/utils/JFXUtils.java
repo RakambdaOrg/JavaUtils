@@ -1,6 +1,5 @@
-package fr.mrcraftcod.utils.jfx;
+package fr.mrcraftcod.utils;
 
-import fr.mrcraftcod.utils.awt.ImageUtils;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
 import javax.imageio.ImageIO;

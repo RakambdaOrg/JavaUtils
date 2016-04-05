@@ -153,7 +153,7 @@ public class URLHandler
 		return request.asBinary().getStatusText();
 	}
 
-	private static GetRequest getRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
+	public static GetRequest getRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
 	{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);

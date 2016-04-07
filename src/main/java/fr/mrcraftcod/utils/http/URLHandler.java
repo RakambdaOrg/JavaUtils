@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
+import com.mashape.unirest.request.body.RequestBodyEntity;
 import fr.mrcraftcod.utils.MCCUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.utils.URIBuilder;
@@ -212,6 +213,17 @@ public class URLHandler
 	public static Document getJsoup(URL url) throws URISyntaxException, UnirestException
 	{
 		return Jsoup.parse(getAsString(url));
+	}
+
+	public static RequestBodyEntity postRequest(URL url, HashMap<String, String> headers, HashMap<String, String> params, String body) throws URISyntaxException
+	{
+		Unirest.clearDefaultHeaders();
+		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
+		URIBuilder uriBuilder = new URIBuilder(new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef()));
+		if(params != null)
+			for(String key : params.keySet())
+				uriBuilder.addParameter(key, params.get(key));
+		return Unirest.post(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT).body(body);
 	}
 
 	static

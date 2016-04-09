@@ -7,4 +7,10 @@ public class FileUtils
 	{;
 		return new File(System.getProperty("user.home") + "\\AppData\\Roaming\\");
 	}
+
+	public static void createDirectories(File file)
+	{
+		if(!file.getParentFile().exists())
+				file.getParentFile().mkdirs();
+	}
 }

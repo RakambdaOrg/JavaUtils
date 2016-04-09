@@ -1,7 +1,15 @@
 package fr.mrcraftcod.utils.http;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
+import fr.mrcraftcod.utils.FileUtils;
+import fr.mrcraftcod.utils.Log;
 import org.apache.commons.lang3.StringEscapeUtils;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -46,5 +54,22 @@ public class URLUtils
 		links.clear();
 		links.addAll(hs);
 		return links;
+	}
+
+	public static boolean saveAsFile(URL url, File file)
+	{
+		FileUtils.createDirectories(file);
+		try(InputStream is = URLHandler.getAsBinary(url); FileOutputStream fos = new FileOutputStream(file))
+		{
+			int i = 0;
+			while((i = is.read()) != -1)
+				fos.write(i);
+		}
+		catch(IOException | UnirestException | URISyntaxException e)
+		{
+			Log.warning("Couldn't download file " + url.toString() + " to " + file.toString(), e);
+			return false;
+		}
+		return true;
 	}
 }

@@ -11,7 +11,7 @@ public abstract class ApplicationBase extends Application
 	@Override
 	public void start(Stage stage) throws Exception
 	{
-		Scene scene = new Scene(createContent());
+		Scene scene = new Scene(createContent(stage));
 		stage.setTitle(this.getFrameTitle());
 		stage.setScene(scene);
 		stage.sizeToScene();
@@ -24,5 +24,5 @@ public abstract class ApplicationBase extends Application
 
 	public abstract Callback<Stage> getStageHandler();
 
-	public abstract Parent createContent();
+	public abstract Parent createContent(Stage stage);
 }

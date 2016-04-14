@@ -13,11 +13,12 @@ public abstract class ThreadLoop extends Thread
 
 	public void close()
 	{
+		this.interrupt();
 		this.running = false;
 		this.onClosed();
 	}
 
-	abstract void onClosed();
+	public void onClosed(){};
 
-	abstract void loop();
+	public abstract void loop();
 }

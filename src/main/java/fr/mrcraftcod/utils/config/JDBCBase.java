@@ -1,14 +1,10 @@
 package fr.mrcraftcod.utils.config;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import fr.mrcraftcod.utils.Log;
 import org.jdeferred.DeferredManager;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DefaultDeferredManager;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public abstract class JDBCBase
@@ -81,7 +77,7 @@ public abstract class JDBCBase
 			Statement stmt = this.connection.createStatement();
 			result = stmt.executeQuery(request);
 		}
-		catch(MySQLNonTransientConnectionException e)
+		catch(SQLTimeoutException e)
 		{
 			if(!retry)
 				throw e;

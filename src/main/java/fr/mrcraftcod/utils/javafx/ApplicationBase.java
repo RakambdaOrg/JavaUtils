@@ -18,11 +18,15 @@ public abstract class ApplicationBase extends Application
 		if(getStageHandler() != null)
 			this.getStageHandler().call(stage);
 		stage.show();
+		if(getOnStageDisplayed() != null)
+			this.getOnStageDisplayed().call(stage);
 	}
 
 	public abstract String getFrameTitle();
 
 	public abstract Callback<Stage> getStageHandler();
+
+	public abstract Callback<Stage> getOnStageDisplayed();
 
 	public abstract Parent createContent(Stage stage);
 }

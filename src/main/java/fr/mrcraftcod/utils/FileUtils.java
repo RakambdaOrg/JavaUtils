@@ -22,6 +22,6 @@ public class FileUtils
 
 	public static String sanitizeFileName(String name)
 	{
-		return name.chars().mapToObj(i -> (char) i).filter(c -> Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == ' ').map(String::valueOf).collect(Collectors.joining());
+		return name.chars().mapToObj(i -> (char) i).filter(c -> Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.').map(String::valueOf).collect(Collectors.joining());
 	}
 }

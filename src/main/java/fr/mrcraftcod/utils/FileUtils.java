@@ -13,4 +13,9 @@ public class FileUtils
 		if(!file.getParentFile().exists())
 				file.getParentFile().mkdirs();
 	}
+
+	public static File getDesktopFolder()
+	{
+		return new File(System.getProperty("user.home"), "Desktop");
+	}
 }

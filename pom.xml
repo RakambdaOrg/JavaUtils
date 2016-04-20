@@ -9,8 +9,8 @@
     <version>1.0.12</version>
     <distributionManagement>
         <repository>
-            <id>dropbox.repo</id>
-            <url>file://D:/Documents/Dropbox/Public/repository</url>
+            <id>mrcraftcod.write</id>
+            <url>${myMavenRepo.write.url}</url>
         </repository>
     </distributionManagement>
     <build>

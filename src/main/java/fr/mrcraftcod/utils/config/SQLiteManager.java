@@ -1,5 +1,6 @@
 package fr.mrcraftcod.utils.config;
 
+import fr.mrcraftcod.utils.FileUtils;
 import fr.mrcraftcod.utils.Log;
 import java.io.File;
 import java.sql.DriverManager;
@@ -13,8 +14,7 @@ public class SQLiteManager extends JDBCBase
 	{
 		super("SQLITE/" + databaseURL, log);
 		Class.forName("org.sqlite.JDBC");
-		if(!databaseURL.getParentFile().exists())
-			databaseURL.getParentFile().mkdirs();
+		FileUtils.createDirectories(databaseURL);
 		this.databaseURL = databaseURL;
 		login();
 		Log.info("Initializing SQL connection...");

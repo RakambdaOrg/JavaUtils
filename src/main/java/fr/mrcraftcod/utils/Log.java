@@ -8,7 +8,7 @@ public class Log
 
 	public static void info(String s)
 	{
-		getLogger().log(Level.INFO, s);
+		info(true, s);
 	}
 
 	private static Logger getLogger()
@@ -24,7 +24,7 @@ public class Log
 
 	public static void warning(String s, Throwable e)
 	{
-		getLogger().log(Level.WARNING, s, e);
+		warning(true, s, e);
 	}
 
 	public static void warning(boolean log, String s, Throwable e)
@@ -36,6 +36,17 @@ public class Log
 	public static void info(boolean log, String s)
 	{
 		if(log)
-			info(s);
+			getLogger().log(Level.INFO, s);
+	}
+
+	public static void error(String s, Throwable e)
+	{
+		error(true, s, e);
+	}
+
+	public static void error(boolean log, String s, Throwable e)
+	{
+		if(log)
+			getLogger().log(Level.SEVERE, s, e);
 	}
 }

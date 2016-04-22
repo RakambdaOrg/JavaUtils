@@ -30,7 +30,7 @@ public class Log
 	public static void warning(boolean log, String s, Throwable e)
 	{
 		if(log)
-			warning(s, e);
+			getLogger().log(Level.WARNING, s, e);
 	}
 
 	public static void info(boolean log, String s)

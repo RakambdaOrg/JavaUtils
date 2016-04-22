@@ -6,11 +6,6 @@ public class Log
 {
 	private static Logger logger;
 
-	public static void info(String s)
-	{
-		info(true, s);
-	}
-
 	private static Logger getLogger()
 	{
 		return logger != null ? logger : setAppName("MCCUtils");
@@ -24,29 +19,44 @@ public class Log
 
 	public static void warning(String s, Throwable e)
 	{
-		warning(true, s, e);
+		log(Level.WARNING, s, e);
 	}
 
 	public static void warning(boolean log, String s, Throwable e)
 	{
 		if(log)
-			getLogger().log(Level.WARNING, s, e);
+			warning(s, e);
+	}
+
+	public static void info(String s)
+	{
+		log(Level.INFO, s);
 	}
 
 	public static void info(boolean log, String s)
 	{
 		if(log)
-			getLogger().log(Level.INFO, s);
+			info(s);
 	}
 
 	public static void error(String s, Throwable e)
 	{
-		error(true, s, e);
+		log(Level.SEVERE, s ,e);
 	}
 
 	public static void error(boolean log, String s, Throwable e)
 	{
 		if(log)
-			getLogger().log(Level.SEVERE, s, e);
+			error(s, e);
+	}
+
+	public static void log(Level level, String s)
+	{
+		getLogger().log(level, s);
+	}
+
+	public static void log(Level level, String s, Throwable e)
+	{
+		getLogger().log(level, s, e);
 	}
 }

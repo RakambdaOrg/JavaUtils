@@ -1,10 +1,10 @@
 package fr.mrcraftcod.utils.javafx;
 
-import fr.mrcraftcod.utils.Callback;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.util.function.Consumer;
 
 public abstract class ApplicationBase extends Application
 {
@@ -16,17 +16,17 @@ public abstract class ApplicationBase extends Application
 		stage.setScene(scene);
 		stage.sizeToScene();
 		if(getStageHandler() != null)
-			this.getStageHandler().call(stage);
+			this.getStageHandler().accept(stage);
 		stage.show();
 		if(getOnStageDisplayed() != null)
-			this.getOnStageDisplayed().call(stage);
+			this.getOnStageDisplayed().accept(stage);
 	}
 
 	public abstract String getFrameTitle();
 
-	public abstract Callback<Stage> getStageHandler();
+	public abstract Consumer<Stage> getStageHandler();
 
-	public abstract Callback<Stage> getOnStageDisplayed();
+	public abstract Consumer<Stage> getOnStageDisplayed();
 
 	public abstract Parent createContent(Stage stage);
 }

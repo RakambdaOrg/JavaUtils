@@ -1,6 +1,5 @@
 package fr.mrcraftcod.utils.mail;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import java.util.Properties;
@@ -37,12 +36,12 @@ public class GMailUtils
 		return store;
 	}
 
-	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, Consumer<MessageCountEvent> callback) throws MessagingException, InvalidArgumentException
+	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, Consumer<MessageCountEvent> callback) throws Exception
 	{
 		return new GMailFetcher(getGMailStore(user, password), folder, callback);
 	}
 
-	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, ExecutorService executor, Consumer<MessageCountEvent> callback) throws MessagingException, InvalidArgumentException
+	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, ExecutorService executor, Consumer<MessageCountEvent> callback) throws Exception
 	{
 		return new GMailFetcher(getGMailStore(user, password), folder, executor, callback);
 	}

@@ -1,6 +1,5 @@
 package fr.mrcraftcod.utils.mail;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import com.sun.mail.iap.ProtocolException;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.protocol.IMAPProtocol;
@@ -23,12 +22,12 @@ public class GMailFetcher
 	private final ThreadFetch threadFetch;
 	private final boolean customExecutor;
 
-	public GMailFetcher(Store store, String folder, Consumer<MessageCountEvent> callback) throws MessagingException, InvalidArgumentException
+	public GMailFetcher(Store store, String folder, Consumer<MessageCountEvent> callback) throws Exception
 	{
 		this(store, folder, null, callback);
 	}
 
-	public GMailFetcher(Store store, String folder, ExecutorService executorService, Consumer<MessageCountEvent> callback) throws MessagingException, InvalidArgumentException
+	public GMailFetcher(Store store, String folder, ExecutorService executorService, Consumer<MessageCountEvent> callback) throws Exception
 	{
 		if(executorService == null)
 		{
@@ -42,7 +41,7 @@ public class GMailFetcher
 		}
 		Folder tFolder = store.getFolder(folder);
 		if(!(tFolder instanceof IMAPFolder))
-			throw new InvalidArgumentException(new String[]{"Not IMAP folder"});
+			throw new Exception("Not IMAP folder");
 		this.folder = (IMAPFolder) tFolder;
 		this.folder.open(Folder.READ_WRITE);
 		this.folder.addMessageCountListener(new MessageCountListener()

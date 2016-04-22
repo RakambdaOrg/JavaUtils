@@ -21,6 +21,7 @@ public class GMailFetcher
 	private final ExecutorService executorService;
 	private final ThreadFetch threadFetch;
 	private final boolean customExecutor;
+	private final Store store;
 
 	public GMailFetcher(Store store, String folder, Consumer<MessageCountEvent> callback) throws Exception
 	{
@@ -29,6 +30,7 @@ public class GMailFetcher
 
 	public GMailFetcher(Store store, String folder, ExecutorService executorService, Consumer<MessageCountEvent> callback) throws Exception
 	{
+		this.store = store;
 		if(executorService == null)
 		{
 			this.executorService = Executors.newFixedThreadPool(2);
@@ -69,6 +71,22 @@ public class GMailFetcher
 	{
 		this.keepAlive.close();
 		this.threadFetch.close();
+		try
+		{
+			this.folder.close(false);
+		}
+		catch(MessagingException e)
+		{
+			Log.warning("Error closing GMail folder", e);
+		}
+		try
+		{
+			this.store.close();
+		}
+		catch(MessagingException e)
+		{
+			Log.warning("Failed to close store", e);
+		}
 		if(this.customExecutor)
 			this.executorService.shutdownNow();
 		Log.info("GMailFetcher closed");
@@ -88,12 +106,6 @@ public class GMailFetcher
 				Log.error("Error listening mails", e);
 				GMailFetcher.this.close();
 			}
-		}
-
-		@Override
-		public void onClosed()
-		{
-			GMailFetcher.this.keepAlive.close();
 		}
 	}
 

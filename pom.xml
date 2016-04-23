@@ -6,7 +6,7 @@
 
     <groupId>mrcraftcod</groupId>
     <artifactId>utils</artifactId>
-    <version>1.1.2</version>
+    <version>1.1.4</version>
     <distributionManagement>
         <repository>
             <id>mrcraftcod.write</id>
@@ -87,6 +87,11 @@
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>[1.4,)</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>[2.4,)</version>
         </dependency>
     </dependencies>
 </project>

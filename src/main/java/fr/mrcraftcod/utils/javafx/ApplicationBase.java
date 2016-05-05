@@ -8,9 +8,12 @@ import java.util.function.Consumer;
 
 public abstract class ApplicationBase extends Application
 {
+	private Stage stage;
+
 	@Override
 	public void start(Stage stage) throws Exception
 	{
+		this.stage = stage;
 		Scene scene = new Scene(createContent(stage));
 		stage.setTitle(this.getFrameTitle());
 		stage.setScene(scene);
@@ -29,4 +32,9 @@ public abstract class ApplicationBase extends Application
 	public abstract Consumer<Stage> getOnStageDisplayed();
 
 	public abstract Parent createContent(Stage stage);
+
+	public Stage getStage()
+	{
+		return stage;
+	}
 }

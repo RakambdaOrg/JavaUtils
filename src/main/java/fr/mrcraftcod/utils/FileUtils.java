@@ -1,5 +1,6 @@
 package fr.mrcraftcod.utils;
 
+import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -40,5 +41,19 @@ public class FileUtils
 		}
 		catch(IOException e){}
 		return false;
+	}
+
+	public static File askDirectory()
+	{
+		return askDirectory(null);
+	}
+
+	public static File askDirectory(File defaultFile)
+	{
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("Open output folder");
+		if(defaultFile != null)
+			directoryChooser.setInitialDirectory(defaultFile);
+		return directoryChooser.showDialog(null);
 	}
 }

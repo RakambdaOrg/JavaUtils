@@ -1,6 +1,6 @@
 package fr.mrcraftcod.utils;
 
-import javafx.stage.DirectoryChooser;
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -50,10 +50,28 @@ public class FileUtils
 
 	public static File askDirectory(File defaultFile)
 	{
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-		directoryChooser.setTitle("Open output folder");
-		if(defaultFile != null)
-			directoryChooser.setInitialDirectory(defaultFile);
-		return directoryChooser.showDialog(null);
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(defaultFile == null ? new File(".") : defaultFile);
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int returnVal = fc.showSaveDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION)
+			return fc.getSelectedFile();
+		return null;
+	}
+
+	public static File askFile()
+	{
+		return askFile(null);
+	}
+
+	private static File askFile(File defaultFile)
+	{
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(defaultFile == null ? new File(".") : defaultFile);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int returnVal = fc.showSaveDialog(null);
+		if(returnVal == JFileChooser.APPROVE_OPTION)
+			return fc.getSelectedFile();
+		return null;
 	}
 }

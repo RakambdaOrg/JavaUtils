@@ -2,6 +2,7 @@ package fr.mrcraftcod.utils.resources;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
+import javafx.scene.text.Font;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,5 +62,10 @@ public class ResourcesBase
 		prop.load(new File("./", path + ".properties").exists() ? new InputStreamReader(new FileInputStream(new File("./", path + ".properties")), "UTF-8") : new InputStreamReader(getResource(resourceElement, path + ".properties").openStream(), "UTF-8"));
 		properties.put(path, prop);
 		return prop;
+	}
+
+	public Font getFont(ResourceElement resourceElement, String path, double size) throws IOException
+	{
+		return Font.loadFont(getResource(resourceElement, path).openConnection().getInputStream(), size);
 	}
 }

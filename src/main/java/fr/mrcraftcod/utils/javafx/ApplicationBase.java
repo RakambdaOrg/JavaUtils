@@ -14,7 +14,7 @@ public abstract class ApplicationBase extends Application
 	public void start(Stage stage) throws Exception
 	{
 		this.stage = stage;
-		Scene scene = new Scene(createContent(stage));
+		Scene scene = buildScene(stage);
 		stage.setTitle(this.getFrameTitle());
 		stage.setScene(scene);
 		stage.sizeToScene();
@@ -23,6 +23,11 @@ public abstract class ApplicationBase extends Application
 		stage.show();
 		if(getOnStageDisplayed() != null)
 			this.getOnStageDisplayed().accept(stage);
+	}
+
+	public Scene buildScene(Stage stage)
+	{
+		return new Scene(createContent(stage));
 	}
 
 	public abstract String getFrameTitle();

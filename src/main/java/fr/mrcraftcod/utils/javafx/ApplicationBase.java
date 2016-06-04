@@ -9,11 +9,7 @@ import java.util.function.Consumer;
 public abstract class ApplicationBase extends Application
 {
 	private Stage stage;
-
-	public static void main(String[] args)
-	{
-		launch(args);
-	}
+	private Stage stage;
 
 	@Override
 	public void start(Stage stage) throws Exception

@@ -6,7 +6,7 @@ public class Log
 {
 	private static Logger logger;
 
-	private static Logger getLogger()
+	public static Logger getLogger()
 	{
 		return logger != null ? logger : setAppName("MCCUtils");
 	}

@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 public abstract class ApplicationBase extends Application
 {
 	private Stage stage;
-	private Stage stage;
 
 	@Override
 	public void start(Stage stage) throws Exception

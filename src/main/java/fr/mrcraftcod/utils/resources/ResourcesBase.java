@@ -54,7 +54,7 @@ public class ResourcesBase
 		return "--";
 	}
 
-	private Properties getProperties(ResourceElement resourceElement, String path) throws IOException
+	public Properties getProperties(ResourceElement resourceElement, String path) throws IOException
 	{
 		if(properties.containsKey(path))
 			return properties.get(path);

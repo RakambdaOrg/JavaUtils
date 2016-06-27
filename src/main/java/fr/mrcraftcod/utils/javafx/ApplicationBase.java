@@ -10,7 +10,6 @@ public abstract class ApplicationBase extends Application
 {
 	private Stage stage;
 
-	@Override
 	public void start(Stage stage) throws Exception
 	{
 		this.stage = stage;
@@ -20,9 +19,17 @@ public abstract class ApplicationBase extends Application
 		stage.sizeToScene();
 		if(getStageHandler() != null)
 			this.getStageHandler().accept(stage);
-		stage.show();
-		if(getOnStageDisplayed() != null)
-			this.getOnStageDisplayed().accept(stage);
+		if(shouldDisplayAtStart())
+		{
+			stage.show();
+			if(getOnStageDisplayed() != null)
+				this.getOnStageDisplayed().accept(stage);
+		}
+	}
+
+	public boolean shouldDisplayAtStart()
+	{
+		return true;
 	}
 
 	public Scene buildScene(Stage stage)

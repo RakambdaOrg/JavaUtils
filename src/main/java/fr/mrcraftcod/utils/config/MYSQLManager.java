@@ -28,7 +28,7 @@ public class MYSQLManager extends JDBCBase
 	{
 		try
 		{
-			this.connection = DriverManager.getConnection("jdbc:mysql://" + this.databaseURL + ":" + this.port + "/" + this.databaseName, this.user, this.password);
+			this.connection = DriverManager.getConnection("jdbc:mysql://" + this.databaseURL + ":" + this.port + "/" + this.databaseName + "?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC", this.user, this.password);
 		}
 		catch(SQLException e)
 		{

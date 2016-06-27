@@ -27,18 +27,14 @@ public abstract class JDBCBase
 
 	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request)
 	{
-		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> {
-			return sendQueryRequest(request, true);
-		}).fail(event -> Log.warning(log, "SQL Query request on " + NAME + " failed!", event));
+		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).fail(event -> Log.warning(log, "SQL Query request on " + NAME + " failed!", event));
 		promises.add(promise);
 		return promise;
 	}
 
 	public synchronized Promise<Integer, Throwable, Void> sendUpdateRequest(String request)
 	{
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> {
-			return sendUpdateRequest(request, true);
-		}).fail(event -> Log.warning(log, "SQL Update request on " + NAME + " failed!", event));
+		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(request, true)).fail(event -> Log.warning(log, "SQL Update request on " + NAME + " failed!", event));
 		promises.add(promise);
 		return promise;
 	}
@@ -71,7 +67,7 @@ public abstract class JDBCBase
 			return null;
 		if(retry)
 			Log.info(log, "Sending SQL request to " + NAME + "...: " + request);
-		ResultSet result = null;
+		ResultSet result;
 		try
 		{
 			Statement stmt = this.connection.createStatement();

@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
@@ -59,6 +60,30 @@ public class JFXUtils
 				if(defaultFile != null && defaultFile.exists())
 					fileChooser.setInitialDirectory(defaultFile);
 				return fileChooser.showOpenDialog(new Stage());
+			});
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		return Optional.empty();
+	}
+
+	public static Optional<List<File>> askFiles()
+	{
+		return askFiles(null);
+	}
+
+	public static Optional<List<File>> askFiles(File defaultFile)
+	{
+		try
+		{
+			return launchJFX(() -> {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Select file");
+				if(defaultFile != null && defaultFile.exists())
+					fileChooser.setInitialDirectory(defaultFile);
+				return fileChooser.showOpenMultipleDialog(new Stage());
 			});
 		}
 		catch(InterruptedException e)

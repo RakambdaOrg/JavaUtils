@@ -6,7 +6,7 @@
 
     <groupId>mrcraftcod</groupId>
     <artifactId>utils</artifactId>
-    <version>1.1.20</version>
+    <version>1.1.21</version>
     <distributionManagement>
         <repository>
             <id>mrcraftcod.write</id>
@@ -92,6 +92,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.apple</groupId>
+            <artifactId>AppleJavaExtensions</artifactId>
+            <version>1.4</version>
         </dependency>
     </dependencies>
 </project>

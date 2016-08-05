@@ -75,4 +75,9 @@ public class FileUtils
 			return fc.getSelectedFile();
 		return null;
 	}
+
+	public static boolean isMac()
+	{
+		return System.getProperty("os.name").toLowerCase().contains("mac");
+	}
 }

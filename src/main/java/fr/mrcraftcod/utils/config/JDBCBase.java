@@ -1,7 +1,6 @@
 package fr.mrcraftcod.utils.config;
 
 import fr.mrcraftcod.utils.Log;
-import org.jdeferred.DeferredManager;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DefaultDeferredManager;
 import java.sql.*;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 
 public abstract class JDBCBase
 {
-	protected final DeferredManager dm;
+	protected final DefaultDeferredManager dm;
 	private final String NAME;
 	private final boolean log;
 	protected Connection connection;
@@ -50,6 +49,7 @@ public abstract class JDBCBase
 			{
 				e.printStackTrace();
 			}
+		dm.shutdownNow();
 		if(connection != null)
 			try
 			{

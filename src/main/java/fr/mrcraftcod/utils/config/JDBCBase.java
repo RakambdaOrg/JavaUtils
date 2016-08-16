@@ -24,6 +24,13 @@ public abstract class JDBCBase
 
 	protected abstract void login();
 
+	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request, ResultsParser parser)
+	{
+		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).done(parser::parse).fail(event -> Log.warning(log, "SQL Query request on " + NAME + " failed!", event));
+		promises.add(promise);
+		return promise;
+	}
+
 	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request)
 	{
 		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).fail(event -> Log.warning(log, "SQL Query request on " + NAME + " failed!", event));

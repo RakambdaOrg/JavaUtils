@@ -16,6 +16,7 @@ public abstract class ApplicationBase extends Application
 	public void start(Stage stage) throws Exception
 	{
 		this.stage = stage;
+		preInit();
 		Scene scene = buildScene(stage);
 		stage.setTitle(this.getFrameTitle());
 		stage.setScene(scene);
@@ -39,6 +40,8 @@ public abstract class ApplicationBase extends Application
 		if(FileUtils.isMac())
 			com.apple.eawt.Application.getApplication().setDockIconImage(SwingFXUtils.fromFXImage(icon, null));
 	}
+
+	public void preInit(){};
 
 	public Image getIcon()
 	{

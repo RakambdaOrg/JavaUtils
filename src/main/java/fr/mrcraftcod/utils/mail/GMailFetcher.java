@@ -1,8 +1,6 @@
 package fr.mrcraftcod.utils.mail;
 
-import com.sun.mail.iap.ProtocolException;
 import com.sun.mail.imap.IMAPFolder;
-import com.sun.mail.imap.protocol.IMAPProtocol;
 import fr.mrcraftcod.utils.Log;
 import fr.mrcraftcod.utils.threads.ThreadLoop;
 import javax.mail.Folder;
@@ -119,16 +117,23 @@ public class GMailFetcher
 			try
 			{
 				Thread.sleep(KEEP_ALIVE_FREQ);
-				GMailFetcher.this.folder.doCommand(new IMAPFolder.ProtocolCommand()
+				GMailFetcher.this.folder.doCommand(p ->
 				{
-					public Object doCommand(IMAPProtocol p) throws ProtocolException
-					{
-						p.simpleCommand("NOOP", null);
-						return null;
-					}
+					p.simpleCommand("NOOP", null);
+					return null;
 				});
 			}
 			catch (InterruptedException | MessagingException e){}
 		}
+	}
+
+	public Store getStore()
+	{
+		return this.store;
+	}
+
+	public Folder getFolder()
+	{
+		return this.folder;
 	}
 }

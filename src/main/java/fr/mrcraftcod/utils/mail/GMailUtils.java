@@ -2,6 +2,7 @@ package fr.mrcraftcod.utils.mail;
 
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
@@ -10,9 +11,9 @@ public class GMailUtils
 {
 	private static final String GMAIL_SMTP_HOST = "smtp.gmail.com";
 
-	public static void sendGMail(String user, String password, String from, String to, String object, String body) throws MessagingException
+	public static void sendGMail(String user, String password, String from, String to, String object, String body) throws MessagingException, UnsupportedEncodingException
 	{
-		MailUtils.sendMail(getGMailSession(user, password), from, to, object, body);
+		MailUtils.sendMail(getGMailSession(user, password), user, from, to, object, body);
 	}
 
 	public static Session getGMailSession(String user, String password)

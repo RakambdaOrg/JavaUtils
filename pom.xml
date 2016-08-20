@@ -6,7 +6,7 @@
 
     <groupId>mrcraftcod</groupId>
     <artifactId>utils</artifactId>
-    <version>1.1.22</version>
+    <version>1.2.0</version>
     <distributionManagement>
         <repository>
             <id>mrcraftcod.write</id>

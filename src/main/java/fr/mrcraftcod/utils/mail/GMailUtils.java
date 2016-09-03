@@ -1,5 +1,6 @@
 package fr.mrcraftcod.utils.mail;
 
+import fr.mrcraftcod.utils.Log;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.InternetAddress;
@@ -51,19 +52,19 @@ public class GMailUtils
 		return new GMailFetcher(getGMailStore(user, password), folder, executor, callback);
 	}
 
-	public static boolean transfer(String user, String password, String from, String to, Message message)
+	public static boolean transfer(String user, String password, String fromName, String to, String toName, Message message)
 	{
-		return transfer(user, password, from, to, message, "");
+		return transfer(user, password, fromName, to, toName, message, "");
 	}
 
-	public static boolean transfer(String user, String password, String from, String to, Message message, String header)
+	public static boolean transfer(String user, String password, String fromName, String to, String toName, Message message, String header)
 	{
 		try
 		{
 			Message forwardMessage = new MimeMessage(getGMailSession(user, password));
-			forwardMessage.setSubject("Fwd: " + message.getSubject());
-			forwardMessage.setFrom(new InternetAddress(from));
-			forwardMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			forwardMessage.setSubject("Fwd: " + (message.getSubject() == null ? "" : message.getSubject()));
+			forwardMessage.setFrom(new InternetAddress(user, fromName));
+			forwardMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to, toName));
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart.setText(header);
 			Multipart multipart = new MimeMultipart();
@@ -77,6 +78,7 @@ public class GMailUtils
 		}
 		catch(Exception e)
 		{
+			Log.warning("Failed to forward message", e);
 			return false;
 		}
 	}

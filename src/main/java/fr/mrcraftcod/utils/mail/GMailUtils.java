@@ -2,6 +2,10 @@ package fr.mrcraftcod.utils.mail;
 
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -45,5 +49,35 @@ public class GMailUtils
 	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, ExecutorService executor, Consumer<MessageCountEvent> callback) throws Exception
 	{
 		return new GMailFetcher(getGMailStore(user, password), folder, executor, callback);
+	}
+
+	public static boolean transfer(String user, String password, String from, String to, Message message)
+	{
+		return transfer(user, password, from, to, message, "");
+	}
+
+	public static boolean transfer(String user, String password, String from, String to, Message message, String header)
+	{
+		try
+		{
+			Message forwardMessage = new MimeMessage(getGMailSession(user, password));
+			forwardMessage.setSubject("Fwd: " + message.getSubject());
+			forwardMessage.setFrom(new InternetAddress(from));
+			forwardMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setText(header);
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setDataHandler(message.getDataHandler());
+			multipart.addBodyPart(messageBodyPart);
+			forwardMessage.setContent(multipart);
+			Transport.send(forwardMessage);
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 	}
 }

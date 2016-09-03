@@ -59,9 +59,14 @@ public class GMailUtils
 
 	public static boolean forward(String user, String password, String fromName, String to, String toName, Message message, String subjectPrefix, String header)
 	{
+		return forward(getGMailSession(user, password), user, fromName, to, toName, message, subjectPrefix, header);
+	}
+
+	public static boolean forward(Session session, String user, String fromName, String to, String toName, Message message, String subjectPrefix, String header)
+	{
 		try
 		{
-			Message forwardMessage = new MimeMessage(getGMailSession(user, password));
+			Message forwardMessage = new MimeMessage(session);
 			forwardMessage.setSubject(subjectPrefix + (message.getSubject() == null ? "" : message.getSubject()));
 			forwardMessage.setFrom(new InternetAddress(user, fromName));
 			forwardMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to, toName));

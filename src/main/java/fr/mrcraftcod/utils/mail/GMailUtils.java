@@ -52,17 +52,17 @@ public class GMailUtils
 		return new GMailFetcher(getGMailStore(user, password), folder, executor, callback);
 	}
 
-	public static boolean transfer(String user, String password, String fromName, String to, String toName, Message message)
+	public static boolean forward(String user, String password, String fromName, String to, String toName, Message message)
 	{
-		return transfer(user, password, fromName, to, toName, message, "");
+		return forward(user, password, fromName, to, toName, message, "Fwd: ", "");
 	}
 
-	public static boolean transfer(String user, String password, String fromName, String to, String toName, Message message, String header)
+	public static boolean forward(String user, String password, String fromName, String to, String toName, Message message, String subjectPrefix, String header)
 	{
 		try
 		{
 			Message forwardMessage = new MimeMessage(getGMailSession(user, password));
-			forwardMessage.setSubject("Fwd: " + (message.getSubject() == null ? "" : message.getSubject()));
+			forwardMessage.setSubject(subjectPrefix + (message.getSubject() == null ? "" : message.getSubject()));
 			forwardMessage.setFrom(new InternetAddress(user, fromName));
 			forwardMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to, toName));
 			BodyPart messageBodyPart = new MimeBodyPart();

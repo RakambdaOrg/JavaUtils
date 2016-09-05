@@ -1,5 +1,7 @@
 package fr.mrcraftcod.utils.mail;
 
+import fr.mrcraftcod.utils.Log;
+import javax.imageio.ImageIO;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -31,21 +33,30 @@ public class MailUtils
 				Multipart parts = (Multipart) content;
 				for (int i = 0; i < parts.getCount(); i++) {
 					BodyPart part = parts.getBodyPart(i);
-					switch(part.getContentType().split(";")[0].toUpperCase())
+					try
 					{
-						case "TEXT/PLAIN":
-							messageContent.appendTextContent(part.getContent().toString());
-							break;
-						case "TEXT/HTML":
-							messageContent.appendHTMLContent(part.getContent().toString());
-							break;
-						case "IMAGE/JPEG":
-							messageContent.addImage(null);
-							break;
-						default:
-							System.out.println(part.getContentType());
+						switch(part.getContentType().split(";")[0].toUpperCase())
+						{
+							case "TEXT/PLAIN":
+								messageContent.appendTextContent(part.getContent().toString());
+								break;
+							case "TEXT/HTML":
+								messageContent.appendHTMLContent(part.getContent().toString());
+								break;
+							case "IMAGE/JPEG":
+								messageContent.addImage(ImageIO.read(part.getInputStream()));
+								break;
+							case "VIDEO/MP4":
+								messageContent.addVideo(null);
+								break;
+							default:
+								Log.info("Unrecognized part " + part.getContentType());
+						}
 					}
-
+					catch(Exception e)
+					{
+						Log.warning("Error getting multipart " + i + ": " + part, e);
+					}
 				}
 				return Optional.of(messageContent);
 			}

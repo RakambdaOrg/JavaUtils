@@ -31,6 +31,11 @@ public class Log
 		return logger;
 	}
 
+	public static void warning(String s)
+	{
+		log(Level.WARNING, s);
+	}
+
 	public static void warning(String s, Throwable e)
 	{
 		log(Level.WARNING, s, e);
@@ -51,6 +56,11 @@ public class Log
 	{
 		if(log)
 			info(s);
+	}
+
+	public static void error(String s)
+	{
+		log(Level.SEVERE, s);
 	}
 
 	public static void error(String s, Throwable e)

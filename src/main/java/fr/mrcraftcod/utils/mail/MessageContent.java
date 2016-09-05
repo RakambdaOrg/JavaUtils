@@ -12,6 +12,7 @@ public class MessageContent
 	private boolean hasText;
 	private boolean hasHTML;
 	private boolean hasImage;
+	private boolean hasVideo;
 	private String textContent;
 	private String htmlContent;
 
@@ -20,6 +21,7 @@ public class MessageContent
 		this.hasText = false;
 		this.hasHTML = false;
 		this.hasImage = false;
+		this.hasVideo = false;
 		this.textContent = "";
 		this.htmlContent = "";
 	}
@@ -28,7 +30,7 @@ public class MessageContent
 	public String toString()
 	{
 		StringBuilder stringBuilder = new StringBuilder("MessageContent@").append(this.hashCode());
-		// stringBuilder.append("\nTextContent:").append("\n\t").append(this.getTextContent());
+		stringBuilder.append("\nTextContent:").append("\n\t").append(this.getTextContent());
 		stringBuilder.append("\nHTMLContent:").append("\n\t").append(this.getHTMLContent());
 		return stringBuilder.toString();
 	}
@@ -76,5 +78,16 @@ public class MessageContent
 	public boolean hasImage()
 	{
 		return this.hasImage;
+	}
+
+	public MessageContent addVideo(Video video)
+	{
+		this.hasVideo = true;
+		return this;
+	}
+
+	public boolean hasVideo()
+	{
+		return this.hasVideo;
 	}
 }

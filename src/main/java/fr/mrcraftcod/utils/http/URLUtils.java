@@ -61,7 +61,7 @@ public class URLUtils
 		FileUtils.createDirectories(file);
 		try(InputStream is = URLHandler.getAsBinary(url); FileOutputStream fos = new FileOutputStream(file))
 		{
-			int i = 0;
+			int i;
 			while((i = is.read()) != -1)
 				fos.write(i);
 		}

@@ -5,6 +5,7 @@ import org.jdeferred.Promise;
 import org.jdeferred.impl.DefaultDeferredManager;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public abstract class JDBCBase
 {
@@ -110,6 +111,34 @@ public abstract class JDBCBase
 				throw e;
 			login();
 			return sendUpdateRequest(request, false);
+		}
+		return result;
+	}
+
+	public Promise<Integer, Throwable, Void> sendPreparedUpdateRequest(String request, Function<PreparedStatement, PreparedStatement> filler)
+	{
+		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendPreparedUpdateRequest(request, filler, true)).fail(event -> Log.warning(log, "SQL Update request on " + NAME + " failed!", event));
+		promises.add(promise);
+		return promise;
+	}
+
+	private int sendPreparedUpdateRequest(String request, Function<PreparedStatement, PreparedStatement> filler, boolean retry) throws SQLException
+	{
+		if(this.connection == null)
+			return 0;
+		Log.info(log, "Sending SQL update to " + NAME + "...: " + request);
+		int result = 0;
+		try
+		{
+			PreparedStatement preparedStatement = filler.apply(connection.prepareStatement(request));
+			result += preparedStatement.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			if(!retry)
+				throw e;
+			login();
+			return sendPreparedUpdateRequest(request, filler, false);
 		}
 		return result;
 	}

@@ -1,17 +1,22 @@
 package fr.mrcraftcod.utils.threads;
 
 import fr.mrcraftcod.utils.Log;
+import javafx.beans.property.SimpleBooleanProperty;
 public abstract class ThreadLoop extends Thread
 {
-	private boolean running = true;
+	private SimpleBooleanProperty running = new SimpleBooleanProperty(true);
+	private SimpleBooleanProperty pause = new SimpleBooleanProperty(false);
 
 	@Override
 	public void run()
 	{
-		while(!this.isInterrupted() && this.running)
+		while(!this.isInterrupted() && this.isRunning())
 			try
 			{
-				this.loop();
+				if(!isPaused())
+					this.loop();
+				else
+					Thread.sleep(500);
 			}
 			catch(Exception e)
 			{
@@ -20,14 +25,44 @@ public abstract class ThreadLoop extends Thread
 			}
 	}
 
+	private boolean isRunning()
+	{
+		return this.runningProperty().get();
+	}
+
+	private SimpleBooleanProperty runningProperty()
+	{
+		return this.running;
+	}
+
+	private boolean isPaused()
+	{
+		return this.pauseProperty().get();
+	}
+
+	private SimpleBooleanProperty pauseProperty()
+	{
+		return this.pause;
+	}
+
 	public void close()
 	{
 		this.interrupt();
-		this.running = false;
+		this.running .set(false);
 		this.onClosed();
 	}
 
 	public void onClosed(){};
 
 	public abstract void loop() throws Exception;
+
+	public void pause()
+	{
+		this.pauseProperty().set(true);
+	}
+
+	public void unpause()
+	{
+		this.pauseProperty().set(false);
+	}
 }

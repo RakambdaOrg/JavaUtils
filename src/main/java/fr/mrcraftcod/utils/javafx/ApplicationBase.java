@@ -41,7 +41,7 @@ public abstract class ApplicationBase extends Application
 			com.apple.eawt.Application.getApplication().setDockIconImage(SwingFXUtils.fromFXImage(icon, null));
 	}
 
-	public void preInit(){};
+	public void preInit() throws Exception{}
 
 	public Image getIcon()
 	{

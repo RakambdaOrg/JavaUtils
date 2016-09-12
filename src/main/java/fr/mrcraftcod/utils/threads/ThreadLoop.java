@@ -25,22 +25,22 @@ public abstract class ThreadLoop extends Thread
 			}
 	}
 
-	private boolean isRunning()
+	public boolean isRunning()
 	{
 		return this.runningProperty().get();
 	}
 
-	private SimpleBooleanProperty runningProperty()
+	public SimpleBooleanProperty runningProperty()
 	{
 		return this.running;
 	}
 
-	private boolean isPaused()
+	public boolean isPaused()
 	{
 		return this.pauseProperty().get();
 	}
 
-	private SimpleBooleanProperty pauseProperty()
+	public SimpleBooleanProperty pauseProperty()
 	{
 		return this.pause;
 	}

@@ -25,6 +25,8 @@ public class FileUtils
 
 	public static File getHomeFolder()
 	{
+		if(isMac())
+			return new File(System.getProperty("user.home"), "/Library/Application Support");
 		return new File(System.getProperty("user.home"));
 	}
 

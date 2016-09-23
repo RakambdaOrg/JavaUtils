@@ -62,7 +62,7 @@ public abstract class ApplicationBase extends Application
 
 	public abstract Consumer<Stage> getStageHandler();
 
-	public abstract Consumer<Stage> getOnStageDisplayed();
+	public abstract Consumer<Stage> getOnStageDisplayed() throws Exception;
 
 	public abstract Parent createContent(Stage stage);
 

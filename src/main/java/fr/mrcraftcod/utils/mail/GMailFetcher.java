@@ -4,6 +4,7 @@ import com.sun.mail.imap.IMAPFolder;
 import fr.mrcraftcod.utils.Log;
 import fr.mrcraftcod.utils.threads.ThreadLoop;
 import javax.mail.Folder;
+import javax.mail.FolderClosedException;
 import javax.mail.MessagingException;
 import javax.mail.Store;
 import javax.mail.event.MessageCountEvent;
@@ -71,9 +72,10 @@ public class GMailFetcher
 		this.threadFetch.close();
 		try
 		{
-			this.folder.close(false);
+			if(this.folder.isOpen())
+				this.folder.close(false);
 		}
-		catch(MessagingException e)
+		catch(MessagingException | IllegalStateException e)
 		{
 			Log.warning("Error closing GMail folder", e);
 		}
@@ -98,6 +100,20 @@ public class GMailFetcher
 			try
 			{
 				GMailFetcher.this.folder.idle(false);
+			}
+			catch (FolderClosedException ex) {
+				if (!folder.isOpen())
+				{
+					try
+					{
+						folder.open(Folder.READ_ONLY);
+					}
+					catch(MessagingException e)
+					{
+						Log.error("Error listening mails", e);
+						GMailFetcher.this.close();
+					}
+				}
 			}
 			catch(MessagingException e)
 			{

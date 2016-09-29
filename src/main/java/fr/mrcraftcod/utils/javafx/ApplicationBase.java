@@ -1,6 +1,6 @@
 package fr.mrcraftcod.utils.javafx;
 
-import fr.mrcraftcod.utils.FileUtils;
+import fr.mrcraftcod.utils.OSUtils;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Parent;
@@ -37,7 +37,7 @@ public abstract class ApplicationBase extends Application
 	{
 		this.stage.getIcons().clear();
 		this.stage.getIcons().add(icon);
-		if(FileUtils.isMac())
+		if(OSUtils.isMac())
 			com.apple.eawt.Application.getApplication().setDockIconImage(SwingFXUtils.fromFXImage(icon, null));
 	}
 

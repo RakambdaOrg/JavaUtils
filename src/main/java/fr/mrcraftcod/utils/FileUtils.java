@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 public class FileUtils
 {
 	public static File getAppDataFolder()
-	{;
+	{
+		if(OSUtils.isMac())
+			return new File(getHomeFolder(), "/Library/Application Support");
 		return new File(getHomeFolder(),"AppData\\Roaming\\");
 	}
 
@@ -25,8 +27,6 @@ public class FileUtils
 
 	public static File getHomeFolder()
 	{
-		if(isMac())
-			return new File(System.getProperty("user.home"), "/Library/Application Support");
 		return new File(System.getProperty("user.home"));
 	}
 
@@ -76,10 +76,5 @@ public class FileUtils
 		if(returnVal == JFileChooser.APPROVE_OPTION)
 			return fc.getSelectedFile();
 		return null;
-	}
-
-	public static boolean isMac()
-	{
-		return System.getProperty("os.name").toLowerCase().contains("mac");
 	}
 }

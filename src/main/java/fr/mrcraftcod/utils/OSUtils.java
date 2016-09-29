@@ -11,7 +11,7 @@ public class OSUtils
 {
 	public static void notify(String title, String message)
 	{
-		if (FileUtils.isMac())
+		if (isMac())
 			try
 			{
 				Runtime.getRuntime().exec(new String[] { "osascript", "-e", "display notification \"" + message + "\" with title \"" + title + "\""});
@@ -20,5 +20,10 @@ public class OSUtils
 			{
 				Log.warning("Error while sending notification", e);
 			}
+	}
+
+	public static boolean isMac()
+	{
+		return System.getProperty("os.name").toLowerCase().contains("mac");
 	}
 }

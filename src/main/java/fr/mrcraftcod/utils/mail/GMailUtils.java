@@ -7,6 +7,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -74,9 +75,27 @@ public class GMailUtils
 			messageBodyPart.setText(header);
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBodyPart);
-			messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setDataHandler(message.getDataHandler());
-			multipart.addBodyPart(messageBodyPart);
+			try
+			{
+				Object content = message.getContent();
+				if(content instanceof String)
+				{
+					BodyPart parts = new MimeBodyPart();
+					parts.setText(String.valueOf(content));
+					multipart.addBodyPart(parts);
+				}
+				else if(content instanceof Multipart)
+				{
+					Multipart parts = (Multipart) content;
+					for (int i = 0; i < parts.getCount(); i++) {
+						multipart.addBodyPart(parts.getBodyPart(i));
+					}
+				}
+			}
+			catch(MessagingException | IOException e)
+			{
+				e.printStackTrace();
+			}
 			forwardMessage.setContent(multipart);
 			Transport.send(forwardMessage);
 			return true;

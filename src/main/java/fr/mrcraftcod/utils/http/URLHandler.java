@@ -34,7 +34,7 @@ public class URLHandler
 	private static final String LANGUAGE_TYPE_KEY = "Accept-Language";
 	private static final String LANGUAGE_TYPE = Locale.getDefault().toString() + ";q=1,en;q=0.8";
 
-	public static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException
+	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException
 	{
 		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
 		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).setUserAgent(USER_AGENT).build();

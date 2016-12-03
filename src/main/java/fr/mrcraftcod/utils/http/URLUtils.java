@@ -3,7 +3,10 @@ package fr.mrcraftcod.utils.http;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import fr.mrcraftcod.utils.FileUtils;
 import fr.mrcraftcod.utils.Log;
+import fr.mrcraftcod.utils.http.requestssenders.get.BinaryGetRequestSender;
+import fr.mrcraftcod.utils.http.requestssenders.get.StringGetRequestSender;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.jsoup.Jsoup;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +38,7 @@ public class URLUtils
 
 	public static List<String> pullLinks(URL url) throws Exception
 	{
-		return pullLinks(URLHandler.getJsoup(url).html());
+		return pullLinks(Jsoup.parse(new StringGetRequestSender(url).getRequestHandler().getRequestResult()).html());
 	}
 
 	public static List<String> pullLinks(String text)
@@ -59,7 +62,7 @@ public class URLUtils
 	public static boolean saveAsFile(URL url, File file)
 	{
 		FileUtils.createDirectories(file);
-		try(InputStream is = URLHandler.getAsBinary(url); FileOutputStream fos = new FileOutputStream(file))
+		try(InputStream is = new BinaryGetRequestSender(url).getRequestHandler().getRequestResult(); FileOutputStream fos = new FileOutputStream(file))
 		{
 			int i;
 			while((i = is.read()) != -1)

@@ -3,10 +3,7 @@ package fr.mrcraftcod.utils.mail;
 import com.sun.mail.imap.IMAPFolder;
 import fr.mrcraftcod.utils.Log;
 import fr.mrcraftcod.utils.threads.ThreadLoop;
-import javax.mail.Folder;
-import javax.mail.FolderClosedException;
-import javax.mail.MessagingException;
-import javax.mail.Store;
+import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
 import java.util.concurrent.ExecutorService;
@@ -64,6 +61,13 @@ public class GMailFetcher
 		this.executorService.submit(threadFetch);
 		this.executorService.submit(keepAlive);
 		Log.info("GMailFetcher started");
+	}
+
+	public Message[] getMails() throws MessagingException
+	{
+		if(this.folder.isOpen())
+			return this.folder.getMessages();
+		return new Message[0];
 	}
 
 	public void close()

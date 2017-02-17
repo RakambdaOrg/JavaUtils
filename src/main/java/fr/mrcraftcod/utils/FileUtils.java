@@ -14,6 +14,11 @@ public class FileUtils
 		return new File(getHomeFolder(),"AppData\\Roaming\\");
 	}
 
+	public static File getAppDataFolder(String path)
+	{
+		return new File(getAppDataFolder(), path);
+	}
+
 	public static void createDirectories(File file)
 	{
 		if(!file.getParentFile().exists())
@@ -25,9 +30,19 @@ public class FileUtils
 		return new File(getHomeFolder(), "Desktop");
 	}
 
+	public static File getDesktopFolder(String path)
+	{
+		return new File(getDesktopFolder(), path);
+	}
+
 	public static File getHomeFolder()
 	{
 		return new File(System.getProperty("user.home"));
+	}
+
+	public static File getHomeFolder(String path)
+	{
+		return new File(getHomeFolder(), path);
 	}
 
 	public static String sanitizeFileName(String name)

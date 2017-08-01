@@ -1,6 +1,5 @@
 package fr.mrcraftcod.utils.http.requestssenders.get;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import fr.mrcraftcod.utils.http.URLHandler;
 import fr.mrcraftcod.utils.http.requestssenders.RequestSender;
@@ -16,18 +15,18 @@ import java.util.Map;
 public abstract class GetRequestSender<T> implements RequestSender<T>
 {
 	private final GetRequest request;
-
-	public GetRequestSender(URL url) throws URISyntaxException, UnirestException
+	
+	public GetRequestSender(URL url) throws URISyntaxException
 	{
 		this(url, null);
 	}
-
-	public GetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException, UnirestException
+	
+	public GetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException
 	{
 		this(url, headers, null);
 	}
-
-	public GetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException, UnirestException
+	
+	public GetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
 	{
 		request = URLHandler.getRequest(url, headers, params);
 	}

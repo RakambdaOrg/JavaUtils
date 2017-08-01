@@ -14,17 +14,17 @@ import java.util.Map;
  */
 public class JSONGetRequestSender extends GetRequestSender<JsonNode>
 {
-	public JSONGetRequestSender(URL url) throws URISyntaxException, UnirestException
+	public JSONGetRequestSender(URL url) throws URISyntaxException
 	{
 		this(url, null);
 	}
-
-	public JSONGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException, UnirestException
+	
+	public JSONGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException
 	{
 		this(url, headers, null);
 	}
-
-	public JSONGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException, UnirestException
+	
+	public JSONGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
 	{
 		super(url, headers, params);
 	}

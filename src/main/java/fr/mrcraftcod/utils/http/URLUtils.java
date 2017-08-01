@@ -23,11 +23,16 @@ public class URLUtils
 {
 	public static List<URL> convertStringToURL(List<String> strings)
 	{
+		return convertStringToURL(strings, "");
+	}
+	
+	public static List<URL> convertStringToURL(List<String> strings, String urlSuffix)
+	{
 		LinkedList<URL> urls = new LinkedList<>();
 		for(String urlString : strings)
 			try
 			{
-				urls.add(new URL(urlString));
+				urls.add(new URL(urlString + urlSuffix));
 			}
 			catch(MalformedURLException e)
 			{
@@ -50,6 +55,7 @@ public class URLUtils
 			String urlString = matcher.group();
 			if(urlString.startsWith("(") && urlString.endsWith(")"))
 				urlString = urlString.substring(1, urlString.length() - 1);
+			//noinspection deprecation
 			links.add(StringEscapeUtils.unescapeHtml4(urlString));
 		}
 		HashSet<String> hs = new HashSet<>();

@@ -1,4 +1,4 @@
-package fr.mrcraftcod.h265builder;
+package fr.mrcraftcod.utils.javafx.components;
 
 import fr.mrcraftcod.utils.FileUtils;
 import javafx.beans.property.SimpleObjectProperty;

@@ -14,17 +14,17 @@ import java.util.Map;
  */
 public class BinaryGetRequestSender extends GetRequestSender<InputStream>
 {
-	public BinaryGetRequestSender(URL url) throws URISyntaxException, UnirestException
+	public BinaryGetRequestSender(URL url) throws URISyntaxException
 	{
 		this(url, null);
 	}
-
-	public BinaryGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException, UnirestException
+	
+	public BinaryGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException
 	{
 		this(url, headers, null);
 	}
-
-	public BinaryGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException, UnirestException
+	
+	public BinaryGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
 	{
 		super(url, headers, params);
 	}

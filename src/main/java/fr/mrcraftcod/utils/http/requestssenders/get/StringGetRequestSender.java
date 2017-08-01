@@ -13,17 +13,17 @@ import java.util.Map;
  */
 public class StringGetRequestSender extends GetRequestSender<String>
 {
-	public StringGetRequestSender(URL url) throws URISyntaxException, UnirestException
+	public StringGetRequestSender(URL url) throws URISyntaxException
 	{
 		super(url);
 	}
-
-	public StringGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException, UnirestException
+	
+	public StringGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException
 	{
 		super(url, headers);
 	}
-
-	public StringGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException, UnirestException
+	
+	public StringGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
 	{
 		super(url, headers, params);
 	}

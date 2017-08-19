@@ -3,6 +3,7 @@ package fr.mrcraftcod.utils.http.requestssenders.get;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
@@ -14,14 +15,19 @@ import java.util.Map;
  */
 public class JSONGetRequestSender extends GetRequestSender<JsonNode>
 {
+	public JSONGetRequestSender(String url) throws URISyntaxException, MalformedURLException
+	{
+		super(url);
+	}
+	
 	public JSONGetRequestSender(URL url) throws URISyntaxException
 	{
-		this(url, null);
+		super(url, null);
 	}
 	
 	public JSONGetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException
 	{
-		this(url, headers, null);
+		super(url, headers, null);
 	}
 	
 	public JSONGetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException

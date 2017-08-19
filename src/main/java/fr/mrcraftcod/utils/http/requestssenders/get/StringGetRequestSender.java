@@ -2,6 +2,7 @@ package fr.mrcraftcod.utils.http.requestssenders.get;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
@@ -13,6 +14,11 @@ import java.util.Map;
  */
 public class StringGetRequestSender extends GetRequestSender<String>
 {
+	public StringGetRequestSender(String url) throws URISyntaxException, MalformedURLException
+	{
+		super(url);
+	}
+	
 	public StringGetRequestSender(URL url) throws URISyntaxException
 	{
 		super(url);

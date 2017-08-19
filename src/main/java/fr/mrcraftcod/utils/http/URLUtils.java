@@ -81,4 +81,16 @@ public class URLUtils
 		}
 		return true;
 	}
+	
+	public static String getFinalURL(String url) throws IOException, URISyntaxException, UnirestException
+	{
+		RequestHandler<InputStream> request = new BinaryGetRequestSender(url).getRequestHandler();
+		
+		if(request.getStatus() == 301 || request.getStatus() == 302)
+		{
+			String redirectUrl = request.getHeaders().getFirst("Location");
+			return getFinalURL(redirectUrl);
+		}
+		return url;
+	}
 }

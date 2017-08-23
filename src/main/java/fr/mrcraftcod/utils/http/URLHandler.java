@@ -5,6 +5,8 @@ import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.body.RequestBodyEntity;
 import fr.mrcraftcod.utils.MCCUtils;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -37,7 +39,8 @@ public class URLHandler
 	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException
 	{
 		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
-		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).setUserAgent(USER_AGENT).build();
+		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setDefaultRequestConfig(globalConfig).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).setUserAgent(USER_AGENT).build();
 	}
 
 	public static GetRequest getRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException

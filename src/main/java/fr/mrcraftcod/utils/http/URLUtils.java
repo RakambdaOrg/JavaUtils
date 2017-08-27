@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -26,6 +27,7 @@ public class URLUtils
 		return convertStringToURL(strings, "");
 	}
 	
+	@SuppressWarnings("WeakerAccess")
 	public static List<URL> convertStringToURL(List<String> strings, String urlSuffix)
 	{
 		LinkedList<URL> urls = new LinkedList<>();
@@ -40,7 +42,8 @@ public class URLUtils
 			}
 		return urls;
 	}
-
+	
+	@SuppressWarnings("WeakerAccess")
 	public static List<String> pullLinks(URL url) throws Exception
 	{
 		return pullLinks(Jsoup.parse(new StringGetRequestSender(url).getRequestHandler().getRequestResult()).html());
@@ -84,12 +87,13 @@ public class URLUtils
 	
 	public static String getFinalURL(String url) throws IOException, URISyntaxException, UnirestException
 	{
-		RequestHandler<InputStream> request = new BinaryGetRequestSender(url).getRequestHandler();
+		HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+		conn.setInstanceFollowRedirects(false);
+		HttpURLConnection.setFollowRedirects(false);
 		
-		if(request.getStatus() == 301 || request.getStatus() == 302)
+		if(conn.getResponseCode() == 301 || conn.getResponseCode() == 302)
 		{
-			String redirectUrl = request.getHeaders().getFirst("Location");
-			return getFinalURL(redirectUrl);
+			return getFinalURL(conn.getHeaderField("Location"));
 		}
 		return url;
 	}

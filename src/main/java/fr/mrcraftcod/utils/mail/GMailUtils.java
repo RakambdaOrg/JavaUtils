@@ -42,13 +42,13 @@ public class GMailUtils
 		store.connect(GMAIL_SMTP_HOST, user, password);
 		return store;
 	}
-
-	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, Consumer<MessageCountEvent> callback) throws Exception
+	
+	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException
 	{
 		return new GMailFetcher(getGMailStore(user, password), folder, callback);
 	}
-
-	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, ExecutorService executor, Consumer<MessageCountEvent> callback) throws Exception
+	
+	public static GMailFetcher fetchGMailFolder(String user, String password, String folder, ExecutorService executor, Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException
 	{
 		return new GMailFetcher(getGMailStore(user, password), folder, executor, callback);
 	}

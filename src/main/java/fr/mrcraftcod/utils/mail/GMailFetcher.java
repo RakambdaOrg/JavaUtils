@@ -18,13 +18,13 @@ public class GMailFetcher
 	private final ThreadFetch threadFetch;
 	private final boolean customExecutor;
 	private final Store store;
-
-	public GMailFetcher(Store store, String folder, Consumer<MessageCountEvent> callback) throws Exception
+	
+	public GMailFetcher(Store store, String folder, Consumer<MessageCountEvent> callback) throws MessagingException, IllegalStateException
 	{
 		this(store, folder, null, callback);
 	}
-
-	public GMailFetcher(Store store, String folder, ExecutorService executorService, Consumer<MessageCountEvent> callback) throws Exception
+	
+	public GMailFetcher(Store store, String folder, ExecutorService executorService, Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException
 	{
 		this.store = store;
 		if(executorService == null)
@@ -39,7 +39,7 @@ public class GMailFetcher
 		}
 		Folder tFolder = store.getFolder(folder);
 		if(!(tFolder instanceof IMAPFolder))
-			throw new Exception("Not IMAP folder");
+			throw new IllegalStateException("Not IMAP folder");
 		this.folder = (IMAPFolder) tFolder;
 		this.folder.open(Folder.READ_WRITE);
 		this.folder.addMessageCountListener(new MessageCountListener()
@@ -77,7 +77,7 @@ public class GMailFetcher
 		try
 		{
 			if(this.folder.isOpen())
-				this.folder.close(false);
+				this.folder.close(true);
 		}
 		catch(MessagingException | IllegalStateException e)
 		{

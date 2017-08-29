@@ -143,7 +143,9 @@ public class GMailFetcher
 					return null;
 				});
 			}
-			catch (InterruptedException | MessagingException e){}
+			catch(InterruptedException | MessagingException | NullPointerException ignored)
+			{
+			}
 		}
 	}
 

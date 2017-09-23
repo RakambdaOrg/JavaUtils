@@ -5,10 +5,11 @@
  * @since 2017-09-22
  */
 module fr.mrcraftcod.utils.javafx {
-	requires javafx.graphics;
-	requires javafx.swing;
-	requires javafx.controls;
-	requires fr.mrcraftcod.utils.base;
+	requires transitive javafx.graphics;
+	requires transitive javafx.swing;
+	requires transitive javafx.controls;
+	requires transitive fr.mrcraftcod.utils.base;
 	
 	exports fr.mrcraftcod.utils.javafx;
+	exports fr.mrcraftcod.utils.javafx.components;
 }

@@ -1,10 +1,13 @@
 module fr.mrcraftcod.utils.http
 {
-	requires unirest.java;
-	requires httpclient;
-	requires httpcore;
-	requires jsoup;
-	requires fr.mrcraftcod.utils.base;
-	requires commons.text;
+	requires transitive commons.text;
+	requires transitive httpcore;
+	requires transitive httpclient;
+	requires transitive jsoup;
+	requires transitive unirest.java;
+	requires transitive fr.mrcraftcod.utils.base;
+	
 	exports fr.mrcraftcod.utils.http;
+	exports fr.mrcraftcod.utils.http.requestssenders;
+	exports fr.mrcraftcod.utils.http.requestssenders.get;
 }

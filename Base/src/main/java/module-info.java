@@ -5,10 +5,10 @@
  * @since 2017-09-22
  */
 module fr.mrcraftcod.utils.base {
-	requires java.desktop;
-	requires java.logging;
-	requires javafx.base;
-	requires commons.io;
+	requires transitive java.desktop;
+	requires transitive java.logging;
+	requires transitive javafx.base;
+	requires transitive commons.io;
 	
 	exports fr.mrcraftcod.utils.base;
 }

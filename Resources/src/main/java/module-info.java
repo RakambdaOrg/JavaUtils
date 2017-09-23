@@ -5,7 +5,7 @@
  * @since 2017-09-22
  */
 module fr.mrcraftcod.utils.resources {
-	requires javafx.swing;
-	requires fr.mrcraftcod.utils.base;
+	requires transitive javafx.swing;
+	requires transitive fr.mrcraftcod.utils.base;
 	exports fr.mrcraftcod.utils.resources;
 }

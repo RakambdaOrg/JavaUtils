@@ -5,9 +5,9 @@
  * @since 2017-09-22
  */
 module fr.mrcraftcod.utils.mail {
-	requires mail;
-	requires fr.mrcraftcod.utils.base;
-	requires java.desktop;
-	
+	requires transitive java.desktop;
+	requires transitive mail;
+	requires transitive fr.mrcraftcod.utils.base;
 	exports fr.mrcraftcod.utils.mail;
+	
 }

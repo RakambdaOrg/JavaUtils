@@ -1,10 +1,12 @@
 package fr.mrcraftcod.utils.javafx;
 
 import javafx.application.Application;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import java.awt.*;
 import java.util.function.Consumer;
 
 public abstract class ApplicationBase extends Application
@@ -35,8 +37,7 @@ public abstract class ApplicationBase extends Application
 	{
 		this.stage.getIcons().clear();
 		this.stage.getIcons().add(icon);
-		//if(OSUtils.isMac()) //TODO: Java 9 module Fix
-		//	com.apple.eawt.Application.getApplication().setDockIconImage(SwingFXUtils.fromFXImage(icon, null));
+		Taskbar.getTaskbar().setIconImage(SwingFXUtils.fromFXImage(icon, null));
 	}
 
 	public void preInit() throws Exception{}

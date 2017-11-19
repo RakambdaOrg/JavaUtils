@@ -25,7 +25,7 @@ public class ResourcesBase
 
 	public URL getResource(ResourceElement resourceElement, String path)
 	{
-		return this.rootClass.getResource("/" + resourceElement.getRootPath() + "/" + path);
+		return this.rootClass.getResource("/" + resourceElement.getRootPath() + (resourceElement.getRootPath().equals("") ? "" : "/") + path);
 	}
 
 	public WritableImage getImage(ResourceElement resourceElement, String path, int width, int height)

@@ -10,6 +10,7 @@
     <version>2.0.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.javaVersion>9</project.javaVersion>
     </properties>
 
     <modules>

@@ -12,7 +12,6 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -46,7 +45,7 @@ public class URLHandler
 	{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-		URIBuilder uriBuilder = new URIBuilder(new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef()));
+		URIBuilder uriBuilder = new URIBuilder(url.toURI());
 		if(params != null)
 			for(String key : params.keySet())
 				uriBuilder.addParameter(key, params.get(key));
@@ -57,7 +56,7 @@ public class URLHandler
 	{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-		URIBuilder uriBuilder = new URIBuilder(new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef()));
+		URIBuilder uriBuilder = new URIBuilder(url.toURI());
 		if(params != null)
 			for(String key : params.keySet())
 				uriBuilder.addParameter(key, params.get(key));
@@ -79,7 +78,7 @@ public class URLHandler
 	{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-		URIBuilder uriBuilder = new URIBuilder(new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef()));
+		URIBuilder uriBuilder = new URIBuilder(url.toURI());
 		if(params != null)
 			for(String key : params.keySet())
 				uriBuilder.addParameter(key, params.get(key));

@@ -18,7 +18,7 @@ public class OSUtils
 			}
 			catch(IOException e)
 			{
-				Log.warning("Error while sending notification", e);
+				Log.warning(e, "Error while sending notification");
 			}
 	}
 

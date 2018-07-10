@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>mrcraftcod</groupId>
+    <groupId>fr.mrcraftcod</groupId>
     <artifactId>utils</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0</version>
+    <version>4.0.0</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>10</java.version>
     </properties>
 
     <modules>
@@ -33,9 +34,15 @@
     <distributionManagement>
         <repository>
             <id>mrcraftcod.write</id>
-            <url>${mrcraftcod.write.url}</url>
+            <url>${mrcraftcod.write.url.ftp}</url>
         </repository>
     </distributionManagement>
+    <repositories>
+        <repository>
+            <id>mrcraftcod.read</id>
+            <url>https://maven.mrcraftcod.fr/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

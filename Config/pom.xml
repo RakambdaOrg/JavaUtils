@@ -18,12 +18,6 @@
     <packaging>jar</packaging>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ftp</artifactId>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -76,9 +70,9 @@
             <version>1.2.6</version>
         </dependency>
         <dependency>
-            <groupId>mrcraftcod</groupId>
+            <groupId>fr.mrcraftcod</groupId>
             <artifactId>utils.base</artifactId>
-            <version>2.0.0</version>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -8,7 +8,7 @@ module fr.mrcraftcod.utils.base {
 	requires transitive java.desktop;
 	requires transitive java.logging;
 	requires transitive javafx.base;
-	requires transitive commons.io;
+	requires commons.io;
 	
 	exports fr.mrcraftcod.utils.base;
 }

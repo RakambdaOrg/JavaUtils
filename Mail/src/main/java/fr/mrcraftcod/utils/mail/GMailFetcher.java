@@ -114,14 +114,14 @@ public class GMailFetcher
 					}
 					catch(MessagingException e)
 					{
-						Log.error("Error listening mails", e);
+						Log.error(e, "Error listening mails");
 						GMailFetcher.this.close();
 					}
 				}
 			}
 			catch(MessagingException e)
 			{
-				Log.error("Error listening mails", e);
+				Log.error(e, "Error listening mails");
 				GMailFetcher.this.close();
 			}
 		}

@@ -13,7 +13,7 @@ public abstract class JDBCBase
 	private final boolean log;
 	protected Connection connection;
 	private final ArrayList<Promise> promises;
-
+	
 	protected JDBCBase(String name, boolean log)
 	{
 		dm = new DefaultDeferredManager();
@@ -21,30 +21,30 @@ public abstract class JDBCBase
 		this.NAME = name;
 		this.promises = new ArrayList<>();
 	}
-
+	
 	protected abstract void login();
-
+	
 	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request, ResultsParser parser)
 	{
-		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).done(parser::parse).fail(event -> Log.warning(log, "SQL Query request on " + NAME + " failed!", event));
+		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).done(parser::parse).fail(event -> Log.warning(event, "SQL Query request on %s failed!", NAME));
 		promises.add(promise);
 		return promise;
 	}
-
+	
 	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request)
 	{
-		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).fail(event -> Log.warning(log, "SQL Query request on " + NAME + " failed!", event));
+		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).fail(event -> Log.warning(event, "SQL Query request on %s failed!", NAME));
 		promises.add(promise);
 		return promise;
 	}
-
+	
 	public synchronized Promise<Integer, Throwable, Void> sendUpdateRequest(String request)
 	{
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(request, true)).fail(event -> Log.warning(log, "SQL Update request on " + NAME + " failed!", event));
+		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(request, true)).fail(event -> Log.warning(event, "SQL Update request on %s failed!", NAME));
 		promises.add(promise);
 		return promise;
 	}
-
+	
 	public void close()
 	{
 		for(Promise promise : promises)
@@ -67,13 +67,14 @@ public abstract class JDBCBase
 			}
 		Log.info("SQL Connection closed");
 	}
-
+	
 	private ResultSet sendQueryRequest(String request, boolean retry) throws SQLException
 	{
 		if(this.connection == null)
 			return null;
 		if(retry)
-			Log.info(log, "Sending SQL request to " + NAME + "...: " + request);
+			if(log)
+				Log.info("Sending SQL request to %s...: %s", NAME, request);
 		ResultSet result;
 		try
 		{
@@ -89,12 +90,13 @@ public abstract class JDBCBase
 		}
 		return result;
 	}
-
+	
 	private int sendUpdateRequest(String request, boolean retry) throws SQLException
 	{
 		if(this.connection == null)
 			return 0;
-		Log.info(log, "Sending SQL update to " + NAME + "...: " + request);
+		if(log)
+			Log.info("Sending SQL update to %s...: %s", NAME, request);
 		int result = 0;
 		try
 		{
@@ -113,19 +115,20 @@ public abstract class JDBCBase
 		}
 		return result;
 	}
-
+	
 	public Promise<Integer, Throwable, Void> sendPreparedUpdateRequest(String request, PreparedStatementFiller filler)
 	{
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendPreparedUpdateRequest(request, filler, true)).fail(event -> Log.warning(log, "SQL Update request on " + NAME + " failed!", event));
+		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendPreparedUpdateRequest(request, filler, true)).fail(event -> Log.warning(event, "SQL Update request on %s failed!", NAME));
 		promises.add(promise);
 		return promise;
 	}
-
+	
 	private int sendPreparedUpdateRequest(String request, PreparedStatementFiller filler, boolean retry) throws SQLException
 	{
 		if(this.connection == null)
 			return 0;
-		Log.info(log, "Sending SQL update to " + NAME + "...: " + request + "\nWith filler " + filler);
+		if(log)
+			Log.info("Sending SQL update to %s...: %s\nWith filler %s", NAME, request, filler);
 		int result = 0;
 		try
 		{

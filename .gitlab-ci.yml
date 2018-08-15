@@ -1,4 +1,4 @@
-image: maven:3.5.4-jdk-10
+image: mrcraftcod/mvn-3.5-jdk-10-jfx:latest
 
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -P MrCraftCod --batch-mode"

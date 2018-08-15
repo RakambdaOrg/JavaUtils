@@ -7,5 +7,8 @@
 module fr.mrcraftcod.utils.resources {
 	requires transitive javafx.swing;
 	requires transitive fr.mrcraftcod.utils.base;
+	
+	requires slf4j.api;
+	
 	exports fr.mrcraftcod.utils.resources;
 }

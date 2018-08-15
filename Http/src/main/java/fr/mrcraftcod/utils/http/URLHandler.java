@@ -22,8 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class URLHandler
-{
+public class URLHandler{
 	private static final int TIMEOUT = 30000;
 	private static final String USER_AGENT_KEY = "User-Agent";
 	private static final String USER_AGENT = "MrCraftCod/Utils";
@@ -33,66 +32,108 @@ public class URLHandler
 	private static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
 	private static final String LANGUAGE_TYPE_KEY = "Accept-Language";
 	private static final String LANGUAGE_TYPE = Locale.getDefault().toString() + ";q=1,en;q=0.8";
-
-	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException
-	{
+	
+	/**
+	 * Creates a new client.
+	 *
+	 * @return The client.
+	 *
+	 * @throws KeyStoreException
+	 * @throws NoSuchAlgorithmException
+	 * @throws KeyManagementException
+	 */
+	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException{
 		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
 		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
 		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setDefaultRequestConfig(globalConfig).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).setUserAgent(USER_AGENT).build();
 	}
-
-	public static GetRequest getRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
-	{
+	
+	/**
+	 * Sends a get request.
+	 *
+	 * @param url     The URL to send to.
+	 * @param headers The headers.
+	 * @param params  The parameters of the url.
+	 *
+	 * @return The GetRequest.
+	 *
+	 * @throws URISyntaxException If the URL isn't valid.
+	 */
+	public static GetRequest getRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
 		URIBuilder uriBuilder = new URIBuilder(url.toURI());
-		if(params != null)
-			for(String key : params.keySet())
+		if(params != null){
+			for(String key : params.keySet()){
 				uriBuilder.addParameter(key, params.get(key));
+			}
+		}
 		return Unirest.get(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT);
 	}
-
-	private static GetRequest headRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
-	{
+	
+	/**
+	 * Sends a head request.
+	 *
+	 * @param url     The URL to send to.
+	 * @param headers The headers.
+	 * @param params  The parameters of the url.
+	 *
+	 * @return The GetRequest.
+	 *
+	 * @throws URISyntaxException If the URL isn't valid.
+	 */
+	private static GetRequest headRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
 		URIBuilder uriBuilder = new URIBuilder(url.toURI());
-		if(params != null)
-			for(String key : params.keySet())
+		if(params != null){
+			for(String key : params.keySet()){
 				uriBuilder.addParameter(key, params.get(key));
+			}
+		}
 		return Unirest.head(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT);
 	}
-
-	public static void exit()
-	{
-		try
-		{
+	
+	/**
+	 * Stops Unirest.
+	 */
+	public static void exit(){
+		try{
 			Unirest.shutdown();
 		}
-		catch(IOException ignored)
-		{
+		catch(IOException ignored){
 		}
 	}
-
-	public static RequestBodyEntity postRequest(URL url, HashMap<String, String> headers, HashMap<String, String> params, String body) throws URISyntaxException
-	{
+	
+	/**
+	 * Sends a post request.
+	 *
+	 * @param url     The URL to send to.
+	 * @param headers The headers.
+	 * @param params  The parameters of the url.
+	 * @param body    The body of the post.
+	 *
+	 * @return The request.
+	 *
+	 * @throws URISyntaxException If the URL isn't valid.
+	 */
+	public static RequestBodyEntity postRequest(URL url, HashMap<String, String> headers, HashMap<String, String> params, String body) throws URISyntaxException{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
 		URIBuilder uriBuilder = new URIBuilder(url.toURI());
-		if(params != null)
-			for(String key : params.keySet())
+		if(params != null){
+			for(String key : params.keySet()){
 				uriBuilder.addParameter(key, params.get(key));
+			}
+		}
 		return Unirest.post(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT).body(body);
 	}
-
-	static
-	{
-		try
-		{
+	
+	static{
+		try{
 			Unirest.setHttpClient(makeClient());
 		}
-		catch(Exception e)
-		{
+		catch(Exception e){
 			e.printStackTrace();
 		}
 	}

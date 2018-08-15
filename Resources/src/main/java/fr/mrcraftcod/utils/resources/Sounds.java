@@ -1,39 +1,37 @@
 package fr.mrcraftcod.utils.resources;
 
-import fr.mrcraftcod.utils.base.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 
-public class Sounds
-{
+public class Sounds{
+	private static final Logger LOGGER = LoggerFactory.getLogger(Sounds.class);
 	private final ResourceElement resource;
 	private final String path;
-
-	public Sounds(ResourceElement resource, String name)
-	{
-		this.resource =resource;
+	
+	public Sounds(ResourceElement resource, String name){
+		this.resource = resource;
 		this.path = name;
 	}
-
-	public void playSound(ResourcesBase resourcesBase)
-	{
+	
+	public void playSound(ResourcesBase resourcesBase){
 		new Thread(() -> {
-			try
-			{
+			try{
 				final Clip clip = AudioSystem.getClip();
 				AudioInputStream inputStream = AudioSystem.getAudioInputStream(resourcesBase.getResource(resource, Sounds.this.path));
 				clip.open(inputStream);
 				clip.start();
 				clip.addLineListener(event -> {
-					if(event.getType() == LineEvent.Type.STOP)
+					if(event.getType() == LineEvent.Type.STOP){
 						clip.close();
+					}
 				});
 			}
-			catch(Exception e)
-			{
-				Log.warning("Couldn't play sound " + Sounds.this.path, e);
+			catch(Exception e){
+				LOGGER.warn("Couldn't play sound {}", Sounds.this.path, e);
 			}
 		}).start();
 	}

@@ -7,38 +7,70 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
+
 /**
  * Created by Thomas Couchoud (MrCraftCod - zerderr@gmail.com) on 03/12/2016.
  *
  * @author Thomas Couchoud
  * @since 2016-12-03
  */
-public abstract class GetRequestSender<T> implements RequestSender<T>
-{
+public abstract class GetRequestSender<T> implements RequestSender<T>{
 	private final GetRequest request;
 	
-	public GetRequestSender(String url) throws URISyntaxException, MalformedURLException
-	{
+	/**
+	 * Constructor.
+	 *
+	 * @param url The URL.
+	 *
+	 * @throws URISyntaxException    If the URL isn't valid.
+	 * @throws MalformedURLException If the URL isn't valid.
+	 */
+	public GetRequestSender(String url) throws URISyntaxException, MalformedURLException{
 		this(new URL(url));
 	}
 	
-	public GetRequestSender(URL url) throws URISyntaxException
-	{
+	/**
+	 * Constructor.
+	 *
+	 * @param url The URL.
+	 *
+	 * @throws URISyntaxException If the URL isn't valid.
+	 */
+	public GetRequestSender(URL url) throws URISyntaxException{
 		this(url, null);
 	}
 	
-	public GetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException
-	{
+	/**
+	 * Constructor.
+	 *
+	 * @param url     The URL.
+	 * @param headers The headers.
+	 *
+	 * @throws URISyntaxException If the URL isn't valid.
+	 */
+	public GetRequestSender(URL url, Map<String, String> headers) throws URISyntaxException{
 		this(url, headers, null);
 	}
 	
-	public GetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException
-	{
+	/**
+	 * Constructor.
+	 *
+	 * @param url     The URL.
+	 * @param headers The headers.
+	 * @param params  The params.
+	 *
+	 * @throws URISyntaxException If the URL isn't valid.
+	 */
+	public GetRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		request = URLHandler.getRequest(url, headers, params);
 	}
-
-	public GetRequest getRequest()
-	{
+	
+	/**
+	 * Get the request.
+	 *
+	 * @return The request.
+	 */
+	public GetRequest getRequest(){
 		return this.request;
 	}
 }

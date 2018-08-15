@@ -1,6 +1,7 @@
 package fr.mrcraftcod.utils.mail;
 
-import fr.mrcraftcod.utils.base.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.InternetAddress;
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
 
 public class GMailUtils
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(GMailUtils.class);
 	private static final String GMAIL_SMTP_HOST = "smtp.gmail.com";
 
 	public static void sendGMail(String user, String password, String from, String to, String object, String body) throws MessagingException, UnsupportedEncodingException
@@ -102,7 +104,7 @@ public class GMailUtils
 		}
 		catch(Exception e)
 		{
-			Log.warning("Failed to forward message", e);
+			LOGGER.warn("Failed to forward message", e);
 			return false;
 		}
 	}

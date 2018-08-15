@@ -8,7 +8,9 @@ module fr.mrcraftcod.utils.base {
 	requires transitive java.desktop;
 	requires transitive java.logging;
 	requires transitive javafx.base;
-	requires commons.io;
+	
+	requires org.apache.commons.io;
+	requires slf4j.api;
 	
 	exports fr.mrcraftcod.utils.base;
 }

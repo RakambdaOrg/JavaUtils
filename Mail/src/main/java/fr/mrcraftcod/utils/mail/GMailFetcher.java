@@ -1,8 +1,9 @@
 package fr.mrcraftcod.utils.mail;
 
 import com.sun.mail.imap.IMAPFolder;
-import fr.mrcraftcod.utils.base.Log;
 import fr.mrcraftcod.utils.base.ThreadLoop;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 
 public class GMailFetcher
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
 	private final IMAPFolder folder;
 	private final ThreadKeepAlive keepAlive;
 	private final ExecutorService executorService;
@@ -24,6 +26,37 @@ public class GMailFetcher
 		this(store, folder, null, callback);
 	}
 	
+	private class ThreadFetch extends ThreadLoop{
+		@Override
+		public void loop(){
+			try{
+				GMailFetcher.this.folder.idle(false);
+			}
+			catch(FolderClosedException ex){
+				if(!folder.isOpen()){
+					try{
+						folder.open(Folder.READ_ONLY);
+					}
+					catch(MessagingException e){
+						LOGGER.error("Error listening mails", e);
+						GMailFetcher.this.close();
+					}
+				}
+			}
+			catch(MessagingException e){
+				LOGGER.error("Error listening mails", e);
+				GMailFetcher.this.close();
+			}
+		}
+	}
+	
+	public Message[] getMails() throws MessagingException{
+		if(this.folder.isOpen()){
+			return this.folder.getMessages();
+		}
+		return new Message[0];
+	}
+
 	public GMailFetcher(Store store, String folder, ExecutorService executorService, Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException
 	{
 		this.store = store;
@@ -38,8 +71,6 @@ public class GMailFetcher
 			this.customExecutor = false;
 		}
 		Folder tFolder = store.getFolder(folder);
-		if(!(tFolder instanceof IMAPFolder))
-			throw new IllegalStateException("Not IMAP folder");
 		this.folder = (IMAPFolder) tFolder;
 		this.folder.open(Folder.READ_WRITE);
 		this.folder.addMessageCountListener(new MessageCountListener()
@@ -60,14 +91,7 @@ public class GMailFetcher
 		this.keepAlive = new ThreadKeepAlive();
 		this.executorService.submit(threadFetch);
 		this.executorService.submit(keepAlive);
-		Log.info("GMailFetcher started");
-	}
-
-	public Message[] getMails() throws MessagingException
-	{
-		if(this.folder.isOpen())
-			return this.folder.getMessages();
-		return new Message[0];
+		LOGGER.info("GMailFetcher started");
 	}
 
 	public void close()
@@ -81,7 +105,7 @@ public class GMailFetcher
 		}
 		catch(MessagingException | IllegalStateException e)
 		{
-			Log.warning("Error closing GMail folder", e);
+			LOGGER.warn("Error closing GMail folder", e);
 		}
 		try
 		{
@@ -89,42 +113,11 @@ public class GMailFetcher
 		}
 		catch(MessagingException e)
 		{
-			Log.warning("Failed to close store", e);
+			LOGGER.warn("Failed to close store", e);
 		}
 		if(this.customExecutor)
 			this.executorService.shutdownNow();
-		Log.info("GMailFetcher closed");
-	}
-
-	private class ThreadFetch extends ThreadLoop
-	{
-		@Override
-		public void loop()
-		{
-			try
-			{
-				GMailFetcher.this.folder.idle(false);
-			}
-			catch (FolderClosedException ex) {
-				if (!folder.isOpen())
-				{
-					try
-					{
-						folder.open(Folder.READ_ONLY);
-					}
-					catch(MessagingException e)
-					{
-						Log.error(e, "Error listening mails");
-						GMailFetcher.this.close();
-					}
-				}
-			}
-			catch(MessagingException e)
-			{
-				Log.error(e, "Error listening mails");
-				GMailFetcher.this.close();
-			}
-		}
+		LOGGER.info("GMailFetcher closed");
 	}
 
 	private class ThreadKeepAlive extends ThreadLoop

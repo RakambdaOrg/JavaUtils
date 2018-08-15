@@ -1,23 +1,24 @@
 package fr.mrcraftcod.utils.config;
 
 import fr.mrcraftcod.utils.base.FileUtils;
-import fr.mrcraftcod.utils.base.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLiteManager extends JDBCBase
 {
+	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
 	private File databaseURL;
-
-	public SQLiteManager(File databaseURL, boolean log) throws ClassNotFoundException
-	{
-		super("SQLITE/" + databaseURL, log);
+	
+	public SQLiteManager(File databaseURL) throws ClassNotFoundException{
+		super("SQLITE/" + databaseURL);
 		Class.forName("org.sqlite.JDBC");
 		FileUtils.createDirectories(databaseURL);
 		this.databaseURL = databaseURL;
 		login();
-		Log.info("Initializing SQL connection...");
+		LOGGER.info("Initializing SQLite connection...");
 	}
 
 	protected void login()
@@ -28,7 +29,7 @@ public class SQLiteManager extends JDBCBase
 		}
 		catch(SQLException e)
 		{
-			Log.warning("Error connecting to SQL database!", e);
+			LOGGER.warn("Error connecting to SQLite database!", e);
 		}
 	}
 }

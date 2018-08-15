@@ -1,145 +1,201 @@
 package fr.mrcraftcod.utils.config;
 
-import fr.mrcraftcod.utils.base.Log;
 import org.jdeferred.Promise;
 import org.jdeferred.impl.DefaultDeferredManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 
-public abstract class JDBCBase
-{
+public abstract class JDBCBase{
+	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
+	
 	protected final DefaultDeferredManager dm;
 	private final String NAME;
-	private final boolean log;
-	protected Connection connection;
 	private final ArrayList<Promise> promises;
+	protected Connection connection;
 	
-	protected JDBCBase(String name, boolean log)
-	{
+	/**
+	 * Constructor.
+	 *
+	 * @param name Name of the database.
+	 */
+	protected JDBCBase(String name){
 		dm = new DefaultDeferredManager();
-		this.log = log;
 		this.NAME = name;
 		this.promises = new ArrayList<>();
 	}
 	
+	/**
+	 * Initialize the database connection.
+	 */
 	protected abstract void login();
 	
-	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request, ResultsParser parser)
-	{
-		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).done(parser::parse).fail(event -> Log.warning(event, "SQL Query request on %s failed!", NAME));
+	/**
+	 * Sends a query.
+	 *
+	 * @param query  The SQL query.
+	 * @param parser The parser of the result.
+	 *
+	 * @return The promise.
+	 */
+	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String query, ResultsParser parser){
+		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(query, true)).done(parser::parse).fail(event -> LOGGER.warn("SQL query on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
 	}
 	
-	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String request)
-	{
-		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(request, true)).fail(event -> Log.warning(event, "SQL Query request on %s failed!", NAME));
+	/**
+	 * Sends a query.
+	 *
+	 * @param query The SQL query.
+	 *
+	 * @return The promise.
+	 */
+	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String query){
+		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(query, true)).fail(event -> LOGGER.warn("SQL query on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
 	}
 	
-	public synchronized Promise<Integer, Throwable, Void> sendUpdateRequest(String request)
-	{
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(request, true)).fail(event -> Log.warning(event, "SQL Update request on %s failed!", NAME));
+	/**
+	 * Sends an update.
+	 *
+	 * @param query The SQL query.
+	 *
+	 * @return The promise.
+	 */
+	public synchronized Promise<Integer, Throwable, Void> sendUpdateRequest(String query){
+		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(query, true)).fail(event -> LOGGER.warn("SQL update on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
 	}
 	
-	public void close()
-	{
-		for(Promise promise : promises)
-			try
-			{
+	/**
+	 * Close the connection.
+	 */
+	public void close(){
+		for(Promise promise : promises){
+			try{
 				promise.waitSafely();
 			}
-			catch(InterruptedException e)
-			{
+			catch(InterruptedException e){
 				e.printStackTrace();
 			}
+		}
 		dm.shutdownNow();
-		if(connection != null)
-			try
-			{
+		if(connection != null){
+			try{
 				this.connection.close();
 			}
-			catch(SQLException ignored)
-			{
+			catch(SQLException ignored){
 			}
-		Log.info("SQL Connection closed");
+		}
+		LOGGER.info("SQL connection closed");
 	}
 	
-	private ResultSet sendQueryRequest(String request, boolean retry) throws SQLException
-	{
-		if(this.connection == null)
+	/**
+	 * Sends a query.
+	 *
+	 * @param query The query.
+	 * @param retry If we retry or not.
+	 *
+	 * @return The result.
+	 *
+	 * @throws SQLException If the request couldn't be made.
+	 */
+	private ResultSet sendQueryRequest(String query, boolean retry) throws SQLException{
+		if(this.connection == null){
 			return null;
-		if(retry)
-			if(log)
-				Log.info("Sending SQL request to %s...: %s", NAME, request);
-		ResultSet result;
-		try
-		{
-			Statement stmt = this.connection.createStatement();
-			result = stmt.executeQuery(request);
 		}
-		catch(SQLTimeoutException e)
-		{
-			if(!retry)
+		LOGGER.debug("Sending SQL request to {} (retry: {}): {}", NAME, retry, query);
+		ResultSet result;
+		try{
+			Statement stmt = this.connection.createStatement();
+			result = stmt.executeQuery(query);
+		}
+		catch(SQLTimeoutException e){
+			if(!retry){
 				throw e;
+			}
 			login();
-			return sendQueryRequest(request, false);
+			return sendQueryRequest(query, false);
 		}
 		return result;
 	}
 	
-	private int sendUpdateRequest(String request, boolean retry) throws SQLException
-	{
-		if(this.connection == null)
+	/**
+	 * Sends an update.
+	 *
+	 * @param query The query.
+	 * @param retry If we retry or not.
+	 *
+	 * @return The number of lines modified.
+	 *
+	 * @throws SQLException If the request couldn't be made.
+	 */
+	private int sendUpdateRequest(String query, boolean retry) throws SQLException{
+		if(this.connection == null){
 			return 0;
-		if(log)
-			Log.info("Sending SQL update to %s...: %s", NAME, request);
+		}
+		LOGGER.debug("Sending SQL update to {} (retry: {}): {}", NAME, retry, query);
 		int result = 0;
-		try
-		{
-			for(String req : request.split(";"))
-			{
+		try{
+			for(String req : query.split(";")){
 				Statement stmt = this.connection.createStatement();
 				result += stmt.executeUpdate(req + ";");
 			}
 		}
-		catch(SQLException e)
-		{
-			if(!retry)
+		catch(SQLException e){
+			if(!retry){
 				throw e;
+			}
 			login();
-			return sendUpdateRequest(request, false);
+			return sendUpdateRequest(query, false);
 		}
 		return result;
 	}
 	
-	public Promise<Integer, Throwable, Void> sendPreparedUpdateRequest(String request, PreparedStatementFiller filler)
-	{
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendPreparedUpdateRequest(request, filler, true)).fail(event -> Log.warning(event, "SQL Update request on %s failed!", NAME));
+	/**
+	 * Sends a prepared update.
+	 *
+	 * @param request The prepared request.
+	 * @param filler  The filler of the request.
+	 *
+	 * @return The promise.
+	 */
+	public Promise<Integer, Throwable, Void> sendPreparedUpdateRequest(String request, PreparedStatementFiller filler){
+		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendPreparedUpdateRequest(request, filler, true)).fail(event -> LOGGER.warn("SQL update request on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
 	}
 	
-	private int sendPreparedUpdateRequest(String request, PreparedStatementFiller filler, boolean retry) throws SQLException
-	{
-		if(this.connection == null)
+	/**
+	 * Sends a prepared update.
+	 *
+	 * @param request The prepared request.
+	 * @param filler  The filler of the request.
+	 * @param retry   If we retry or not.
+	 *
+	 * @return The number of lines modified.
+	 *
+	 * @throws SQLException If the request couldn't be made.
+	 */
+	private int sendPreparedUpdateRequest(String request, PreparedStatementFiller filler, boolean retry) throws SQLException{
+		if(this.connection == null){
 			return 0;
-		if(log)
-			Log.info("Sending SQL update to %s...: %s\nWith filler %s", NAME, request, filler);
+		}
+		LOGGER.debug("Sending SQL update to {} (retry: {}): {}\nWith filler {}", NAME, retry, request, filler);
 		int result = 0;
-		try
-		{
+		try{
 			PreparedStatement preparedStatement = connection.prepareStatement(request);
 			filler.fill(preparedStatement);
 			result += preparedStatement.executeUpdate();
 		}
-		catch(SQLException e)
-		{
-			if(!retry)
+		catch(SQLException e){
+			if(!retry){
 				throw e;
+			}
 			login();
 			return sendPreparedUpdateRequest(request, filler, false);
 		}

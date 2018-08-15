@@ -2,10 +2,17 @@ package fr.mrcraftcod.utils.base;
 
 import java.awt.image.BufferedImage;
 
-public class ImageUtils
-{
-	public static BufferedImage resizeBufferedImage(BufferedImage image, float width, float height)
-	{
+public class ImageUtils{
+	/**
+	 * Resize an image.
+	 *
+	 * @param image  The image.
+	 * @param width  The new width.
+	 * @param height The new height.
+	 *
+	 * @return The resized image.
+	 */
+	public static BufferedImage resizeBufferedImage(BufferedImage image, float width, float height){
 		int baseWidth = image.getWidth(), baseHeight = image.getHeight();
 		float ratio = baseWidth > baseHeight ? width / baseWidth : height / baseHeight;
 		java.awt.Image tmp = image.getScaledInstance((int) (ratio * baseWidth), (int) (ratio * baseHeight), BufferedImage.SCALE_SMOOTH);

@@ -7,10 +7,11 @@
 module fr.mrcraftcod.utils.mail {
 	requires transitive java.desktop;
 	requires transitive fr.mrcraftcod.utils.base;
+	requires transitive fr.mrcraftcod.utils.javafx;
 	
 	requires javax.mail.api;
 	requires imap;
-	requires slf4j.api;
+	requires org.slf4j;
 	
 	exports fr.mrcraftcod.utils.mail;
 }

@@ -14,6 +14,10 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
+@SuppressWarnings({
+		"unused",
+		"WeakerAccess"
+})
 public class GMailUtils
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GMailUtils.class);

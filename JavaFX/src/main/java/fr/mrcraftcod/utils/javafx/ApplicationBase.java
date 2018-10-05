@@ -9,6 +9,10 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.util.function.Consumer;
 
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public abstract class ApplicationBase extends Application
 {
 	private Stage stage;
@@ -40,6 +44,7 @@ public abstract class ApplicationBase extends Application
 		Taskbar.getTaskbar().setIconImage(SwingFXUtils.fromFXImage(icon, null));
 	}
 
+	@SuppressWarnings("RedundantThrows")
 	public void preInit() throws Exception{}
 
 	public Image getIcon()

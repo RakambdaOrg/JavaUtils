@@ -5,12 +5,12 @@
     <parent>
         <artifactId>utils</artifactId>
         <groupId>fr.mrcraftcod</groupId>
-        <version>4.1.0</version>
+        <version>5.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>utils.resources</artifactId>
-    <version>4.1.0</version>
+    <version>5.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -18,6 +18,16 @@
             <groupId>fr.mrcraftcod</groupId>
             <artifactId>utils.base</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
 </project>

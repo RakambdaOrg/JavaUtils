@@ -10,9 +10,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Properties;
 
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public class ResourcesBase
 {
 	private static final HashMap<String, Properties> properties = new HashMap<>();
@@ -59,7 +64,7 @@ public class ResourcesBase
 		if(properties.containsKey(path))
 			return properties.get(path);
 		Properties prop = new Properties();
-		prop.load(new File("./", path + ".properties").exists() ? new InputStreamReader(new FileInputStream(new File("./", path + ".properties")), "UTF-8") : new InputStreamReader(getResource(resourceElement, path + ".properties").openStream(), "UTF-8"));
+		prop.load(new File("./", path + ".properties").exists() ? new InputStreamReader(new FileInputStream(new File("./", path + ".properties")), StandardCharsets.UTF_8) : new InputStreamReader(getResource(resourceElement, path + ".properties").openStream(), StandardCharsets.UTF_8));
 		properties.put(path, prop);
 		return prop;
 	}

@@ -125,14 +125,7 @@ public class FileUtils{
 	 * @return The directory selected.
 	 */
 	public static File askDirectory(File defaultFile){
-		JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(defaultFile == null ? new File(".") : defaultFile);
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = fc.showSaveDialog(null);
-		if(returnVal == JFileChooser.APPROVE_OPTION){
-			return fc.getSelectedFile();
-		}
-		return null;
+		return getFile(defaultFile, JFileChooser.DIRECTORIES_ONLY);
 	}
 	
 	/**
@@ -151,10 +144,14 @@ public class FileUtils{
 	 *
 	 * @return The file selected.
 	 */
-	private static File askFile(File defaultFile){
+	public static File askFile(File defaultFile){
+		return getFile(defaultFile, JFileChooser.FILES_ONLY);
+	}
+	
+	private static File getFile(File defaultFile, int filesOnly){
 		JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory(defaultFile == null ? new File(".") : defaultFile);
-		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fc.setFileSelectionMode(filesOnly);
 		int returnVal = fc.showSaveDialog(null);
 		if(returnVal == JFileChooser.APPROVE_OPTION){
 			return fc.getSelectedFile();

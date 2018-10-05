@@ -6,6 +6,7 @@ package fr.mrcraftcod.utils.mail;
  * @author Thomas Couchoud
  * @since 2016-09-03
  */
+@SuppressWarnings("WeakerAccess")
 public class Video
 {
 }

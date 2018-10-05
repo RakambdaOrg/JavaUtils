@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class PreparedStatementFiller{
 	private static final Logger LOGGER = LoggerFactory.getLogger(PreparedStatementFiller.class);
-	HashMap<Integer, SQLValue> values;
+	private HashMap<Integer, SQLValue> values;
 	
 	/**
 	 * Constructor.

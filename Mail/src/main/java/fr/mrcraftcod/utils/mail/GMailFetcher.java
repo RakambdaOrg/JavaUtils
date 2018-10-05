@@ -1,7 +1,7 @@
 package fr.mrcraftcod.utils.mail;
 
 import com.sun.mail.imap.IMAPFolder;
-import fr.mrcraftcod.utils.base.ThreadLoop;
+import fr.mrcraftcod.utils.javafx.ThreadLoop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.mail.*;
@@ -11,6 +11,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public class GMailFetcher
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);

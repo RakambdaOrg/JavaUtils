@@ -14,6 +14,7 @@ import java.util.Map;
  * @author Thomas Couchoud
  * @since 2016-12-03
  */
+@SuppressWarnings("unused")
 public class BinaryGetRequestSender extends GetRequestSender<InputStream>{
 	/**
 	 * Constructor.

@@ -5,28 +5,33 @@
     <parent>
         <artifactId>utils</artifactId>
         <groupId>fr.mrcraftcod</groupId>
-        <version>4.1.0</version>
+        <version>5.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>utils.mail</artifactId>
-    <version>4.1.0</version>
+    <version>5.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>javax.mail-api</artifactId>
-            <version>1.6.1</version>
+            <version>1.6.2</version>
         </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>imap</artifactId>
-            <version>1.6.1</version>
+            <version>1.6.2</version>
         </dependency>
         <dependency>
             <groupId>fr.mrcraftcod</groupId>
             <artifactId>utils.base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.mrcraftcod</groupId>
+            <artifactId>utils.javafx</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

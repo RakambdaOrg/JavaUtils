@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("unused")
 public class URLHandler{
 	private static final int TIMEOUT = 30000;
 	private static final String USER_AGENT_KEY = "User-Agent";

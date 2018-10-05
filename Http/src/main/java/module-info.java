@@ -7,7 +7,7 @@ module fr.mrcraftcod.utils.http
 	requires org.apache.httpcomponents.httpclient;
 	requires org.jsoup;
 	requires unirest.java;
-	requires slf4j.api;
+	requires org.slf4j;
 	
 	exports fr.mrcraftcod.utils.http;
 	exports fr.mrcraftcod.utils.http.requestssenders;

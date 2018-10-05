@@ -19,6 +19,10 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
 
+@SuppressWarnings({
+		"unused",
+		"WeakerAccess"
+})
 public class JFXUtils
 {
 	public static Optional<File> askDirectory()

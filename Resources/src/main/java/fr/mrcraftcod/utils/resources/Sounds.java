@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 
+@SuppressWarnings("unused")
 public class Sounds{
 	private static final Logger LOGGER = LoggerFactory.getLogger(Sounds.class);
 	private final ResourceElement resource;

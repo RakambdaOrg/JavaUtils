@@ -12,6 +12,10 @@ import java.util.Optional;
  * @author Thomas Couchoud
  * @since 2016-12-03
  */
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public class RequestHandler<T>{
 	private final HttpResponse<T> result;
 	

@@ -1,9 +1,13 @@
-package fr.mrcraftcod.utils.base;
+package fr.mrcraftcod.utils.javafx;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public abstract class ThreadLoop extends Thread{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ThreadLoop.class);
 	

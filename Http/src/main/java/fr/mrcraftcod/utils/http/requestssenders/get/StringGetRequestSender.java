@@ -12,6 +12,7 @@ import java.util.Map;
  * @author Thomas Couchoud
  * @since 2016-12-03
  */
+@SuppressWarnings("unused")
 public class StringGetRequestSender extends GetRequestSender<String>
 {
 	public StringGetRequestSender(String url) throws URISyntaxException, MalformedURLException

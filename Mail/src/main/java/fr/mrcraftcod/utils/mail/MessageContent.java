@@ -7,6 +7,10 @@ import java.awt.*;
  * @author Thomas Couchoud
  * @since 2016-09-02
  */
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public class MessageContent
 {
 	private boolean hasText;

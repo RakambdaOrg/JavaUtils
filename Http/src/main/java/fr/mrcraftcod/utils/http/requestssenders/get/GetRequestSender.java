@@ -14,6 +14,7 @@ import java.util.Map;
  * @author Thomas Couchoud
  * @since 2016-12-03
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class GetRequestSender<T> implements RequestSender<T>{
 	private final GetRequest request;
 	

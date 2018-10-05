@@ -13,6 +13,7 @@ import java.io.File;
  * @author Thomas Couchoud
  * @since 2017-02-21
  */
+@SuppressWarnings("unused")
 public class FileField extends TextField
 {
 	private final SimpleObjectProperty<File> selectedFile;

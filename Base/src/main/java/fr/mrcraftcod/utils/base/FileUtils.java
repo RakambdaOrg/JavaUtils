@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({
+		"unused",
+		"WeakerAccess"
+})
 public class FileUtils{
 	/**
 	 * Get a path inside the app data folder.
@@ -45,6 +49,7 @@ public class FileUtils{
 	 */
 	public static void createDirectories(File file){
 		if(!file.getParentFile().exists()){
+			//noinspection ResultOfMethodCallIgnored
 			file.getParentFile().mkdirs();
 		}
 	}

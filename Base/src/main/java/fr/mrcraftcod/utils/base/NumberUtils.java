@@ -6,6 +6,10 @@ package fr.mrcraftcod.utils.base;
  * @author Thomas Couchoud
  * @since 2017-03-09
  */
+@SuppressWarnings({
+		"unused",
+		"WeakerAccess"
+})
 public class NumberUtils{
 	/**
 	 * Perform a modulo that works on negative numbers.

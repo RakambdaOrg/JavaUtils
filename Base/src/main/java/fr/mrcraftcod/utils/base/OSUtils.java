@@ -10,6 +10,10 @@ import java.io.IOException;
  * @author Thomas Couchoud
  * @since 2016-09-25
  */
+@SuppressWarnings({
+		"unused",
+		"WeakerAccess"
+})
 public class OSUtils{
 	private final static Logger LOGGER = LoggerFactory.getLogger(OSUtils.class);
 	

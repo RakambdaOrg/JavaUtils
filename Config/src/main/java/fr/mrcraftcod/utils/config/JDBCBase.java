@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused"
+})
 public abstract class JDBCBase{
 	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
 	
@@ -14,6 +18,7 @@ public abstract class JDBCBase{
 	private final String NAME;
 	private final ArrayList<Promise> promises;
 	protected Connection connection;
+	private final Object lock = new Object();
 	
 	/**
 	 * Constructor.
@@ -39,7 +44,7 @@ public abstract class JDBCBase{
 	 *
 	 * @return The promise.
 	 */
-	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String query, ResultsParser parser){
+	public Promise<ResultSet, Throwable, Void> sendQueryRequest(String query, ResultsParser parser){
 		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(query, true)).done(parser::parse).fail(event -> LOGGER.warn("SQL query on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
@@ -52,7 +57,7 @@ public abstract class JDBCBase{
 	 *
 	 * @return The promise.
 	 */
-	public synchronized Promise<ResultSet, Throwable, Void> sendQueryRequest(String query){
+	public Promise<ResultSet, Throwable, Void> sendQueryRequest(String query){
 		Promise<ResultSet, Throwable, Void> promise = dm.when(() -> sendQueryRequest(query, true)).fail(event -> LOGGER.warn("SQL query on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
@@ -65,10 +70,28 @@ public abstract class JDBCBase{
 	 *
 	 * @return The promise.
 	 */
-	public synchronized Promise<Integer, Throwable, Void> sendUpdateRequest(String query){
+	public Promise<Integer, Throwable, Void> sendUpdateRequest(String query){
 		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(query, true)).fail(event -> LOGGER.warn("SQL update on {} failed!", NAME, event));
 		promises.add(promise);
 		return promise;
+	}
+	
+	/**
+	 * Perform a commit.
+	 *
+	 * @throws SQLException If the request couldn't be made.
+	 */
+	public void commit() throws SQLException{
+		this.connection.commit();
+	}
+	
+	/**
+	 * Perform a rollback.
+	 *
+	 * @throws SQLException If the request couldn't be made.
+	 */
+	public void rollback() throws SQLException{
+		this.connection.rollback();
 	}
 	
 	/**
@@ -105,21 +128,23 @@ public abstract class JDBCBase{
 	 * @throws SQLException If the request couldn't be made.
 	 */
 	private ResultSet sendQueryRequest(String query, boolean retry) throws SQLException{
-		if(this.connection == null){
-			return null;
-		}
-		LOGGER.debug("Sending SQL request to {} (retry: {}): {}", NAME, retry, query);
 		ResultSet result;
-		try{
-			Statement stmt = this.connection.createStatement();
-			result = stmt.executeQuery(query);
-		}
-		catch(SQLTimeoutException e){
-			if(!retry){
-				throw e;
+		synchronized(lock){
+			if(this.connection == null){
+				return null;
 			}
-			login();
-			return sendQueryRequest(query, false);
+			LOGGER.debug("Sending SQL request to {} (retry: {}): {}", NAME, retry, query);
+			try{
+				Statement stmt = this.connection.createStatement();
+				result = stmt.executeQuery(query.replace(";", ""));
+			}
+			catch(SQLTimeoutException e){
+				if(!retry){
+					throw e;
+				}
+				login();
+				return sendQueryRequest(query, false);
+			}
 		}
 		return result;
 	}
@@ -138,20 +163,23 @@ public abstract class JDBCBase{
 		if(this.connection == null){
 			return 0;
 		}
-		LOGGER.debug("Sending SQL update to {} (retry: {}): {}", NAME, retry, query);
 		int result = 0;
-		try{
-			for(String req : query.split(";")){
-				Statement stmt = this.connection.createStatement();
-				result += stmt.executeUpdate(req + ";");
+		synchronized(lock){
+			LOGGER.debug("Sending SQL update to {} (retry: {}): {}", NAME, retry, query);
+			
+			try{
+				for(String req : query.split(";")){
+					Statement stmt = this.connection.createStatement();
+					result += stmt.executeUpdate(req);
+				}
 			}
-		}
-		catch(SQLException e){
-			if(!retry){
-				throw e;
+			catch(SQLException e){
+				if(!retry){
+					throw e;
+				}
+				login();
+				return sendUpdateRequest(query, false);
 			}
-			login();
-			return sendUpdateRequest(query, false);
 		}
 		return result;
 	}
@@ -185,19 +213,21 @@ public abstract class JDBCBase{
 		if(this.connection == null){
 			return 0;
 		}
-		LOGGER.debug("Sending SQL update to {} (retry: {}): {}\nWith filler {}", NAME, retry, request, filler);
 		int result = 0;
-		try{
-			PreparedStatement preparedStatement = connection.prepareStatement(request);
-			filler.fill(preparedStatement);
-			result += preparedStatement.executeUpdate();
-		}
-		catch(SQLException e){
-			if(!retry){
-				throw e;
+		synchronized(lock){
+			LOGGER.debug("Sending SQL update to {} (retry: {}): {}\nWith filler {}", NAME, retry, request, filler);
+			try{
+				PreparedStatement preparedStatement = connection.prepareStatement(request.replace(";", ""));
+				filler.fill(preparedStatement);
+				result += preparedStatement.executeUpdate();
 			}
-			login();
-			return sendPreparedUpdateRequest(request, filler, false);
+			catch(SQLException e){
+				if(!retry){
+					throw e;
+				}
+				login();
+				return sendPreparedUpdateRequest(request, filler, false);
+			}
 		}
 		return result;
 	}

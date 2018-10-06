@@ -9,6 +9,7 @@ import java.sql.SQLException;
  * @author Thomas Couchoud
  * @since 2016-09-12
  */
+@SuppressWarnings("WeakerAccess")
 public class SQLValue{
 	private final Object value;
 	private final Type type;

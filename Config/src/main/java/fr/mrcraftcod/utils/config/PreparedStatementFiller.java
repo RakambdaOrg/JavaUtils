@@ -12,6 +12,7 @@ import java.util.HashMap;
  * @author Thomas Couchoud
  * @since 2016-09-12
  */
+@SuppressWarnings("WeakerAccess")
 public class PreparedStatementFiller{
 	private static final Logger LOGGER = LoggerFactory.getLogger(PreparedStatementFiller.class);
 	private HashMap<Integer, SQLValue> values;

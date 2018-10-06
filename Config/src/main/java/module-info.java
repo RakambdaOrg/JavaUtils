@@ -5,7 +5,7 @@ module fr.mrcraftcod.utils.config
 	
 	requires jdeferred.core;
 	requires sqlite.jdbc;
-	requires slf4j.api;
+	requires org.slf4j;
 	
 	exports fr.mrcraftcod.utils.config;
 }

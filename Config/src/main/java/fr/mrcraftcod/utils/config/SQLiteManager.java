@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class SQLiteManager extends JDBCBase
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteManager.class);
 	private File databaseURL;
 	
 	public SQLiteManager(File databaseURL) throws ClassNotFoundException{

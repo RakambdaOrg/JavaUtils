@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
+@SuppressWarnings({
+		"unused",
+		"WeakerAccess"
+})
 public class MailUtils{
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
 	

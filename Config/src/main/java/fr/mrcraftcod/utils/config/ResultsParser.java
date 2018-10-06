@@ -9,6 +9,11 @@ import java.util.function.Function;
 /**
  * Created by Tom on 16/08/2016.
  */
+@SuppressWarnings({
+		"WeakerAccess",
+		"unused",
+		"UnusedReturnValue"
+})
 public class ResultsParser<T>{
 	private final Function<ResultSet, List<T>> parser;
 	private final List<Consumer<List<T>>> parsedCallbacks;

@@ -17,7 +17,6 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -118,7 +117,7 @@ public class URLHandler{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public static RequestBodyEntity postRequest(URL url, HashMap<String, String> headers, HashMap<String, String> params, String body) throws URISyntaxException{
+	public static RequestBodyEntity postRequest(URL url, Map<String, String> headers, Map<String, String> params, String body) throws URISyntaxException{
 		Unirest.clearDefaultHeaders();
 		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
 		URIBuilder uriBuilder = new URIBuilder(url.toURI());

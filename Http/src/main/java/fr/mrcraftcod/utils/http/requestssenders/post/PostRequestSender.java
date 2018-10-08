@@ -63,7 +63,7 @@ public abstract class PostRequestSender<T> implements RequestSender<T>{
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
 	public PostRequestSender(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
-		request = URLHandler.postRequest(url, headers, params, null);
+		this(url, headers, params, "");
 	}
 	
 	/**

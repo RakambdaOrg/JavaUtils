@@ -31,6 +31,10 @@ public class StringPostRequestSender extends PostRequestSender<String>{
 		super(url, headers, params);
 	}
 	
+	public StringPostRequestSender(URL url, Map<String, String> headers, Map<String, String> params, String body) throws URISyntaxException{
+		super(url, headers, params, body);
+	}
+	
 	@Override
 	public HttpResponse<String> getRequestResult() throws UnirestException{
 		return this.getRequest().asString();

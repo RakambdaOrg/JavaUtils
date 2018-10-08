@@ -13,6 +13,7 @@
         <java.version>11</java.version>
         <javafx.version>11</javafx.version>
         <slf4j.version>1.8.0-beta2</slf4j.version>
+        <log4j.version>3.0.0-SNAPSHOT</log4j.version>
     </properties>
 
     <modules>
@@ -82,6 +83,11 @@
         <repository>
             <id>mrcraftcod.read</id>
             <url>https://maven.mrcraftcod.fr/</url>
+        </repository>
+        <repository>
+            <id>apache</id>
+            <name>Apache</name>
+            <url>https://repository.apache.org/snapshots</url>
         </repository>
     </repositories>
 

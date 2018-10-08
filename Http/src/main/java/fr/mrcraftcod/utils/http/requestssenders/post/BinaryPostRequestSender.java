@@ -64,6 +64,10 @@ public class BinaryPostRequestSender extends PostRequestSender<InputStream>{
 		super(url, headers, params);
 	}
 	
+	public BinaryPostRequestSender(URL url, Map<String, String> headers, Map<String, String> params, String body) throws URISyntaxException{
+		super(url, headers, params, body);
+	}
+	
 	@Override
 	public HttpResponse<InputStream> getRequestResult() throws UnirestException{
 		return this.getRequest().asBinary();

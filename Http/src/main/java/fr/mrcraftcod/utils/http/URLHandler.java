@@ -45,7 +45,7 @@ public class URLHandler{
 	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException{
 		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
 		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
-		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setDefaultRequestConfig(globalConfig).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).setUserAgent(USER_AGENT).build();
+		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setDefaultRequestConfig(globalConfig).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).build();
 	}
 	
 	/**
@@ -60,15 +60,29 @@ public class URLHandler{
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
 	public static GetRequest getRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
-		Unirest.clearDefaultHeaders();
-		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
+		URIBuilder uriBuilder = getBuilder(url, params);
+		return Unirest.get(uriBuilder.build().toString()).headers(headers);
+	}
+	
+	private static URIBuilder getBuilder(URL url, Map<String, String> params) throws URISyntaxException{
 		URIBuilder uriBuilder = new URIBuilder(url.toURI());
 		if(params != null){
 			for(String key : params.keySet()){
 				uriBuilder.addParameter(key, params.get(key));
 			}
 		}
-		return Unirest.get(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT);
+		return uriBuilder;
+	}
+	
+	/**
+	 * Stops Unirest.
+	 */
+	public static void exit(){
+		try{
+			Unirest.shutdown();
+		}
+		catch(IOException ignored){
+		}
 	}
 	
 	/**
@@ -83,26 +97,8 @@ public class URLHandler{
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
 	private static GetRequest headRequest(URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
-		Unirest.clearDefaultHeaders();
-		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-		URIBuilder uriBuilder = new URIBuilder(url.toURI());
-		if(params != null){
-			for(String key : params.keySet()){
-				uriBuilder.addParameter(key, params.get(key));
-			}
-		}
-		return Unirest.head(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT);
-	}
-	
-	/**
-	 * Stops Unirest.
-	 */
-	public static void exit(){
-		try{
-			Unirest.shutdown();
-		}
-		catch(IOException ignored){
-		}
+		URIBuilder uriBuilder = getBuilder(url, params);
+		return Unirest.head(uriBuilder.build().toString()).headers(headers);
 	}
 	
 	/**
@@ -118,20 +114,15 @@ public class URLHandler{
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
 	public static RequestBodyEntity postRequest(URL url, Map<String, String> headers, Map<String, String> params, String body) throws URISyntaxException{
-		Unirest.clearDefaultHeaders();
-		Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-		URIBuilder uriBuilder = new URIBuilder(url.toURI());
-		if(params != null){
-			for(String key : params.keySet()){
-				uriBuilder.addParameter(key, params.get(key));
-			}
-		}
-		return Unirest.post(uriBuilder.build().toString()).headers(headers).header(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE).header(CONTENT_TYPE_KEY, CONTENT_TYPE).header(CHARSET_TYPE_KEY, CHARSET_TYPE).header(USER_AGENT_KEY, USER_AGENT).body(body);
+		URIBuilder uriBuilder = getBuilder(url, params);
+		return Unirest.post(uriBuilder.build().toString()).headers(headers).body(body);
 	}
-	
 	static{
 		try{
 			Unirest.setHttpClient(makeClient());
+			Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
+			Unirest.setDefaultHeader(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE);
+			Unirest.setDefaultHeader(CONTENT_TYPE_KEY, CONTENT_TYPE);
 		}
 		catch(Exception e){
 			e.printStackTrace();

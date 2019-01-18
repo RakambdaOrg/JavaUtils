@@ -9,7 +9,6 @@ module fr.mrcraftcod.utils.base {
 	requires transitive java.logging;
 	
 	requires org.slf4j;
-	requires org.apache.logging.log4j;
 	requires org.apache.commons.io;
 	
 	exports fr.mrcraftcod.utils.base;

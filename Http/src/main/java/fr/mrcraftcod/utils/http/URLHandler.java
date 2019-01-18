@@ -120,9 +120,9 @@ public class URLHandler{
 	static{
 		try{
 			Unirest.setHttpClient(makeClient());
-			Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-			Unirest.setDefaultHeader(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE);
-			Unirest.setDefaultHeader(CONTENT_TYPE_KEY, CONTENT_TYPE);
+			//Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
+			//Unirest.setDefaultHeader(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE);
+			//Unirest.setDefaultHeader(CONTENT_TYPE_KEY, CONTENT_TYPE);
 		}
 		catch(Exception e){
 			e.printStackTrace();

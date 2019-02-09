@@ -4,14 +4,13 @@
  * @author Thomas Couchoud
  * @since 2017-09-22
  */
-module fr.mrcraftcod.utils.mail {
+open module fr.mrcraftcod.utils.mail {
 	requires transitive java.desktop;
 	requires transitive fr.mrcraftcod.utils.base;
 	requires transitive fr.mrcraftcod.utils.javafx;
 	
-	requires javax.mail.api;
-	requires imap;
 	requires org.slf4j;
+	requires jakarta.mail;
 	
 	exports fr.mrcraftcod.utils.mail;
 }

@@ -4,7 +4,7 @@
  * @author Thomas Couchoud
  * @since 2017-09-22
  */
-module fr.mrcraftcod.utils.resources {
+open module fr.mrcraftcod.utils.resources {
 	requires transitive fr.mrcraftcod.utils.base;
 	
 	requires javafx.graphics;

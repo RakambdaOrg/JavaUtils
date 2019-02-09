@@ -5,24 +5,19 @@
     <parent>
         <artifactId>utils</artifactId>
         <groupId>fr.mrcraftcod</groupId>
-        <version>5.1.2</version>
+        <version>5.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>utils.mail</artifactId>
-    <version>5.1.2</version>
+    <version>5.2.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.sun.mail</groupId>
-            <artifactId>imap</artifactId>
-            <version>1.6.2</version>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.3</version>
         </dependency>
         <dependency>
             <groupId>fr.mrcraftcod</groupId>

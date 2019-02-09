@@ -1,4 +1,4 @@
-module fr.mrcraftcod.utils.config
+open module fr.mrcraftcod.utils.config
 {
 	requires transitive fr.mrcraftcod.utils.base;
 	requires transitive java.sql;

@@ -4,7 +4,7 @@
  * @author Thomas Couchoud
  * @since 2017-09-22
  */
-module fr.mrcraftcod.utils.base {
+open module fr.mrcraftcod.utils.base {
 	requires transitive java.desktop;
 	requires transitive java.logging;
 	

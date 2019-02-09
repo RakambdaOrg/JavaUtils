@@ -4,7 +4,7 @@
  * @author Thomas Couchoud
  * @since 2017-09-22
  */
-module fr.mrcraftcod.utils.javafx {
+open module fr.mrcraftcod.utils.javafx {
 	requires transitive javafx.base;
 	requires transitive javafx.controls;
 	requires transitive javafx.graphics;

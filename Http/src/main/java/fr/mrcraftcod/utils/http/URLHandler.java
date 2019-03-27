@@ -1,8 +1,8 @@
 package fr.mrcraftcod.utils.http;
 
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.request.GetRequest;
-import com.mashape.unirest.request.body.RequestBodyEntity;
+import kong.unirest.GetRequest;
+import kong.unirest.RequestBodyEntity;
+import kong.unirest.Unirest;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -11,7 +11,6 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -78,11 +77,7 @@ public class URLHandler{
 	 * Stops Unirest.
 	 */
 	public static void exit(){
-		try{
-			Unirest.shutdown();
-		}
-		catch(IOException ignored){
-		}
+		Unirest.shutDown();
 	}
 	
 	/**
@@ -117,15 +112,8 @@ public class URLHandler{
 		URIBuilder uriBuilder = getBuilder(url, params);
 		return Unirest.post(uriBuilder.build().toString()).headers(headers).body(body);
 	}
+	
 	static{
-		try{
-			Unirest.setHttpClient(makeClient());
-			//Unirest.setDefaultHeader(USER_AGENT_KEY, USER_AGENT);
-			//Unirest.setDefaultHeader(LANGUAGE_TYPE_KEY, LANGUAGE_TYPE);
-			//Unirest.setDefaultHeader(CONTENT_TYPE_KEY, CONTENT_TYPE);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		Unirest.config().connectTimeout(TIMEOUT).socketTimeout(TIMEOUT).enableCookieManagement(true).verifySsl(true);
 	}
 }

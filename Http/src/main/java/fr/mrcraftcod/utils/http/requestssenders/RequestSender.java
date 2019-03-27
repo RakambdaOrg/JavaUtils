@@ -1,8 +1,8 @@
 package fr.mrcraftcod.utils.http.requestssenders;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import fr.mrcraftcod.utils.http.RequestHandler;
+import kong.unirest.HttpResponse;
+import kong.unirest.UnirestException;
 
 /**
  * Created by Thomas Couchoud (MrCraftCod - zerderr@gmail.com) on 03/12/2016.

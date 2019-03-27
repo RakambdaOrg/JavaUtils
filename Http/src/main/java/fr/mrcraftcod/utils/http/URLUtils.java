@@ -1,9 +1,9 @@
 package fr.mrcraftcod.utils.http;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import fr.mrcraftcod.utils.base.FileUtils;
 import fr.mrcraftcod.utils.http.requestssenders.get.BinaryGetRequestSender;
 import fr.mrcraftcod.utils.http.requestssenders.get.StringGetRequestSender;
+import kong.unirest.UnirestException;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -56,7 +56,6 @@ public class URLUtils{
 			if(urlString.startsWith("(") && urlString.endsWith(")")){
 				urlString = urlString.substring(1, urlString.length() - 1);
 			}
-			//noinspection deprecation
 			links.add(StringEscapeUtils.unescapeHtml4(urlString));
 		}
 		HashSet<String> hs = new HashSet<>(links);

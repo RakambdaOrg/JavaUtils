@@ -1,7 +1,8 @@
 package fr.mrcraftcod.utils.http.requestssenders.get;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import kong.unirest.HttpResponse;
+import kong.unirest.RawResponse;
+import kong.unirest.UnirestException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -66,6 +67,6 @@ public class BinaryGetRequestSender extends GetRequestSender<InputStream>{
 	
 	@Override
 	public HttpResponse<InputStream> getRequestResult() throws UnirestException{
-		return this.getRequest().asBinary();
+		return this.getRequest().asObject(RawResponse::getContent);
 	}
 }

@@ -1,8 +1,8 @@
 package fr.mrcraftcod.utils.http.requestssenders.post;
 
-import com.mashape.unirest.request.body.RequestBodyEntity;
 import fr.mrcraftcod.utils.http.URLHandler;
 import fr.mrcraftcod.utils.http.requestssenders.RequestSender;
+import kong.unirest.RequestBodyEntity;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;

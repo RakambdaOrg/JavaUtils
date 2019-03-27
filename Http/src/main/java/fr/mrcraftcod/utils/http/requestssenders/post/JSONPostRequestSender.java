@@ -1,8 +1,8 @@
 package fr.mrcraftcod.utils.http.requestssenders.post;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import kong.unirest.HttpResponse;
+import kong.unirest.UnirestException;
+import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 2016-12-03
  */
 @SuppressWarnings("unused")
-public class JSONPostRequestSender extends PostRequestSender<JsonNode>{
+public class JSONPostRequestSender extends PostRequestSender<JSONObject>{
 	public JSONPostRequestSender(String url) throws URISyntaxException, MalformedURLException{
 		super(url);
 	}
@@ -37,7 +37,7 @@ public class JSONPostRequestSender extends PostRequestSender<JsonNode>{
 	}
 	
 	@Override
-	public HttpResponse<JsonNode> getRequestResult() throws UnirestException{
-		return this.getRequest().asJson();
+	public HttpResponse<JSONObject> getRequestResult() throws UnirestException{
+		return this.getRequest().asObject(raw -> new JSONObject(raw.getContentAsString()));
 	}
 }

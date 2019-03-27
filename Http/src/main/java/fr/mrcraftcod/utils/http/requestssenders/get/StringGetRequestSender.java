@@ -1,7 +1,7 @@
 package fr.mrcraftcod.utils.http.requestssenders.get;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import kong.unirest.HttpResponse;
+import kong.unirest.UnirestException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;

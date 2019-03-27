@@ -1,8 +1,8 @@
 package fr.mrcraftcod.utils.http.requestssenders.get;
 
-import com.mashape.unirest.request.GetRequest;
 import fr.mrcraftcod.utils.http.URLHandler;
 import fr.mrcraftcod.utils.http.requestssenders.RequestSender;
+import kong.unirest.GetRequest;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;

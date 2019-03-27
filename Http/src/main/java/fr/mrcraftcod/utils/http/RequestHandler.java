@@ -1,9 +1,9 @@
 package fr.mrcraftcod.utils.http;
 
-import com.mashape.unirest.http.Headers;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import fr.mrcraftcod.utils.http.requestssenders.RequestSender;
+import kong.unirest.Headers;
+import kong.unirest.HttpResponse;
+import kong.unirest.UnirestException;
 import java.util.Optional;
 
 /**

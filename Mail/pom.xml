@@ -5,12 +5,12 @@
     <parent>
         <artifactId>utils</artifactId>
         <groupId>fr.mrcraftcod</groupId>
-        <version>5.2.1</version>
+        <version>12.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>utils.mail</artifactId>
-    <version>5.2.1</version>
+    <version>12.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>

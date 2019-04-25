@@ -5,12 +5,12 @@
     <parent>
         <artifactId>utils</artifactId>
         <groupId>fr.mrcraftcod</groupId>
-        <version>12.0.3</version>
+        <version>12.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>utils.resources</artifactId>
-    <version>12.0.3</version>
+    <version>12.0.4</version>
     <packaging>jar</packaging>
 
     <dependencies>

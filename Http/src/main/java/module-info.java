@@ -8,7 +8,6 @@ open module fr.mrcraftcod.utils.http
 	requires org.jsoup;
 	requires unirest.java;
 	requires org.slf4j;
-	requires org.json;
 	
 	exports fr.mrcraftcod.utils.http;
 	exports fr.mrcraftcod.utils.http.requestssenders;

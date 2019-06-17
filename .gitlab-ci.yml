@@ -12,11 +12,11 @@ cache:
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - mvn ${MAVEN_CLI_OPTS} compile
 
 deploy_maven:
   stage: deploy
   only:
     - master
   script:
-    - mvn $MAVEN_CLI_OPTS deploy
+    - mvn ${MAVEN_CLI_OPTS} release:clean release:prepare release:perform release:clean

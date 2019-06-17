@@ -137,10 +137,9 @@
         </repository>
     </distributionManagement>
     <scm>
-        <connection>scm:git:ssh://git@gitlab.com:MrCraftCod/JavaUtils.git</connection>
-        <developerConnection>scm:git:ssh://git@gitlab.com:MrCraftCod/JavaUtils.git</developerConnection>
+        <connection>scm:git:https://gitlab.com/MrCraftCod/JavaUtils.git</connection>
+        <developerConnection>scm:git:git@gitlab.com:MrCraftCod/JavaUtils.git</developerConnection>
         <url>https://gitlab.com/MrCraftCod/JavaUtils</url>
-        <tag>@{project.name}-@{project.version}</tag>
     </scm>
     <repositories>
         <repository>

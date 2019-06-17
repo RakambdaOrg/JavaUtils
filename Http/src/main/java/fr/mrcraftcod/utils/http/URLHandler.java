@@ -1,6 +1,8 @@
 package fr.mrcraftcod.utils.http;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import kong.unirest.GetRequest;
+import kong.unirest.ObjectMapper;
 import kong.unirest.RequestBodyEntity;
 import kong.unirest.Unirest;
 import org.apache.http.client.HttpClient;
@@ -11,6 +13,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.KeyManagementException;
@@ -44,6 +47,27 @@ public class URLHandler{
 	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException{
 		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
 		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+		Unirest.config().setObjectMapper(new ObjectMapper(){
+			private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+			
+			public <T> T readValue(String value, Class<T> valueType){
+				try{
+					return jacksonObjectMapper.readValue(value, valueType);
+				}
+				catch(IOException e){
+					throw new RuntimeException(e);
+				}
+			}
+			
+			public String writeValue(Object value){
+				try{
+					return jacksonObjectMapper.writeValueAsString(value);
+				}
+				catch(JsonProcessingException e){
+					throw new RuntimeException(e);
+				}
+			}
+		});
 		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setDefaultRequestConfig(globalConfig).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).build();
 	}
 	

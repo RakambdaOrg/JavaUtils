@@ -18,5 +18,11 @@ deploy_maven:
   stage: deploy
   only:
     - master
+    variables:
+      - $CI_COMMIT_MESSAGE =~ ^(?!\[maven-release-plugin\]).+
+  before_script:
+    - git remote set-url origin https://MrCraftCod:${CI_PUSH_TOKEN}@gitlab.com:MrCraftCod/JavaUtils.git
+    - git config --global user.email 'zederr@gmail.com'
+    - git config --global user.name 'Gitlab-CI'
   script:
     - mvn ${MAVEN_CLI_OPTS} release:clean release:prepare release:perform release:clean

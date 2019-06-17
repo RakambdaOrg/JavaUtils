@@ -87,17 +87,9 @@
         </plugins>
     </build>
     <distributionManagement>
-<!--        <repository>-->
-<!--            <id>mrcraftcod.write.ftp</id>-->
-<!--            <url>${mrcraftcod.write.url.ftp}</url>-->
-<!--        </repository>-->
-        <snapshotRepository>
-            <id>gitlab-com</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
-        </snapshotRepository>
         <repository>
-            <id>gitlab-com</id>
-            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+            <id>mrcraftcod.write.ftp</id>
+            <url>${mrcraftcod.write.url.ftp}</url>
         </repository>
     </distributionManagement>
 

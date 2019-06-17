@@ -1,8 +1,8 @@
 package fr.mrcraftcod.utils.http.requestssenders.get;
 
 import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
 import kong.unirest.UnirestException;
-import org.json.JSONObject;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @since 2016-12-03
  */
 @SuppressWarnings("unused")
-public class JSONGetRequestSender extends GetRequestSender<JSONObject>
+public class JSONGetRequestSender extends GetRequestSender<JsonNode>
 {
 	public JSONGetRequestSender(String url) throws URISyntaxException, MalformedURLException
 	{
@@ -37,7 +37,7 @@ public class JSONGetRequestSender extends GetRequestSender<JSONObject>
 	}
 
 	@Override
-	public HttpResponse<JSONObject> getRequestResult() throws UnirestException{
-		return this.getRequest().asObject(raw -> new JSONObject(raw.getContentAsString()));
+	public HttpResponse<JsonNode> getRequestResult() throws UnirestException{
+		return this.getRequest().asJson();
 	}
 }

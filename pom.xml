@@ -138,7 +138,7 @@
     </distributionManagement>
     <scm>
         <connection>scm:git:https://gitlab.com/MrCraftCod/JavaUtils.git</connection>
-        <developerConnection>scm:git:git@gitlab.com:MrCraftCod/JavaUtils.git</developerConnection>
+        <developerConnection>scm:git:https://MrCraftCod:${CI_PUSH_TOKEN}@gitlab.com:MrCraftCod/JavaUtils.git</developerConnection>
         <url>https://gitlab.com/MrCraftCod/JavaUtils</url>
     </scm>
     <repositories>

@@ -20,5 +20,6 @@ deploy_maven:
     - master
   before_script:
     - chmod +x ./deploy-ci.sh
+    - cp ci_settings.xml /root/.m2/settings.xml
   script:
     - ./deploy-ci.sh

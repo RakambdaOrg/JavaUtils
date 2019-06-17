@@ -131,15 +131,25 @@
         </plugins>
     </build>
     <distributionManagement>
+<!--        <repository>-->
+<!--            <id>mrcraftcod.write.ftp</id>-->
+<!--            <url>${mrcraftcod.write.url.ftp}</url>-->
+<!--        </repository>-->
+        <snapshotRepository>
+            <id>gitlab-com</id>
+            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
+        </snapshotRepository>
         <repository>
-            <id>mrcraftcod.write.ftp</id>
-            <url>${mrcraftcod.write.url.ftp}</url>
+            <id>gitlab-com</id>
+            <url>https://gitlab.com/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven</url>
         </repository>
     </distributionManagement>
+
     <scm>
-        <connection>scm:git:https://gitlab.com/MrCraftCod/JavaUtils.git</connection>
-        <developerConnection>scm:git:https://MrCraftCod:${CI_PUSH_TOKEN}@gitlab.com:MrCraftCod/JavaUtils.git</developerConnection>
-        <url>https://gitlab.com/MrCraftCod/JavaUtils</url>
+        <connection>scm:git:${env.CI_REPOSITORY_URL}</connection>
+        <url>${env.CI_PROJECT_URL}</url>
+        <developerConnection>scm:git:${env.CI_REPOSITORY_URL}</developerConnection>
+        <tag>HEAD</tag>
     </scm>
     <repositories>
         <repository>

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 		"WeakerAccess",
 		"unused"
 })
-public abstract class JDBCBase{
+public abstract class JDBCBase implements AutoCloseable{
 	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
 	
 	protected final DefaultDeferredManager dm;

@@ -1,0 +1,8 @@
+ext.moduleName = project.moduleName
+
+dependencies {
+    implementation project(':utils.base')
+    implementation("mysql:mysql-connector-java:${project.mysql_connector_java_version}")
+    implementation("org.xerial:sqlite-jdbc:${project.sqlite_jdbc_version}")
+    implementation("org.jdeferred:jdeferred-core:${project.jdeferred_core_version}")
+}

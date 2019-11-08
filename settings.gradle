@@ -1,0 +1,13 @@
+rootProject.name = 'utils'
+include 'base'
+project(":base").name = "utils.base"
+include 'config'
+project(":config").name = "utils.config"
+include 'http'
+project(":http").name = "utils.http"
+include 'javafx'
+project(":javafx").name = "utils.javafx"
+include 'mail'
+project(":mail").name = "utils.mail"
+include 'resources'
+project(":resources").name = "utils.resources"

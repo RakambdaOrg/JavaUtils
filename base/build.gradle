@@ -1,0 +1,8 @@
+ext.moduleName = project.moduleName
+
+dependencies {
+    implementation("fr.jcgay.send-notification:send-notification:${project.send_notification_version}")
+    implementation("commons-io:commons-io:${project.commons_io_version}")
+    implementation("net.java.dev.jna:jna:${project.jna_version}")
+    implementation("net.java.dev.jna:jna-platform:${project.jna_version}")
+}

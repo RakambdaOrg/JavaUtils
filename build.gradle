@@ -1,0 +1,78 @@
+plugins {
+    id "com.github.ben-manes.versions" version "0.27.0"
+    id 'com.novoda.build-properties' version '0.4.1'
+}
+
+buildProperties {
+    secrets {
+        using(file('secrets.properties')).or(System.getenv()).or([
+                "github_user" : "N/A",
+                "github_token": "N/A"
+        ])
+    }
+}
+
+description = 'RakSrinaNa Utils'
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: "maven-publish"
+
+    repositories {
+        maven {
+            url = 'https://repo.maven.apache.org/maven2'
+        }
+        maven {
+            url = 'https://jcenter.bintray.com'
+        }
+        maven {
+            url = 'https://maven.mrcraftcod.fr'
+        }
+    }
+
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_12
+
+    dependencies {
+        implementation("org.slf4j:slf4j-api:${project.slf4j_version}")
+        implementation("com.google.code.findbugs:jsr305:${project.jsr305_version}")
+    }
+
+    processResources {
+        from 'src/main/resources'
+        filter(ReplaceTokens, tokens: [bot_version: project.version, bot_name: project.name])
+    }
+
+    compileJava {
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+            ]
+            classpath = files()
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/RakSrinaNa/JavaUtils")
+                credentials {
+                    username = buildProperties.secrets['github_user'].string
+                    password = buildProperties.secrets['github_token'].string
+                }
+            }
+        }
+        publications {
+            gpr(MavenPublication) {
+                from(components.java)
+            }
+        }
+    }
+}

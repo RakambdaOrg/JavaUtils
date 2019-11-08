@@ -7,7 +7,7 @@
 open module fr.raksrinana.utils.base {
 	requires org.slf4j;
 	requires org.apache.commons.io;
-	requires java.validation;
+	requires jsr305;
 	requires java.desktop;
 	requires com.sun.jna;
 	requires com.sun.jna.platform;

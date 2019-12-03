@@ -4,13 +4,6 @@ import javax.annotation.Nonnull;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- * Created by Thomas Couchoud (MrCraftCod - zerderr@gmail.com) on 12/09/2016.
- *
- * @author Thomas Couchoud
- * @since 2016-09-12
- */
-@SuppressWarnings("WeakerAccess")
 public class SQLValue{
 	private final Object value;
 	private final Type type;

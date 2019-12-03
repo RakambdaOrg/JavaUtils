@@ -1,7 +1,6 @@
 open module fr.raksrinana.utils.config {
 	requires fr.raksrinana.utils.base;
 	requires java.sql;
-	requires jdeferred.core;
 	requires sqlite.jdbc;
 	requires org.slf4j;
 	requires jsr305;

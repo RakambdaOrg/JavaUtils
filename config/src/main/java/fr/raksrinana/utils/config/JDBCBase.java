@@ -1,19 +1,19 @@
 package fr.raksrinana.utils.config;
 
-import org.jdeferred.Promise;
-import org.jdeferred.impl.DefaultDeferredManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 public abstract class JDBCBase implements AutoCloseable{
 	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
-	protected final DefaultDeferredManager dm;
 	private final String NAME;
-	private final ArrayList<Promise<?, ?, ?>> promises;
+	private final ArrayList<CompletableFuture<?>> futures;
 	protected Connection connection;
 	private final Object lock = new Object();
 	
@@ -23,9 +23,8 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @param name Name of the database.
 	 */
 	protected JDBCBase(@Nonnull String name){
-		dm = new DefaultDeferredManager();
 		this.NAME = name;
-		this.promises = new ArrayList<>();
+		this.futures = new ArrayList<>();
 	}
 	
 	/**
@@ -42,10 +41,17 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@Nonnull
-	public Promise<Optional<ResultSet>, Throwable, Void> sendQueryRequest(@Nonnull String query, @Nonnull ResultsParser<?> parser){
-		Promise<Optional<ResultSet>, Throwable, Void> promise = dm.when(() -> sendQueryRequest(query, true)).done(result -> result.ifPresent(parser::parse)).fail(event -> LOGGER.warn("SQL query on {} failed!", NAME, event));
-		promises.add(promise);
-		return promise;
+	public <T> CompletableFuture<Optional<List<T>>> sendQueryRequest(@Nonnull String query, @Nonnull ResultsParser<T> parser){
+		final var future = CompletableFuture.supplyAsync(() -> {
+			try{
+				return sendQueryRequest(query, true);
+			}
+			catch(SQLException e){
+				throw new CompletionException(e);
+			}
+		}).thenApply(result1 -> result1.map(parser::parse));
+		futures.add(future);
+		return future;
 	}
 	
 	/**
@@ -56,10 +62,17 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@Nonnull
-	public Promise<Optional<ResultSet>, Throwable, Void> sendQueryRequest(@Nonnull String query){
-		Promise<Optional<ResultSet>, Throwable, Void> promise = dm.when(() -> sendQueryRequest(query, true)).fail(event -> LOGGER.warn("SQL query on {} failed!", NAME, event));
-		promises.add(promise);
-		return promise;
+	public CompletableFuture<Optional<ResultSet>> sendQueryRequest(@Nonnull String query){
+		final var future = CompletableFuture.supplyAsync(() -> {
+			try{
+				return sendQueryRequest(query, true);
+			}
+			catch(SQLException e){
+				throw new CompletionException(e);
+			}
+		});
+		futures.add(future);
+		return future;
 	}
 	
 	/**
@@ -70,10 +83,17 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@Nonnull
-	public Promise<Integer, Throwable, Void> sendUpdateRequest(@Nonnull String query){
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendUpdateRequest(query, true)).fail(event -> LOGGER.warn("SQL update on {} failed!", NAME, event));
-		promises.add(promise);
-		return promise;
+	public CompletableFuture<Integer> sendUpdateRequest(@Nonnull String query){
+		final var future = CompletableFuture.supplyAsync(() -> {
+			try{
+				return sendUpdateRequest(query, true);
+			}
+			catch(SQLException e){
+				throw new CompletionException(e);
+			}
+		});
+		futures.add(future);
+		return future;
 	}
 	
 	/**
@@ -98,15 +118,9 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * Close the connection.
 	 */
 	public void close(){
-		for(Promise<?, ?, ?> promise : promises){
-			try{
-				promise.waitSafely();
-			}
-			catch(InterruptedException e){
-				e.printStackTrace();
-			}
+		for(CompletableFuture<?> future : futures){
+			future.cancel(true);
 		}
-		dm.shutdownNow();
 		if(connection != null){
 			try{
 				this.connection.close();
@@ -193,10 +207,17 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@Nonnull
-	public Promise<Integer, Throwable, Void> sendPreparedUpdateRequest(@Nonnull String request, @Nonnull PreparedStatementFiller filler){
-		Promise<Integer, Throwable, Void> promise = dm.when(() -> sendPreparedUpdateRequest(request, filler, true)).fail(event -> LOGGER.warn("SQL update request on {} failed!", NAME, event));
-		promises.add(promise);
-		return promise;
+	public CompletableFuture<Integer> sendPreparedUpdateRequest(@Nonnull String request, @Nonnull PreparedStatementFiller filler){
+		final var future = CompletableFuture.supplyAsync(() -> {
+			try{
+				return sendPreparedUpdateRequest(request, filler, true);
+			}
+			catch(SQLException e){
+				throw new CompletionException(e);
+			}
+		});
+		futures.add(future);
+		return future;
 	}
 	
 	/**

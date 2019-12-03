@@ -17,8 +17,8 @@ plugins {
 buildProperties {
     secrets {
         using(file('secrets.properties')).or(System.getenv()).or([
-                "github_user" : "N/A",
-                "github_token": "N/A"
+                "GITHUB_USER" : "N/A",
+                "GITHUB_TOKEN": "N/A"
         ])
     }
 }
@@ -66,8 +66,8 @@ subprojects {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/RakSrinaNa/JavaUtils")
                 credentials {
-                    username = buildProperties.secrets['github_user'].string
-                    password = buildProperties.secrets['github_token'].string
+                    username = buildProperties.secrets['GITHUB_USER'].string
+                    password = buildProperties.secrets['GITHUB_TOKEN'].string
                 }
             }
         }

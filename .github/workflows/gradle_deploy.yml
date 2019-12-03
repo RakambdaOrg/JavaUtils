@@ -1,0 +1,18 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deployment-maven:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Publish with gradle
+        uses: MrRamych/gradle-actions/openjdk-13@3.1
+        with:
+          args: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

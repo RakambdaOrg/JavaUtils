@@ -1,9 +1,8 @@
 package fr.raksrinana.utils.mail;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.InternetAddress;
@@ -20,12 +19,12 @@ public class GMailUtils{
 	private static final Logger LOGGER = LoggerFactory.getLogger(GMailUtils.class);
 	private static final String GMAIL_SMTP_HOST = "smtp.gmail.com";
 	
-	public static void sendGMail(@Nonnull String user, @Nonnull String password, @Nonnull String from, @Nonnull String to, @Nonnull String object, @Nonnull String body) throws MessagingException, UnsupportedEncodingException{
+	public static void sendGMail(@NonNull String user, @NonNull String password, @NonNull String from, @NonNull String to, @NonNull String object, @NonNull String body) throws MessagingException, UnsupportedEncodingException{
 		MailUtils.sendMail(getGMailSession(user, password), user, from, to, object, body);
 	}
 	
-	@Nonnull
-	public static Session getGMailSession(@Nonnull String user, @Nonnull String password){
+	@NonNull
+	public static Session getGMailSession(@NonNull String user, @NonNull String password){
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.auth", "true");
@@ -38,32 +37,32 @@ public class GMailUtils{
 		});
 	}
 	
-	@Nonnull
-	public static GMailFetcher fetchGMailFolder(@Nonnull String user, @Nonnull String password, @Nonnull String folder, Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException{
+	@NonNull
+	public static GMailFetcher fetchGMailFolder(@NonNull String user, @NonNull String password, @NonNull String folder, Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException{
 		return new GMailFetcher(getGMailStore(user, password), folder, callback);
 	}
 	
-	@Nonnull
-	public static Store getGMailStore(@Nonnull String user, @Nonnull String password) throws MessagingException{
+	@NonNull
+	public static Store getGMailStore(@NonNull String user, @NonNull String password) throws MessagingException{
 		Store store = getGMailSession(user, password).getStore("imaps");
 		store.connect(GMAIL_SMTP_HOST, user, password);
 		return store;
 	}
 	
-	@Nonnull
-	public static GMailFetcher fetchGMailFolder(@Nonnull String user, @Nonnull String password, @Nonnull String folder, @Nullable ExecutorService executor, @Nonnull Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException{
+	@NonNull
+	public static GMailFetcher fetchGMailFolder(@NonNull String user, @NonNull String password, @NonNull String folder, ExecutorService executor, @NonNull Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException{
 		return new GMailFetcher(getGMailStore(user, password), folder, executor, callback);
 	}
 	
-	public static boolean forward(@Nonnull String user, @Nonnull String password, @Nonnull String fromName, @Nonnull String to, @Nonnull String toName, @Nonnull Message message){
+	public static boolean forward(@NonNull String user, @NonNull String password, @NonNull String fromName, @NonNull String to, @NonNull String toName, @NonNull Message message){
 		return forward(user, password, fromName, to, toName, message, "Fwd: ", "");
 	}
 	
-	public static boolean forward(@Nonnull String user, @Nonnull String password, @Nonnull String fromName, @Nonnull String to, @Nonnull String toName, @Nonnull Message message, @Nonnull String subjectPrefix, @Nonnull String header){
+	public static boolean forward(@NonNull String user, @NonNull String password, @NonNull String fromName, @NonNull String to, @NonNull String toName, @NonNull Message message, @NonNull String subjectPrefix, @NonNull String header){
 		return forward(getGMailSession(user, password), user, fromName, to, toName, message, subjectPrefix, header);
 	}
 	
-	public static boolean forward(@Nonnull Session session, @Nonnull String user, @Nonnull String fromName, @Nonnull String to, @Nonnull String toName, @Nonnull Message message, @Nonnull String subjectPrefix, @Nonnull String header){
+	public static boolean forward(@NonNull Session session, @NonNull String user, @NonNull String fromName, @NonNull String to, @NonNull String toName, @NonNull Message message, @NonNull String subjectPrefix, @NonNull String header){
 		try{
 			Message forwardMessage = new MimeMessage(session);
 			forwardMessage.setSubject(subjectPrefix + (message.getSubject() == null ? "" : message.getSubject()));

@@ -1,8 +1,8 @@
 package fr.raksrinana.utils.config;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class PreparedStatementFiller{
 	 *
 	 * @param sqlValues The values to fill.
 	 */
-	public PreparedStatementFiller(@Nonnull SQLValue... sqlValues){
+	public PreparedStatementFiller(@NonNull SQLValue... sqlValues){
 		this.values = new HashMap<>();
 		for(int i = 0; i < sqlValues.length; i++){
 			this.values.put(i + 1, sqlValues[i]);
@@ -28,7 +28,7 @@ public class PreparedStatementFiller{
 	 *
 	 * @param statement The statement to fill.
 	 */
-	public void fill(@Nonnull PreparedStatement statement){
+	public void fill(@NonNull PreparedStatement statement){
 		for(int i : values.keySet()){
 			try{
 				this.values.get(i).fill(i, statement);

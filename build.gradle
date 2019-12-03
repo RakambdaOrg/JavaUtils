@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.javamodularity:moduleplugin:1.6.0"
+    }
+}
+
 plugins {
     id "com.github.ben-manes.versions" version "0.27.0"
     id 'com.novoda.build-properties' version '0.4.1'
@@ -12,6 +23,7 @@ buildProperties {
     }
 }
 
+
 description = 'RakSrinaNa Utils'
 
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -19,6 +31,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 subprojects {
     apply plugin: 'java'
     apply plugin: "maven-publish"
+    apply plugin: "org.javamodularity.moduleplugin"
 
     repositories {
         maven {
@@ -36,22 +49,11 @@ subprojects {
 
     dependencies {
         implementation("org.slf4j:slf4j-api:${project.slf4j_version}")
-        implementation("com.google.code.findbugs:jsr305:${project.jsr305_version}")
     }
 
     processResources {
         from 'src/main/resources'
         filter(ReplaceTokens, tokens: [bot_version: project.version, bot_name: project.name])
-    }
-
-    compileJava {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = [
-                    '--module-path', classpath.asPath,
-            ]
-            classpath = files()
-        }
     }
 
     tasks.withType(JavaCompile) {

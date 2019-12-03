@@ -3,6 +3,6 @@ open module fr.raksrinana.utils.config {
 	requires java.sql;
 	requires sqlite.jdbc;
 	requires org.slf4j;
-	requires jsr305;
+	requires static lombok;
 	exports fr.raksrinana.utils.config;
 }

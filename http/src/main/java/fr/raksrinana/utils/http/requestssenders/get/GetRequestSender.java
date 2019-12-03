@@ -3,14 +3,15 @@ package fr.raksrinana.utils.http.requestssenders.get;
 import fr.raksrinana.utils.http.URLHandler;
 import fr.raksrinana.utils.http.requestssenders.RequestSender;
 import kong.unirest.GetRequest;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import lombok.Getter;
+import lombok.NonNull;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
 public abstract class GetRequestSender<T> implements RequestSender<T>{
+	@Getter
 	private final GetRequest request;
 	
 	/**
@@ -21,7 +22,7 @@ public abstract class GetRequestSender<T> implements RequestSender<T>{
 	 * @throws URISyntaxException    If the URL isn't valid.
 	 * @throws MalformedURLException If the URL isn't valid.
 	 */
-	public GetRequestSender(@Nonnull String url) throws URISyntaxException, MalformedURLException{
+	public GetRequestSender(@NonNull String url) throws URISyntaxException, MalformedURLException{
 		this(new URL(url));
 	}
 	
@@ -32,7 +33,7 @@ public abstract class GetRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public GetRequestSender(@Nonnull URL url) throws URISyntaxException{
+	public GetRequestSender(@NonNull URL url) throws URISyntaxException{
 		this(url, null);
 	}
 	
@@ -44,7 +45,7 @@ public abstract class GetRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public GetRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers) throws URISyntaxException{
+	public GetRequestSender(@NonNull URL url, Map<String, String> headers) throws URISyntaxException{
 		this(url, headers, null);
 	}
 	
@@ -57,17 +58,7 @@ public abstract class GetRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public GetRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params) throws URISyntaxException{
+	public GetRequestSender(@NonNull URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		request = URLHandler.getRequest(url, headers, params);
-	}
-	
-	/**
-	 * Get the request.
-	 *
-	 * @return The request.
-	 */
-	@Nonnull
-	public GetRequest getRequest(){
-		return this.request;
 	}
 }

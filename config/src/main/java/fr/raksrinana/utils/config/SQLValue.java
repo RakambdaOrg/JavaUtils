@@ -1,6 +1,6 @@
 package fr.raksrinana.utils.config;
 
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -21,7 +21,7 @@ public class SQLValue{
 	 * @param type  The type of the value.
 	 * @param value The value.
 	 */
-	public SQLValue(@Nonnull Type type, @Nonnull Object value){
+	public SQLValue(@NonNull Type type, @NonNull Object value){
 		this.type = type;
 		this.value = value;
 	}
@@ -34,7 +34,7 @@ public class SQLValue{
 	 *
 	 * @throws SQLException If the statement couldn't be filled.
 	 */
-	public void fill(int index, @Nonnull PreparedStatement statement) throws SQLException{
+	public void fill(int index, @NonNull PreparedStatement statement) throws SQLException{
 		switch(this.type){
 			case INT:
 				statement.setInt(index, (Integer) this.value);

@@ -3,11 +3,11 @@ package fr.raksrinana.utils.http;
 import fr.raksrinana.utils.http.requestssenders.get.BinaryGetRequestSender;
 import fr.raksrinana.utils.http.requestssenders.get.StringGetRequestSender;
 import kong.unirest.UnirestException;
+import lombok.NonNull;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,8 +35,8 @@ public class URLUtils{
 	 *
 	 * @throws Exception If something bad happened.
 	 */
-	@Nonnull
-	public static List<String> pullLinks(@Nonnull URL url) throws Exception{
+	@NonNull
+	public static List<String> pullLinks(@NonNull URL url) throws Exception{
 		return pullLinks(Jsoup.parse(new StringGetRequestSender(url).getRequestHandler().getRequestResult()).html());
 	}
 	
@@ -47,8 +47,8 @@ public class URLUtils{
 	 *
 	 * @return A list of string that are URLs.
 	 */
-	@Nonnull
-	public static List<String> pullLinks(@Nonnull String text){
+	@NonNull
+	public static List<String> pullLinks(@NonNull String text){
 		LinkedList<String> links = new LinkedList<>();
 		Matcher matcher = Pattern.compile("\\(?\\b(http://|https://|www[.])[-A-Za-z0-9+&@#/\\\\%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]").matcher(text);
 		while(matcher.find()){
@@ -72,7 +72,7 @@ public class URLUtils{
 	 *
 	 * @return True if it succeeded, false otherwise.
 	 */
-	public static boolean saveAsFile(@Nonnull URL url, Path file){
+	public static boolean saveAsFile(@NonNull URL url, Path file){
 		file.getParent().toFile().mkdirs();
 		try(InputStream inputStream = new BinaryGetRequestSender(url).getRequestHandler().getRequestResult(); OutputStream outputStream = Files.newOutputStream(file, StandardOpenOption.WRITE)){
 			int i;
@@ -96,8 +96,8 @@ public class URLUtils{
 	 *
 	 * @throws IOException If the final URL couldn't be determined.
 	 */
-	@Nonnull
-	public static URL getFinalURL(@Nonnull URL url) throws IOException{
+	@NonNull
+	public static URL getFinalURL(@NonNull URL url) throws IOException{
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setInstanceFollowRedirects(false);
 		HttpURLConnection.setFollowRedirects(false);

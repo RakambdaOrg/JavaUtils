@@ -3,8 +3,7 @@ package fr.raksrinana.utils.http.requestssenders.post;
 import kong.unirest.HttpResponse;
 import kong.unirest.RawResponse;
 import kong.unirest.UnirestException;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import lombok.NonNull;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -20,7 +19,7 @@ public class BinaryPostRequestSender extends PostRequestSender<InputStream>{
 	 * @throws URISyntaxException    If the URL isn't valid.
 	 * @throws MalformedURLException If the URL isn't valid.
 	 */
-	public BinaryPostRequestSender(@Nonnull String url) throws URISyntaxException, MalformedURLException{
+	public BinaryPostRequestSender(@NonNull String url) throws URISyntaxException, MalformedURLException{
 		super(url);
 	}
 	
@@ -31,7 +30,7 @@ public class BinaryPostRequestSender extends PostRequestSender<InputStream>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public BinaryPostRequestSender(@Nonnull URL url) throws URISyntaxException{
+	public BinaryPostRequestSender(@NonNull URL url) throws URISyntaxException{
 		super(url, null);
 	}
 	
@@ -43,7 +42,7 @@ public class BinaryPostRequestSender extends PostRequestSender<InputStream>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public BinaryPostRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers) throws URISyntaxException{
+	public BinaryPostRequestSender(@NonNull URL url, Map<String, String> headers) throws URISyntaxException{
 		super(url, headers, null);
 	}
 	
@@ -56,16 +55,16 @@ public class BinaryPostRequestSender extends PostRequestSender<InputStream>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public BinaryPostRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params) throws URISyntaxException{
+	public BinaryPostRequestSender(@NonNull URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		super(url, headers, params);
 	}
 	
-	public BinaryPostRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params, @Nonnull String body) throws URISyntaxException{
+	public BinaryPostRequestSender(@NonNull URL url, Map<String, String> headers, Map<String, String> params, @NonNull String body) throws URISyntaxException{
 		super(url, headers, params, body);
 	}
 	
 	@Override
-	@Nonnull
+	@NonNull
 	public HttpResponse<InputStream> getRequestResult() throws UnirestException{
 		return this.getRequest().asObject(RawResponse::getContent);
 	}

@@ -9,8 +9,7 @@ import javafx.scene.image.WritableImage;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import lombok.NonNull;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 import java.io.File;
@@ -24,13 +23,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
 
 public class JFXUtils{
-	@Nonnull
+	@NonNull
 	public static Optional<File> askDirectory(){
 		return askDirectory(null);
 	}
 	
-	@Nonnull
-	public static Optional<File> askDirectory(@Nullable Path defaultFolder){
+	@NonNull
+	public static Optional<File> askDirectory(Path defaultFolder){
 		try{
 			return launchJFX(() -> {
 				DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -47,8 +46,8 @@ public class JFXUtils{
 		return Optional.empty();
 	}
 	
-	@Nonnull
-	public static <T> Optional<T> launchJFX(@Nonnull Supplier<T> supplier) throws InterruptedException{
+	@NonNull
+	public static <T> Optional<T> launchJFX(@NonNull Supplier<T> supplier) throws InterruptedException{
 		final SimpleObjectProperty<T> result = new SimpleObjectProperty<>(null);
 		boolean implicitExit = Platform.isImplicitExit();
 		Platform.setImplicitExit(false);
@@ -65,13 +64,13 @@ public class JFXUtils{
 		return Optional.ofNullable(result.get());
 	}
 	
-	@Nonnull
+	@NonNull
 	public static Optional<File> askFile(){
 		return askFile(null);
 	}
 	
-	@Nonnull
-	public static Optional<File> askFile(@Nullable Path defaultFile){
+	@NonNull
+	public static Optional<File> askFile(Path defaultFile){
 		try{
 			return launchJFX(() -> {
 				FileChooser fileChooser = new FileChooser();
@@ -88,13 +87,13 @@ public class JFXUtils{
 		return Optional.empty();
 	}
 	
-	@Nonnull
+	@NonNull
 	public static Optional<List<File>> askFiles(){
 		return askFiles(null);
 	}
 	
-	@Nonnull
-	public static Optional<List<File>> askFiles(@Nullable Path defaultFile){
+	@NonNull
+	public static Optional<List<File>> askFiles(Path defaultFile){
 		try{
 			return launchJFX(() -> {
 				FileChooser fileChooser = new FileChooser();
@@ -111,8 +110,8 @@ public class JFXUtils{
 		return Optional.empty();
 	}
 	
-	@Nonnull
-	public Optional<WritableImage> getImage(@Nonnull URL url, int width, int height){
+	@NonNull
+	public Optional<WritableImage> getImage(@NonNull URL url, int width, int height){
 		try{
 			return Optional.of(SwingFXUtils.toFXImage(ImageUtils.resizeBufferedImage(ImageIO.read(url), width, height), null));
 		}

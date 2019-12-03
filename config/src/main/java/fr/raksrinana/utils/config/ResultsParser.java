@@ -1,6 +1,6 @@
 package fr.raksrinana.utils.config;
 
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class ResultsParser<T>{
 	 *
 	 * @param parser The parser.
 	 */
-	public ResultsParser(@Nonnull Function<ResultSet, List<T>> parser){
+	public ResultsParser(@NonNull Function<ResultSet, List<T>> parser){
 		this.parsedCallbacks = new ArrayList<>();
 		this.parser = parser;
 	}
@@ -28,7 +28,7 @@ public class ResultsParser<T>{
 	 *
 	 * @return This object.
 	 */
-	public ResultsParser<T> addCallback(@Nonnull Consumer<List<T>> callback){
+	public ResultsParser<T> addCallback(@NonNull Consumer<List<T>> callback){
 		this.parsedCallbacks.add(callback);
 		return this;
 	}
@@ -40,7 +40,7 @@ public class ResultsParser<T>{
 	 *
 	 * @return A list of addCallback values.
 	 */
-	public List<T> parse(@Nonnull ResultSet resultSet){
+	public List<T> parse(@NonNull ResultSet resultSet){
 		List<T> parsed = parser.apply(resultSet);
 		parsedCallbacks.forEach(callback -> callback.accept(parsed));
 		return parsed;

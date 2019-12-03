@@ -1,8 +1,8 @@
 package fr.raksrinana.utils.config;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @param name Name of the database.
 	 */
-	protected JDBCBase(@Nonnull String name){
+	protected JDBCBase(@NonNull String name){
 		this.NAME = name;
 		this.futures = new ArrayList<>();
 	}
@@ -40,8 +40,8 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @return The promise.
 	 */
-	@Nonnull
-	public <T> CompletableFuture<Optional<List<T>>> sendQueryRequest(@Nonnull String query, @Nonnull ResultsParser<T> parser){
+	@NonNull
+	public <T> CompletableFuture<Optional<List<T>>> sendQueryRequest(@NonNull String query, @NonNull ResultsParser<T> parser){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendQueryRequest(query, true);
@@ -61,8 +61,8 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @return The promise.
 	 */
-	@Nonnull
-	public CompletableFuture<Optional<ResultSet>> sendQueryRequest(@Nonnull String query){
+	@NonNull
+	public CompletableFuture<Optional<ResultSet>> sendQueryRequest(@NonNull String query){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendQueryRequest(query, true);
@@ -82,8 +82,8 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @return The promise.
 	 */
-	@Nonnull
-	public CompletableFuture<Integer> sendUpdateRequest(@Nonnull String query){
+	@NonNull
+	public CompletableFuture<Integer> sendUpdateRequest(@NonNull String query){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendUpdateRequest(query, true);
@@ -141,8 +141,8 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	@Nonnull
-	private Optional<ResultSet> sendQueryRequest(@Nonnull String query, boolean retry) throws SQLException{
+	@NonNull
+	private Optional<ResultSet> sendQueryRequest(@NonNull String query, boolean retry) throws SQLException{
 		ResultSet result;
 		synchronized(lock){
 			if(this.connection == null){
@@ -174,7 +174,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	private int sendUpdateRequest(@Nonnull String query, boolean retry) throws SQLException{
+	private int sendUpdateRequest(@NonNull String query, boolean retry) throws SQLException{
 		if(this.connection == null){
 			return 0;
 		}
@@ -206,8 +206,8 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @return The promise.
 	 */
-	@Nonnull
-	public CompletableFuture<Integer> sendPreparedUpdateRequest(@Nonnull String request, @Nonnull PreparedStatementFiller filler){
+	@NonNull
+	public CompletableFuture<Integer> sendPreparedUpdateRequest(@NonNull String request, @NonNull PreparedStatementFiller filler){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendPreparedUpdateRequest(request, filler, true);
@@ -231,7 +231,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	private int sendPreparedUpdateRequest(@Nonnull String request, @Nonnull PreparedStatementFiller filler, boolean retry) throws SQLException{
+	private int sendPreparedUpdateRequest(@NonNull String request, @NonNull PreparedStatementFiller filler, boolean retry) throws SQLException{
 		if(this.connection == null){
 			return 0;
 		}

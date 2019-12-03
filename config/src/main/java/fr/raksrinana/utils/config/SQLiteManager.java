@@ -1,5 +1,6 @@
 package fr.raksrinana.utils.config;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
@@ -10,7 +11,7 @@ public class SQLiteManager extends JDBCBase{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteManager.class);
 	private Path databaseURL;
 	
-	public SQLiteManager(Path databaseURL) throws ClassNotFoundException{
+	public SQLiteManager(@NonNull Path databaseURL) throws ClassNotFoundException{
 		super("SQLITE/" + databaseURL);
 		Class.forName("org.sqlite.JDBC");
 		databaseURL.getParent().toFile().mkdirs();

@@ -3,7 +3,7 @@ package fr.raksrinana.utils.http.requestssenders;
 import fr.raksrinana.utils.http.RequestHandler;
 import kong.unirest.HttpResponse;
 import kong.unirest.UnirestException;
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 
 public interface RequestSender<T>{
 	/**
@@ -13,7 +13,7 @@ public interface RequestSender<T>{
 	 *
 	 * @throws UnirestException If the request couldn't be made.
 	 */
-	@Nonnull
+	@NonNull
 	default RequestHandler<T> getRequestHandler() throws UnirestException{
 		return new RequestHandler<>(this);
 	}
@@ -25,6 +25,5 @@ public interface RequestSender<T>{
 	 *
 	 * @throws UnirestException If the request couldn't be made.
 	 */
-	@Nonnull
-	HttpResponse<T> getRequestResult() throws UnirestException;
+	@NonNull HttpResponse<T> getRequestResult() throws UnirestException;
 }

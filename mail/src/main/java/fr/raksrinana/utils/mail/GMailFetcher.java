@@ -2,10 +2,10 @@ package fr.raksrinana.utils.mail;
 
 import com.sun.mail.imap.IMAPFolder;
 import fr.raksrinana.utils.javafx.ThreadLoop;
+import lombok.Getter;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
@@ -15,11 +15,13 @@ import java.util.function.Consumer;
 
 public class GMailFetcher implements AutoCloseable{
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
+	@Getter
 	private final IMAPFolder folder;
 	private final ThreadKeepAlive keepAlive;
 	private final ExecutorService executorService;
 	private final ThreadFetch threadFetch;
 	private final boolean customExecutor;
+	@Getter
 	private final Store store;
 	
 	private class ThreadKeepAlive extends ThreadLoop{
@@ -63,11 +65,11 @@ public class GMailFetcher implements AutoCloseable{
 		}
 	}
 	
-	public GMailFetcher(@Nonnull Store store, @Nonnull String folder, @Nonnull Consumer<MessageCountEvent> callback) throws MessagingException, IllegalStateException{
+	public GMailFetcher(@NonNull Store store, @NonNull String folder, @NonNull Consumer<MessageCountEvent> callback) throws MessagingException, IllegalStateException{
 		this(store, folder, null, callback);
 	}
 	
-	public GMailFetcher(@Nonnull Store store, @Nonnull String folder, @Nullable ExecutorService executorService, @Nonnull Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException{
+	public GMailFetcher(@NonNull Store store, @NonNull String folder, ExecutorService executorService, @NonNull Consumer<MessageCountEvent> callback) throws IllegalStateException, MessagingException{
 		this.store = store;
 		if(executorService == null){
 			this.executorService = Executors.newFixedThreadPool(2);
@@ -122,21 +124,11 @@ public class GMailFetcher implements AutoCloseable{
 		LOGGER.info("GMailFetcher closed");
 	}
 	
-	@Nonnull
-	public Folder getFolder(){
-		return this.folder;
-	}
-	
-	@Nonnull
+	@NonNull
 	public Message[] getMails() throws MessagingException{
 		if(this.folder.isOpen()){
 			return this.folder.getMessages();
 		}
 		return new Message[0];
-	}
-	
-	@Nonnull
-	public Store getStore(){
-		return this.store;
 	}
 }

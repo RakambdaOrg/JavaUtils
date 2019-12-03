@@ -1,15 +1,16 @@
 package fr.raksrinana.utils.javafx;
 
 import javafx.beans.property.SimpleBooleanProperty;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 
 public abstract class ThreadLoop extends Thread{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ThreadLoop.class);
-	
-	private SimpleBooleanProperty running = new SimpleBooleanProperty(true);
-	private SimpleBooleanProperty pause = new SimpleBooleanProperty(false);
+	@Getter
+	private SimpleBooleanProperty runningProperty = new SimpleBooleanProperty(true);
+	@Getter
+	private SimpleBooleanProperty pauseProperty = new SimpleBooleanProperty(false);
 	
 	@Override
 	public void run(){
@@ -37,56 +38,11 @@ public abstract class ThreadLoop extends Thread{
 	}
 	
 	/**
-	 * Tells if the loop is running.
-	 *
-	 * @return True if running, false otherwise.
-	 */
-	public boolean isRunning(){
-		return this.runningProperty().get();
-	}
-	
-	/**
-	 * Tells if the loop is paused.
-	 *
-	 * @return True if paused, false otherwise.
-	 */
-	public boolean isPaused(){
-		return this.pauseProperty().get();
-	}
-	
-	/**
-	 * The method called every loop.
-	 *
-	 * @throws Exception If something happened.
-	 */
-	public abstract void loop() throws Exception;
-	
-	/**
-	 * Get the running property.
-	 *
-	 * @return The running property.
-	 */
-	@Nonnull
-	public SimpleBooleanProperty runningProperty(){
-		return this.running;
-	}
-	
-	/**
-	 * Get the pause property.
-	 *
-	 * @return The pause property.
-	 */
-	@Nonnull
-	public SimpleBooleanProperty pauseProperty(){
-		return this.pause;
-	}
-	
-	/**
 	 * Stops the loop.
 	 */
 	public void close(){
 		this.interrupt();
-		this.running.set(false);
+		this.getRunningProperty().set(false);
 		this.onClosed();
 	}
 	
@@ -99,13 +55,38 @@ public abstract class ThreadLoop extends Thread{
 	 * Pause the loop.
 	 */
 	public void pause(){
-		this.pauseProperty().set(true);
+		this.getPauseProperty().set(true);
 	}
+	
+	/**
+	 * The method called every loop.
+	 *
+	 * @throws Exception If something happened.
+	 */
+	public abstract void loop() throws Exception;
 	
 	/**
 	 * Unpause the loop.
 	 */
 	public void unpause(){
-		this.pauseProperty().set(false);
+		this.getPauseProperty().set(false);
+	}
+	
+	/**
+	 * Tells if the loop is paused.
+	 *
+	 * @return True if paused, false otherwise.
+	 */
+	public boolean isPaused(){
+		return getPauseProperty().get();
+	}
+	
+	/**
+	 * Tells if the loop is running.
+	 *
+	 * @return True if running, false otherwise.
+	 */
+	public boolean isRunning(){
+		return this.getRunningProperty().get();
 	}
 }

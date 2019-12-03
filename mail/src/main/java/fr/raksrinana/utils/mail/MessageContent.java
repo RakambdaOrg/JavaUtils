@@ -1,8 +1,10 @@
 package fr.raksrinana.utils.mail;
 
-import javax.annotation.Nonnull;
+import lombok.Getter;
+import lombok.NonNull;
 import java.awt.Image;
 
+@Getter
 public class MessageContent{
 	private boolean hasText;
 	private boolean hasHTML;
@@ -24,59 +26,33 @@ public class MessageContent{
 	public String toString(){
 		StringBuilder stringBuilder = new StringBuilder("MessageContent@").append(this.hashCode());
 		stringBuilder.append("\nTextContent:").append("\n\t").append(this.getTextContent());
-		stringBuilder.append("\nHTMLContent:").append("\n\t").append(this.getHTMLContent());
+		stringBuilder.append("\nHTMLContent:").append("\n\t").append(this.getHtmlContent());
 		return stringBuilder.toString();
 	}
 	
-	@Nonnull
-	public String getTextContent(){
-		return this.textContent;
-	}
-	
-	@Nonnull
-	public String getHTMLContent(){
-		return this.htmlContent;
-	}
-	
-	@Nonnull
-	public MessageContent appendTextContent(@Nonnull String textContent){
+	@NonNull
+	public MessageContent appendTextContent(@NonNull String textContent){
 		this.hasText = true;
 		this.textContent += textContent;
 		return this;
 	}
 	
-	public boolean hasText(){
-		return this.hasText;
-	}
-	
-	@Nonnull
-	public MessageContent appendHTMLContent(@Nonnull String htmlContent){
+	@NonNull
+	public MessageContent appendHTMLContent(@NonNull String htmlContent){
 		this.hasHTML = true;
 		this.htmlContent += htmlContent;
 		return this;
 	}
 	
-	public boolean hasHTML(){
-		return this.hasHTML;
-	}
-	
-	@Nonnull
-	public MessageContent addImage(@Nonnull Image image){
+	@NonNull
+	public MessageContent addImage(@NonNull Image image){
 		this.hasImage = true;
 		return this;
 	}
 	
-	public boolean hasImage(){
-		return this.hasImage;
-	}
-	
-	@Nonnull
-	public MessageContent addVideo(@Nonnull Video video){
+	@NonNull
+	public MessageContent addVideo(@NonNull Video video){
 		this.hasVideo = true;
 		return this;
-	}
-	
-	public boolean hasVideo(){
-		return this.hasVideo;
 	}
 }

@@ -1,8 +1,7 @@
 package fr.raksrinana.utils.resources;
 
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 
 public interface ResourceElement{
-	@Nonnull
-	String getRootPath();
+	@NonNull String getRootPath();
 }

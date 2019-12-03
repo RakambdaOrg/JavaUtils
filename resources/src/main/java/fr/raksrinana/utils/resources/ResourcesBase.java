@@ -4,7 +4,7 @@ import fr.raksrinana.utils.base.ImageUtils;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,12 +20,12 @@ public class ResourcesBase{
 	private static final HashMap<String, Properties> properties = new HashMap<>();
 	private final Class<?> rootClass;
 	
-	public ResourcesBase(@Nonnull Class<?> rootClass){
+	public ResourcesBase(@NonNull Class<?> rootClass){
 		this.rootClass = rootClass;
 	}
 	
-	@Nonnull
-	public Optional<WritableImage> getImage(@Nonnull ResourceElement resourceElement, @Nonnull String path, int width, int height){
+	@NonNull
+	public Optional<WritableImage> getImage(@NonNull ResourceElement resourceElement, @NonNull String path, int width, int height){
 		try{
 			return Optional.of(SwingFXUtils.toFXImage(ImageUtils.resizeBufferedImage(ImageIO.read(getResource(resourceElement, path)), width, height), null));
 		}
@@ -35,13 +35,13 @@ public class ResourcesBase{
 		return Optional.empty();
 	}
 	
-	@Nonnull
-	public URL getResource(@Nonnull ResourceElement resourceElement, @Nonnull String path){
+	@NonNull
+	public URL getResource(@NonNull ResourceElement resourceElement, @NonNull String path){
 		return this.rootClass.getResource("/" + resourceElement.getRootPath() + (resourceElement.getRootPath().equals("") ? "" : "/") + path);
 	}
 	
-	@Nonnull
-	public Optional<String> getPropertyString(@Nonnull ResourceElement resourceElement, @Nonnull String path, @Nonnull String key){
+	@NonNull
+	public Optional<String> getPropertyString(@NonNull ResourceElement resourceElement, @NonNull String path, @NonNull String key){
 		try{
 			final var prop = getProperties(resourceElement, path);
 			if(prop.containsKey(key)){
@@ -54,8 +54,8 @@ public class ResourcesBase{
 		return Optional.empty();
 	}
 	
-	@Nonnull
-	public Properties getProperties(@Nonnull ResourceElement resourceElement, @Nonnull String path) throws IOException{
+	@NonNull
+	public Properties getProperties(@NonNull ResourceElement resourceElement, @NonNull String path) throws IOException{
 		if(properties.containsKey(path)){
 			return properties.get(path);
 		}
@@ -65,8 +65,8 @@ public class ResourcesBase{
 		return prop;
 	}
 	
-	@Nonnull
-	public Font getFont(@Nonnull ResourceElement resourceElement, @Nonnull String path, double size) throws IOException{
+	@NonNull
+	public Font getFont(@NonNull ResourceElement resourceElement, @NonNull String path, double size) throws IOException{
 		return Font.loadFont(getResource(resourceElement, path).openConnection().getInputStream(), size);
 	}
 }

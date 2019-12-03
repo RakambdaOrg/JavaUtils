@@ -3,14 +3,15 @@ package fr.raksrinana.utils.http.requestssenders.post;
 import fr.raksrinana.utils.http.URLHandler;
 import fr.raksrinana.utils.http.requestssenders.RequestSender;
 import kong.unirest.RequestBodyEntity;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import lombok.Getter;
+import lombok.NonNull;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
 public abstract class PostRequestSender<T> implements RequestSender<T>{
+	@Getter
 	private final RequestBodyEntity request;
 	
 	/**
@@ -21,7 +22,7 @@ public abstract class PostRequestSender<T> implements RequestSender<T>{
 	 * @throws URISyntaxException    If the URL isn't valid.
 	 * @throws MalformedURLException If the URL isn't valid.
 	 */
-	public PostRequestSender(@Nonnull String url) throws URISyntaxException, MalformedURLException{
+	public PostRequestSender(@NonNull String url) throws URISyntaxException, MalformedURLException{
 		this(new URL(url));
 	}
 	
@@ -32,7 +33,7 @@ public abstract class PostRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public PostRequestSender(@Nonnull URL url) throws URISyntaxException{
+	public PostRequestSender(@NonNull URL url) throws URISyntaxException{
 		this(url, null);
 	}
 	
@@ -44,7 +45,7 @@ public abstract class PostRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public PostRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers) throws URISyntaxException{
+	public PostRequestSender(@NonNull URL url, Map<String, String> headers) throws URISyntaxException{
 		this(url, headers, null);
 	}
 	
@@ -57,7 +58,7 @@ public abstract class PostRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public PostRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params) throws URISyntaxException{
+	public PostRequestSender(@NonNull URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		this(url, headers, params, "");
 	}
 	
@@ -71,17 +72,7 @@ public abstract class PostRequestSender<T> implements RequestSender<T>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public PostRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params, @Nonnull String body) throws URISyntaxException{
+	public PostRequestSender(@NonNull URL url, Map<String, String> headers, Map<String, String> params, @NonNull String body) throws URISyntaxException{
 		request = URLHandler.postRequest(url, headers, params, body);
-	}
-	
-	/**
-	 * Get the request.
-	 *
-	 * @return The request.
-	 */
-	@Nonnull
-	public RequestBodyEntity getRequest(){
-		return this.request;
 	}
 }

@@ -1,8 +1,8 @@
 package fr.raksrinana.utils.mail;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import javax.imageio.ImageIO;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class MailUtils{
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
 	
-	public static void sendMail(@Nonnull Session session, @Nonnull String emailFrom, @Nonnull String fromName, String to, @Nonnull String object, @Nonnull String body) throws MessagingException, UnsupportedEncodingException{
+	public static void sendMail(@NonNull Session session, @NonNull String emailFrom, @NonNull String fromName, String to, @NonNull String object, @NonNull String body) throws MessagingException, UnsupportedEncodingException{
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(emailFrom, fromName));
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -23,8 +23,8 @@ public class MailUtils{
 		Transport.send(message);
 	}
 	
-	@Nonnull
-	public static Optional<MessageContent> getMessageContent(@Nonnull Message message){
+	@NonNull
+	public static Optional<MessageContent> getMessageContent(@NonNull Message message){
 		try{
 			Object content = message.getContent();
 			if(content instanceof String){

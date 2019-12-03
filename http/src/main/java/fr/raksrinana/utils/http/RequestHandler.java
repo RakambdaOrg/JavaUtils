@@ -4,10 +4,12 @@ import fr.raksrinana.utils.http.requestssenders.RequestSender;
 import kong.unirest.Headers;
 import kong.unirest.HttpResponse;
 import kong.unirest.UnirestException;
-import javax.annotation.Nonnull;
+import lombok.Getter;
+import lombok.NonNull;
 import java.util.Optional;
 
 public class RequestHandler<T>{
+	@Getter
 	private final HttpResponse<T> result;
 	
 	/**
@@ -17,7 +19,7 @@ public class RequestHandler<T>{
 	 *
 	 * @throws UnirestException If the request couldn't be made.
 	 */
-	public RequestHandler(@Nonnull RequestSender<T> requestSender) throws UnirestException{
+	public RequestHandler(@NonNull RequestSender<T> requestSender) throws UnirestException{
 		this.result = requestSender.getRequestResult();
 	}
 	
@@ -46,19 +48,9 @@ public class RequestHandler<T>{
 	 *
 	 * @return The request result.
 	 */
-	@Nonnull
+	@NonNull
 	public T getRequestResult(){
 		return this.getResult().getBody();
-	}
-	
-	/**
-	 * Get the result.
-	 *
-	 * @return The result.
-	 */
-	@Nonnull
-	public HttpResponse<T> getResult(){
-		return this.result;
 	}
 	
 	/**
@@ -66,7 +58,7 @@ public class RequestHandler<T>{
 	 *
 	 * @return An optional of the value of the header.
 	 */
-	@Nonnull
+	@NonNull
 	public Optional<String> getSetCookies(){
 		if(this.getHeaders().containsKey("Set-Cookie")){
 			return Optional.of(this.getHeaders().get("Set-Cookie").get(0));
@@ -79,7 +71,7 @@ public class RequestHandler<T>{
 	 *
 	 * @return The headers.
 	 */
-	@Nonnull
+	@NonNull
 	public Headers getHeaders(){
 		return this.getResult().getHeaders();
 	}
@@ -98,7 +90,7 @@ public class RequestHandler<T>{
 	 *
 	 * @return The status text.
 	 */
-	@Nonnull
+	@NonNull
 	public String getStatusText(){
 		return this.getResult().getStatusText();
 	}

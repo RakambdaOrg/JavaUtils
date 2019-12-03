@@ -5,9 +5,9 @@ import fr.jcgay.notification.Application;
 import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.SendNotification;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class OSUtils{
@@ -42,7 +42,7 @@ public class OSUtils{
 	 *
 	 * @return The notifier.
 	 */
-	@Nonnull
+	@NonNull
 	private static Notifier getNotifier(Application application){
 		if(Objects.isNull(NOTIFIER)){
 			NOTIFIER = new SendNotification().setApplication(application).initNotifier();
@@ -55,7 +55,7 @@ public class OSUtils{
 	 *
 	 * @return The os. If the OS is not Windows or MacOSX, we'll assume {@link OS#LINUX}.
 	 */
-	@Nonnull
+	@NonNull
 	public static OS getOs(){
 		return Platform.isMac() ? OS.OSX : Platform.isWindows() ? OS.WIN : OS.LINUX;
 	}

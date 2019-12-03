@@ -4,8 +4,7 @@ import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Shell32;
 import com.sun.jna.platform.win32.ShlObj;
 import com.sun.jna.platform.win32.WinDef;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import lombok.NonNull;
 import javax.swing.JFileChooser;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -21,8 +20,8 @@ public class FileUtils{
 	 *
 	 * @return The path.
 	 */
-	@Nonnull
-	public static Path getAppDataFolder(@Nonnull Path path){
+	@NonNull
+	public static Path getAppDataFolder(@NonNull Path path){
 		return getAppDataFolder().resolve(path);
 	}
 	
@@ -33,7 +32,7 @@ public class FileUtils{
 	 *
 	 * @throws IllegalStateException If the OS is unknown.
 	 */
-	@Nonnull
+	@NonNull
 	public static Path getAppDataFolder() throws IllegalStateException{
 		final var os = OSUtils.getOs();
 		switch(os){
@@ -52,7 +51,7 @@ public class FileUtils{
 	 *
 	 * @return The home folder.
 	 */
-	@Nonnull
+	@NonNull
 	public static Path getHomeFolder(){
 		return Paths.get(System.getProperty("user.home"));
 	}
@@ -64,8 +63,8 @@ public class FileUtils{
 	 *
 	 * @return The path.
 	 */
-	@Nonnull
-	public static Path getDesktopFolder(@Nonnull Path path){
+	@NonNull
+	public static Path getDesktopFolder(@NonNull Path path){
 		return getDesktopFolder().resolve(path);
 	}
 	
@@ -74,7 +73,7 @@ public class FileUtils{
 	 *
 	 * @return The desktop folder.
 	 */
-	@Nonnull
+	@NonNull
 	public static Path getDesktopFolder(){
 		if(OSUtils.getOs() == OSUtils.OS.WIN){
 			char[] pszPath = new char[WinDef.MAX_PATH];
@@ -91,8 +90,8 @@ public class FileUtils{
 	 *
 	 * @return The path.
 	 */
-	@Nonnull
-	public static Path getHomeFolder(@Nonnull Path path){
+	@NonNull
+	public static Path getHomeFolder(@NonNull Path path){
 		return getHomeFolder().resolve(path);
 	}
 	
@@ -103,8 +102,8 @@ public class FileUtils{
 	 *
 	 * @return The filename without forbidden characters.
 	 */
-	@Nonnull
-	public static String sanitizeFileName(@Nonnull String name){
+	@NonNull
+	public static String sanitizeFileName(@NonNull String name){
 		return name.chars().mapToObj(i -> (char) i).filter(c -> Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.').map(String::valueOf).collect(Collectors.joining());
 	}
 	
@@ -115,7 +114,7 @@ public class FileUtils{
 	 *
 	 * @return true if no exceptions were thrown, false otherwise.
 	 */
-	public static boolean forceDelete(@Nonnull Path file){
+	public static boolean forceDelete(@NonNull Path file){
 		try{
 			org.apache.commons.io.FileUtils.forceDelete(file.toFile());
 			return true;
@@ -130,7 +129,7 @@ public class FileUtils{
 	 *
 	 * @return The directory selected.
 	 */
-	@Nonnull
+	@NonNull
 	public static Optional<Path> askDirectory(){
 		return askDirectory(null);
 	}
@@ -142,13 +141,13 @@ public class FileUtils{
 	 *
 	 * @return The directory selected.
 	 */
-	@Nonnull
-	public static Optional<Path> askDirectory(@Nullable Path defaultFile){
+	@NonNull
+	public static Optional<Path> askDirectory(Path defaultFile){
 		return getFile(defaultFile, JFileChooser.DIRECTORIES_ONLY);
 	}
 	
-	@Nonnull
-	private static Optional<Path> getFile(@Nullable Path defaultFile, int selectionMode){
+	@NonNull
+	private static Optional<Path> getFile(Path defaultFile, int selectionMode){
 		JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory((defaultFile == null ? Paths.get(".") : defaultFile).toFile());
 		fc.setFileSelectionMode(selectionMode);
@@ -164,7 +163,7 @@ public class FileUtils{
 	 *
 	 * @return The file selected.
 	 */
-	@Nonnull
+	@NonNull
 	public static Optional<Path> askFile(){
 		return askFile(null);
 	}
@@ -176,8 +175,8 @@ public class FileUtils{
 	 *
 	 * @return The file selected.
 	 */
-	@Nonnull
-	public static Optional<Path> askFile(@Nullable Path defaultFile){
+	@NonNull
+	public static Optional<Path> askFile(Path defaultFile){
 		return getFile(defaultFile, JFileChooser.FILES_ONLY);
 	}
 }

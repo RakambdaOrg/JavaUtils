@@ -1,6 +1,6 @@
 package fr.raksrinana.utils.base;
 
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 import java.awt.image.BufferedImage;
 
 public class ImageUtils{
@@ -13,8 +13,8 @@ public class ImageUtils{
 	 *
 	 * @return The resized image.
 	 */
-	@Nonnull
-	public static BufferedImage resizeBufferedImage(@Nonnull BufferedImage image, float width, float height){
+	@NonNull
+	public static BufferedImage resizeBufferedImage(@NonNull BufferedImage image, float width, float height){
 		final var baseWidth = image.getWidth();
 		final var baseHeight = image.getHeight();
 		final var ratio = baseWidth > baseHeight ? width / baseWidth : height / baseHeight;

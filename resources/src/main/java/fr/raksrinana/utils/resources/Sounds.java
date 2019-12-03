@@ -1,8 +1,8 @@
 package fr.raksrinana.utils.resources;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -13,12 +13,12 @@ public class Sounds{
 	private final ResourceElement resource;
 	private final String path;
 	
-	public Sounds(@Nonnull ResourceElement resource, @Nonnull String name){
+	public Sounds(@NonNull ResourceElement resource, @NonNull String name){
 		this.resource = resource;
 		this.path = name;
 	}
 	
-	public void playSound(@Nonnull ResourcesBase resourcesBase){
+	public void playSound(@NonNull ResourcesBase resourcesBase){
 		new Thread(() -> {
 			try{
 				final Clip clip = AudioSystem.getClip();

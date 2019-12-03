@@ -5,37 +5,38 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javax.annotation.Nullable;
+import lombok.Getter;
 import java.nio.file.Path;
 
 public class FileField extends TextField{
-	private final SimpleObjectProperty<Path> selectedFile;
+	@Getter
+	private final SimpleObjectProperty<Path> selectedFileProperty;
 	
-	public FileField(boolean allowNull, @Nullable Path file){
+	public FileField(boolean allowNull, Path file){
 		super();
 		setEditable(false);
 		setText("None");
-		selectedFile = new SimpleObjectProperty<>(null);
-		selectedFile.addListener(((observable, oldValue, newValue) -> {
+		selectedFileProperty = new SimpleObjectProperty<>(null);
+		selectedFileProperty.addListener(((observable, oldValue, newValue) -> {
 			if(!allowNull && (newValue == null || !newValue.toFile().exists())){
-				selectedFile.set(oldValue);
+				selectedFileProperty.set(oldValue);
 			}
 			else{
 				setText(newValue == null ? "None" : newValue.toAbsolutePath().toString());
 			}
 		}));
-		selectedFile.set(file == null ? FileUtils.getHomeFolder() : file);
+		selectedFileProperty.set(file == null ? FileUtils.getHomeFolder() : file);
 		setOnMouseClicked(e -> {
 			setDisable(true);
 			DirectoryChooser directoryChooser = new DirectoryChooser();
 			directoryChooser.setTitle("Select directory");
-			directoryChooser.setInitialDirectory(selectedFile.get().toFile());
-			selectedFile.set(directoryChooser.showDialog(new Stage()).toPath());
+			directoryChooser.setInitialDirectory(selectedFileProperty.get().toFile());
+			selectedFileProperty.set(directoryChooser.showDialog(new Stage()).toPath());
 			setDisable(false);
 		});
 	}
 	
 	public Path getFile(){
-		return selectedFile.get();
+		return this.getSelectedFileProperty().get();
 	}
 }

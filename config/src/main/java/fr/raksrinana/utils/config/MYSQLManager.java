@@ -1,8 +1,8 @@
 package fr.raksrinana.utils.config;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Nonnull;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -14,7 +14,7 @@ public class MYSQLManager extends JDBCBase{
 	private String user;
 	private String password;
 	
-	public MYSQLManager(@Nonnull String databaseURL, int port, @Nonnull String databaseName, @Nonnull String user, @Nonnull String password){
+	public MYSQLManager(@NonNull String databaseURL, int port, @NonNull String databaseName, @NonNull String user, @NonNull String password){
 		super("MYSQL/" + databaseURL + "/" + databaseName + ":" + port + ":" + user);
 		this.databaseURL = databaseURL;
 		this.port = port;

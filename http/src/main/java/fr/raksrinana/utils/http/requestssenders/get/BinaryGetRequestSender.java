@@ -3,8 +3,7 @@ package fr.raksrinana.utils.http.requestssenders.get;
 import kong.unirest.HttpResponse;
 import kong.unirest.RawResponse;
 import kong.unirest.UnirestException;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import lombok.NonNull;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -20,7 +19,7 @@ public class BinaryGetRequestSender extends GetRequestSender<InputStream>{
 	 * @throws URISyntaxException    If the URL isn't valid.
 	 * @throws MalformedURLException If the URL isn't valid.
 	 */
-	public BinaryGetRequestSender(@Nonnull String url) throws URISyntaxException, MalformedURLException{
+	public BinaryGetRequestSender(@NonNull String url) throws URISyntaxException, MalformedURLException{
 		super(url);
 	}
 	
@@ -31,7 +30,7 @@ public class BinaryGetRequestSender extends GetRequestSender<InputStream>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public BinaryGetRequestSender(@Nonnull URL url) throws URISyntaxException{
+	public BinaryGetRequestSender(@NonNull URL url) throws URISyntaxException{
 		super(url, null);
 	}
 	
@@ -43,7 +42,7 @@ public class BinaryGetRequestSender extends GetRequestSender<InputStream>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public BinaryGetRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers) throws URISyntaxException{
+	public BinaryGetRequestSender(@NonNull URL url, Map<String, String> headers) throws URISyntaxException{
 		super(url, headers, null);
 	}
 	
@@ -56,12 +55,12 @@ public class BinaryGetRequestSender extends GetRequestSender<InputStream>{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	public BinaryGetRequestSender(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params) throws URISyntaxException{
+	public BinaryGetRequestSender(@NonNull URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		super(url, headers, params);
 	}
 	
 	@Override
-	@Nonnull
+	@NonNull
 	public HttpResponse<InputStream> getRequestResult() throws UnirestException{
 		return this.getRequest().asObject(RawResponse::getContent);
 	}

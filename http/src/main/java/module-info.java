@@ -6,7 +6,7 @@ open module fr.raksrinana.utils.http {
 	requires org.jsoup;
 	requires unirest.java;
 	requires org.slf4j;
-	requires jsr305;
+	requires static lombok;
 	requires com.fasterxml.jackson.core;
 	requires com.fasterxml.jackson.databind;
 	exports fr.raksrinana.utils.http;

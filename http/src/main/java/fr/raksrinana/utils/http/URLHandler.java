@@ -5,6 +5,7 @@ import kong.unirest.GetRequest;
 import kong.unirest.ObjectMapper;
 import kong.unirest.RequestBodyEntity;
 import kong.unirest.Unirest;
+import lombok.NonNull;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -13,8 +14,6 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -46,7 +45,7 @@ public class URLHandler{
 	 * @throws NoSuchAlgorithmException
 	 * @throws KeyManagementException
 	 */
-	@Nonnull
+	@NonNull
 	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException{
 		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
 		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
@@ -85,14 +84,14 @@ public class URLHandler{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	@Nonnull
-	public static GetRequest getRequest(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params) throws URISyntaxException{
+	@NonNull
+	public static GetRequest getRequest(@NonNull URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		URIBuilder uriBuilder = getBuilder(url, params);
 		return Unirest.get(uriBuilder.build().toString()).headers(headers);
 	}
 	
-	@Nonnull
-	private static URIBuilder getBuilder(@Nonnull URL url, @Nullable Map<String, String> params) throws URISyntaxException{
+	@NonNull
+	private static URIBuilder getBuilder(@NonNull URL url, Map<String, String> params) throws URISyntaxException{
 		URIBuilder uriBuilder = new URIBuilder(url.toURI());
 		if(Objects.nonNull(params)){
 			for(String key : params.keySet()){
@@ -120,8 +119,8 @@ public class URLHandler{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	@Nonnull
-	private static GetRequest headRequest(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params) throws URISyntaxException{
+	@NonNull
+	private static GetRequest headRequest(@NonNull URL url, Map<String, String> headers, Map<String, String> params) throws URISyntaxException{
 		URIBuilder uriBuilder = getBuilder(url, params);
 		return Unirest.head(uriBuilder.build().toString()).headers(headers);
 	}
@@ -138,8 +137,8 @@ public class URLHandler{
 	 *
 	 * @throws URISyntaxException If the URL isn't valid.
 	 */
-	@Nonnull
-	public static RequestBodyEntity postRequest(@Nonnull URL url, @Nullable Map<String, String> headers, @Nullable Map<String, String> params, @Nonnull String body) throws URISyntaxException{
+	@NonNull
+	public static RequestBodyEntity postRequest(@NonNull URL url, Map<String, String> headers, Map<String, String> params, @NonNull String body) throws URISyntaxException{
 		URIBuilder uriBuilder = getBuilder(url, params);
 		return Unirest.post(uriBuilder.build().toString()).headers(headers).body(body);
 	}

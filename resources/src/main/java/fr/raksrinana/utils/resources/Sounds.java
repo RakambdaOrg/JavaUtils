@@ -1,15 +1,14 @@
 package fr.raksrinana.utils.resources;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 
+@Slf4j
 public class Sounds{
-	private static final Logger LOGGER = LoggerFactory.getLogger(Sounds.class);
 	private final ResourceElement resource;
 	private final String path;
 	
@@ -32,7 +31,7 @@ public class Sounds{
 				});
 			}
 			catch(Exception e){
-				LOGGER.warn("Couldn't play sound {}", Sounds.this.path, e);
+				log.warn("Couldn't play sound {}", Sounds.this.path, e);
 			}
 		}).start();
 	}

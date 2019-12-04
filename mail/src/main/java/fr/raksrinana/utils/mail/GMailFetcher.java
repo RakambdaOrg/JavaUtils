@@ -4,8 +4,7 @@ import com.sun.mail.imap.IMAPFolder;
 import fr.raksrinana.utils.javafx.ThreadLoop;
 import lombok.Getter;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
@@ -13,8 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+@Slf4j
 public class GMailFetcher implements AutoCloseable{
-	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
 	@Getter
 	private final IMAPFolder folder;
 	private final ThreadKeepAlive keepAlive;
@@ -53,13 +52,13 @@ public class GMailFetcher implements AutoCloseable{
 						folder.open(Folder.READ_ONLY);
 					}
 					catch(MessagingException e){
-						LOGGER.error("Error listening mails", e);
+						log.error("Error listening mails", e);
 						GMailFetcher.this.close();
 					}
 				}
 			}
 			catch(MessagingException e){
-				LOGGER.error("Error listening mails", e);
+				log.error("Error listening mails", e);
 				GMailFetcher.this.close();
 			}
 		}
@@ -97,7 +96,7 @@ public class GMailFetcher implements AutoCloseable{
 		this.keepAlive = new ThreadKeepAlive();
 		this.executorService.submit(threadFetch);
 		this.executorService.submit(keepAlive);
-		LOGGER.info("GMailFetcher started");
+		log.info("GMailFetcher started");
 	}
 	
 	@Override
@@ -110,18 +109,18 @@ public class GMailFetcher implements AutoCloseable{
 			}
 		}
 		catch(MessagingException | IllegalStateException e){
-			LOGGER.warn("Error closing GMail folder", e);
+			log.warn("Error closing GMail folder", e);
 		}
 		try{
 			this.store.close();
 		}
 		catch(MessagingException e){
-			LOGGER.warn("Failed to close store", e);
+			log.warn("Failed to close store", e);
 		}
 		if(this.customExecutor){
 			this.executorService.shutdownNow();
 		}
-		LOGGER.info("GMailFetcher closed");
+		log.info("GMailFetcher closed");
 	}
 	
 	@NonNull

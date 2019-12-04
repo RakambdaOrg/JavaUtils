@@ -4,10 +4,9 @@ import fr.raksrinana.utils.http.requestssenders.get.BinaryGetRequestSender;
 import fr.raksrinana.utils.http.requestssenders.get.StringGetRequestSender;
 import kong.unirest.UnirestException;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,9 +22,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class URLUtils{
-	private static final Logger LOGGER = LoggerFactory.getLogger(URLUtils.class);
-	
 	/**
 	 * Pull all the links from an URL.
 	 *
@@ -81,7 +79,7 @@ public class URLUtils{
 			}
 		}
 		catch(IOException | UnirestException | URISyntaxException e){
-			LOGGER.warn("Couldn't download file {} to {}", url.toString(), file.toString(), e);
+			log.warn("Couldn't download file {} to {}", url.toString(), file.toString(), e);
 			return false;
 		}
 		return true;

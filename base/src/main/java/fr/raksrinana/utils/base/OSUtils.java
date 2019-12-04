@@ -6,12 +6,9 @@ import fr.jcgay.notification.Notification;
 import fr.jcgay.notification.Notifier;
 import fr.jcgay.notification.SendNotification;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 public class OSUtils{
-	private final static Logger LOGGER = LoggerFactory.getLogger(OSUtils.class);
 	private static Notifier NOTIFIER;
 	
 	public enum OS{

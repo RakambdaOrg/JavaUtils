@@ -1,8 +1,7 @@
 package fr.raksrinana.utils.mail;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import javax.mail.*;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.internet.InternetAddress;
@@ -15,8 +14,8 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
+@Slf4j
 public class GMailUtils{
-	private static final Logger LOGGER = LoggerFactory.getLogger(GMailUtils.class);
 	private static final String GMAIL_SMTP_HOST = "smtp.gmail.com";
 	
 	public static void sendGMail(@NonNull String user, @NonNull String password, @NonNull String from, @NonNull String to, @NonNull String object, @NonNull String body) throws MessagingException, UnsupportedEncodingException{
@@ -94,7 +93,7 @@ public class GMailUtils{
 			return true;
 		}
 		catch(Exception e){
-			LOGGER.warn("Failed to forward message", e);
+			log.warn("Failed to forward message", e);
 			return false;
 		}
 	}

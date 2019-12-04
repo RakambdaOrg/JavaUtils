@@ -1,14 +1,13 @@
 package fr.raksrinana.utils.config;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+@Slf4j
 public class PreparedStatementFiller{
-	private static final Logger LOGGER = LoggerFactory.getLogger(PreparedStatementFiller.class);
 	private HashMap<Integer, SQLValue> values;
 	
 	/**
@@ -34,7 +33,7 @@ public class PreparedStatementFiller{
 				this.values.get(i).fill(i, statement);
 			}
 			catch(SQLException e){
-				LOGGER.warn("Error filling prepared statement with parameter: {} -> {}", i, this.values.get(i));
+				log.warn("Error filling prepared statement with parameter: {} -> {}", i, this.values.get(i));
 			}
 		}
 	}

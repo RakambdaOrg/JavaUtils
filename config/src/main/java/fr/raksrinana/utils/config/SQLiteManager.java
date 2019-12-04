@@ -1,14 +1,13 @@
 package fr.raksrinana.utils.config;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import java.nio.file.Path;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Slf4j
 public class SQLiteManager extends JDBCBase{
-	private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteManager.class);
 	private Path databaseURL;
 	
 	public SQLiteManager(@NonNull Path databaseURL) throws ClassNotFoundException{
@@ -17,7 +16,7 @@ public class SQLiteManager extends JDBCBase{
 		databaseURL.getParent().toFile().mkdirs();
 		this.databaseURL = databaseURL;
 		login();
-		LOGGER.info("Initializing SQLite connection...");
+		log.info("Initializing SQLite connection...");
 	}
 	
 	protected void login(){
@@ -25,7 +24,7 @@ public class SQLiteManager extends JDBCBase{
 			this.connection = DriverManager.getConnection("jdbc:sqlite:" + this.databaseURL.toAbsolutePath());
 		}
 		catch(SQLException e){
-			LOGGER.warn("Error connecting to SQLite database!", e);
+			log.warn("Error connecting to SQLite database!", e);
 		}
 	}
 }

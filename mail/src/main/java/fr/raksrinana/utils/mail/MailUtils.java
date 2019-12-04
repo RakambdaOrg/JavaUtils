@@ -1,8 +1,7 @@
 package fr.raksrinana.utils.mail;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import javax.imageio.ImageIO;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -11,9 +10,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
+@Slf4j
 public class MailUtils{
-	private static final Logger LOGGER = LoggerFactory.getLogger(MailUtils.class);
-	
 	public static void sendMail(@NonNull Session session, @NonNull String emailFrom, @NonNull String fromName, String to, @NonNull String object, @NonNull String body) throws MessagingException, UnsupportedEncodingException{
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(emailFrom, fromName));
@@ -50,11 +48,11 @@ public class MailUtils{
 								messageContent.addVideo(null);
 								break;
 							default:
-								LOGGER.info("Unrecognized part {}", part.getContentType());
+								log.info("Unrecognized part {}", part.getContentType());
 						}
 					}
 					catch(Exception e){
-						LOGGER.warn("Error getting multipart {}: {}", i, part, e);
+						log.warn("Error getting multipart {}: {}", i, part, e);
 					}
 				}
 				return Optional.of(messageContent);

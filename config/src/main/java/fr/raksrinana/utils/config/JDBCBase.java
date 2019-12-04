@@ -1,17 +1,15 @@
 package fr.raksrinana.utils.config;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
+@Slf4j
 public abstract class JDBCBase implements AutoCloseable{
-	private static final Logger LOGGER = LoggerFactory.getLogger(JDBCBase.class);
 	private final String NAME;
 	private final ArrayList<CompletableFuture<?>> futures;
 	protected Connection connection;
@@ -41,7 +39,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@NonNull
-	public <T> CompletableFuture<Optional<List<T>>> sendQueryRequest(@NonNull String query, @NonNull ResultsParser<T> parser){
+	public <T> CompletableFuture<List<T>> sendQueryRequest(@NonNull String query, @NonNull ResultsParser<T> parser){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendQueryRequest(query, true);
@@ -49,7 +47,7 @@ public abstract class JDBCBase implements AutoCloseable{
 			catch(SQLException e){
 				throw new CompletionException(e);
 			}
-		}).thenApply(result1 -> result1.map(parser::parse));
+		}).thenApply(parser::parse);
 		futures.add(future);
 		return future;
 	}
@@ -62,7 +60,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@NonNull
-	public CompletableFuture<Optional<ResultSet>> sendQueryRequest(@NonNull String query){
+	public CompletableFuture<ResultSet> sendQueryRequest(@NonNull String query){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendQueryRequest(query, true);
@@ -128,7 +126,7 @@ public abstract class JDBCBase implements AutoCloseable{
 			catch(SQLException ignored){
 			}
 		}
-		LOGGER.info("SQL connection closed");
+		log.info("SQL connection closed");
 	}
 	
 	/**
@@ -142,13 +140,13 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @throws SQLException If the request couldn't be made.
 	 */
 	@NonNull
-	private Optional<ResultSet> sendQueryRequest(@NonNull String query, boolean retry) throws SQLException{
+	private ResultSet sendQueryRequest(@NonNull String query, boolean retry) throws SQLException{
 		ResultSet result;
 		synchronized(lock){
 			if(this.connection == null){
-				return Optional.empty();
+				throw new IllegalStateException("Connection isn't open");
 			}
-			LOGGER.debug("Sending SQL request to {} (retry: {}): {}", NAME, retry, query);
+			log.debug("Sending SQL request to {} (retry: {}): {}", NAME, retry, query);
 			try{
 				Statement stmt = this.connection.createStatement();
 				result = stmt.executeQuery(query.replace(";", ""));
@@ -161,7 +159,7 @@ public abstract class JDBCBase implements AutoCloseable{
 				return sendQueryRequest(query, false);
 			}
 		}
-		return Optional.ofNullable(result);
+		return result;
 	}
 	
 	/**
@@ -176,11 +174,11 @@ public abstract class JDBCBase implements AutoCloseable{
 	 */
 	private int sendUpdateRequest(@NonNull String query, boolean retry) throws SQLException{
 		if(this.connection == null){
-			return 0;
+			throw new IllegalStateException("Connection isn't open");
 		}
 		int result = 0;
 		synchronized(lock){
-			LOGGER.debug("Sending SQL update to {} (retry: {}): {}", NAME, retry, query);
+			log.debug("Sending SQL update to {} (retry: {}): {}", NAME, retry, query);
 			try{
 				for(String req : query.split(";")){
 					Statement stmt = this.connection.createStatement();
@@ -233,11 +231,11 @@ public abstract class JDBCBase implements AutoCloseable{
 	 */
 	private int sendPreparedUpdateRequest(@NonNull String request, @NonNull PreparedStatementFiller filler, boolean retry) throws SQLException{
 		if(this.connection == null){
-			return 0;
+			throw new IllegalStateException("Connection isn't open");
 		}
 		int result = 0;
 		synchronized(lock){
-			LOGGER.debug("Sending SQL update to {} (retry: {}): {}\nWith filler {}", NAME, retry, request, filler);
+			log.debug("Sending SQL update to {} (retry: {}): {}\nWith filler {}", NAME, retry, request, filler);
 			try{
 				PreparedStatement preparedStatement = connection.prepareStatement(request.replace(";", ""));
 				filler.fill(preparedStatement);

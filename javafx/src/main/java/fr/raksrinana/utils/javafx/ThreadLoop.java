@@ -2,11 +2,10 @@ package fr.raksrinana.utils.javafx;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class ThreadLoop extends Thread{
-	private static final Logger LOGGER = LoggerFactory.getLogger(ThreadLoop.class);
 	@Getter
 	private SimpleBooleanProperty runningProperty = new SimpleBooleanProperty(true);
 	@Getter
@@ -25,7 +24,7 @@ public abstract class ThreadLoop extends Thread{
 				}
 			}
 			catch(Exception e){
-				LOGGER.error("ThreadLoop unhandled exception in loop", e);
+				log.error("ThreadLoop unhandled exception in loop", e);
 				break;
 			}
 		}

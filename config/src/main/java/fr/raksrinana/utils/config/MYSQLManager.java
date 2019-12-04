@@ -1,13 +1,12 @@
 package fr.raksrinana.utils.config;
 
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Slf4j
 public class MYSQLManager extends JDBCBase{
-	private static final Logger LOGGER = LoggerFactory.getLogger(MYSQLManager.class);
 	private String databaseURL;
 	private int port;
 	private String databaseName;
@@ -22,7 +21,7 @@ public class MYSQLManager extends JDBCBase{
 		this.user = user;
 		this.password = password;
 		login();
-		LOGGER.info("Initializing MySQL connection...");
+		log.info("Initializing MySQL connection...");
 	}
 	
 	@Override
@@ -31,7 +30,7 @@ public class MYSQLManager extends JDBCBase{
 			this.connection = DriverManager.getConnection("jdbc:mysql://" + this.databaseURL + ":" + this.port + "/" + this.databaseName + "?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC", this.user, this.password);
 		}
 		catch(SQLException e){
-			LOGGER.warn("Error connecting to MySQL database!", e);
+			log.warn("Error connecting to MySQL database!", e);
 		}
 	}
 }

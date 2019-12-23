@@ -1,10 +1,8 @@
 package fr.raksrinana.utils.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import kong.unirest.GetRequest;
-import kong.unirest.ObjectMapper;
-import kong.unirest.RequestBodyEntity;
-import kong.unirest.Unirest;
+import com.fasterxml.jackson.core.type.TypeReference;
+import kong.unirest.*;
 import lombok.NonNull;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -35,6 +33,7 @@ public class URLHandler{
 		Unirest.config().setObjectMapper(new ObjectMapper(){
 			private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
 			
+			@Override
 			public <T> T readValue(String value, Class<T> valueType){
 				try{
 					return jacksonObjectMapper.readValue(value, valueType);
@@ -44,6 +43,17 @@ public class URLHandler{
 				}
 			}
 			
+			@Override
+			public <T> T readValue(String value, GenericType<T> genericType){
+				try{
+					return this.jacksonObjectMapper.readValue(value, new TypeReference<>(){});
+				}
+				catch(IOException var4){
+					throw new RuntimeException(var4);
+				}
+			}
+			
+			@Override
 			public String writeValue(Object value){
 				try{
 					return jacksonObjectMapper.writeValueAsString(value);

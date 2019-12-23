@@ -48,7 +48,6 @@ public class RequestHandler<T>{
 	 *
 	 * @return The request result.
 	 */
-	@NonNull
 	public T getRequestResult(){
 		return this.getResult().getBody();
 	}

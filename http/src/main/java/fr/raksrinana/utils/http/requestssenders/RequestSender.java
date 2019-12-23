@@ -25,5 +25,5 @@ public interface RequestSender<T>{
 	 *
 	 * @throws UnirestException If the request couldn't be made.
 	 */
-	@NonNull HttpResponse<T> getRequestResult() throws UnirestException;
+	@NonNull HttpResponse<? extends T> getRequestResult() throws UnirestException;
 }

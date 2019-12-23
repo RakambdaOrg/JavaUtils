@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class RequestHandler<T>{
 	@Getter
-	private final HttpResponse<T> result;
+	private final HttpResponse<? extends T> result;
 	
 	/**
 	 * Constructor.

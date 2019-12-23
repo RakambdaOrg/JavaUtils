@@ -6,24 +6,15 @@ import kong.unirest.ObjectMapper;
 import kong.unirest.RequestBodyEntity;
 import kong.unirest.Unirest;
 import lombok.NonNull;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class URLHandler{
 	private static final int TIMEOUT = 30000;
@@ -35,19 +26,11 @@ public class URLHandler{
 	private static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
 	private static final String LANGUAGE_TYPE_KEY = "Accept-Language";
 	private static final String LANGUAGE_TYPE = Locale.getDefault().toString() + ";q=1,en;q=0.8";
-	
 	/**
-	 * Creates a new client.
-	 *
-	 * @return The client.
-	 *
-	 * @throws KeyStoreException
-	 * @throws NoSuchAlgorithmException
-	 * @throws KeyManagementException
+	 * Setups Unirest.
 	 */
 	@NonNull
-	private static HttpClient makeClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException{
-		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(SSLContexts.custom().loadTrustMaterial(null, (chain, authType) -> true).build(), NoopHostnameVerifier.INSTANCE);
+	private static void setupClient(){
 		RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
 		Unirest.config().setObjectMapper(new ObjectMapper(){
 			private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -70,9 +53,11 @@ public class URLHandler{
 				}
 			}
 		});
-		return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).setDefaultRequestConfig(globalConfig).setConnectionTimeToLive(TIMEOUT, TimeUnit.MILLISECONDS).build();
 	}
 	
+	static{
+		setupClient();
+	}
 	/**
 	 * Sends a get request.
 	 *

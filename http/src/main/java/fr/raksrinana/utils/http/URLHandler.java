@@ -8,6 +8,7 @@ import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.utils.URIBuilder;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Locale;
@@ -24,6 +25,7 @@ public class URLHandler{
 	private static final String CONTENT_TYPE = "application/x-www-form-urlencoded";
 	private static final String LANGUAGE_TYPE_KEY = "Accept-Language";
 	private static final String LANGUAGE_TYPE = Locale.getDefault().toString() + ";q=1,en;q=0.8";
+	
 	/**
 	 * Setups Unirest.
 	 */
@@ -46,7 +48,12 @@ public class URLHandler{
 			@Override
 			public <T> T readValue(String value, GenericType<T> genericType){
 				try{
-					return this.jacksonObjectMapper.readValue(value, new TypeReference<>(){});
+					return this.jacksonObjectMapper.readValue(value, new TypeReference<>(){
+						@Override
+						public Type getType(){
+							return genericType.getType();
+						}
+					});
 				}
 				catch(IOException var4){
 					throw new RuntimeException(var4);

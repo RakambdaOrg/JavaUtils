@@ -12,6 +12,15 @@ public class ObjectGetRequestSender<T> extends GetRequestSender<T>{
 	/**
 	 * Constructor.
 	 *
+	 * @param request The GET request.
+	 */
+	public ObjectGetRequestSender(@NonNull GetRequest request){
+		this(new GenericType<T>(){}, request);
+	}
+	
+	/**
+	 * Constructor.
+	 *
 	 * @param clazz   The output class.
 	 * @param request The GET request.
 	 */

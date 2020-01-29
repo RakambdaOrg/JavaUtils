@@ -4,7 +4,7 @@ open module fr.raksrinana.utils.http {
 	requires org.apache.httpcomponents.httpcore;
 	requires org.apache.httpcomponents.httpclient;
 	requires org.jsoup;
-	requires unirest.java;
+	requires transitive unirest.java;
 	requires org.slf4j;
 	requires static lombok;
 	requires com.fasterxml.jackson.core;

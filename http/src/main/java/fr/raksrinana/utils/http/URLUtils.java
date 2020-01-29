@@ -1,21 +1,15 @@
 package fr.raksrinana.utils.http;
 
-import fr.raksrinana.utils.http.requestssenders.get.BinaryGetRequestSender;
-import fr.raksrinana.utils.http.requestssenders.get.StringGetRequestSender;
-import kong.unirest.UnirestException;
+import kong.unirest.Unirest;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +29,7 @@ public class URLUtils{
 	 */
 	@NonNull
 	public static List<String> pullLinks(@NonNull URL url) throws Exception{
-		return pullLinks(Jsoup.parse(new StringGetRequestSender(url).getRequestHandler().getRequestResult()).html());
+		return pullLinks(Jsoup.parse(url, 30000).html());
 	}
 	
 	/**
@@ -71,18 +65,13 @@ public class URLUtils{
 	 * @return True if it succeeded, false otherwise.
 	 */
 	public static boolean saveAsFile(@NonNull URL url, Path file){
-		file.getParent().toFile().mkdirs();
-		try(InputStream inputStream = new BinaryGetRequestSender(url).getRequestHandler().getRequestResult(); OutputStream outputStream = Files.newOutputStream(file, StandardOpenOption.WRITE)){
-			int i;
-			while((i = inputStream.read()) != -1){
-				outputStream.write(i);
-			}
+		try{
+			Files.createDirectories(file.getParent());
 		}
-		catch(IOException | UnirestException | URISyntaxException e){
-			log.warn("Couldn't download file {} to {}", url.toString(), file.toString(), e);
-			return false;
+		catch(IOException e){
+			log.warn("Failed to create directories {}", file.getParent(), e);
 		}
-		return true;
+		return Unirest.get(url.toString()).asFile(file.toAbsolutePath().normalize().toString()).isSuccess();
 	}
 	
 	/**

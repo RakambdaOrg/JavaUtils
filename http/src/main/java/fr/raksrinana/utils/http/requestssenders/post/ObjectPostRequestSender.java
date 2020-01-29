@@ -12,15 +12,6 @@ public class ObjectPostRequestSender<T> extends PostRequestSender<T>{
 	/**
 	 * Constructor.
 	 *
-	 * @param request The POST request.
-	 */
-	public ObjectPostRequestSender(@NonNull RequestBodyEntity request){
-		this(new GenericType<>(){}, request);
-	}
-	
-	/**
-	 * Constructor.
-	 *
 	 * @param clazz   The output class.
 	 * @param request The POST request.
 	 */

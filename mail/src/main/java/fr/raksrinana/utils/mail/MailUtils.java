@@ -12,11 +12,12 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.function.Consumer;
 
 @Slf4j
 public class MailUtils{
 	@NonNull
-	public static Session getGMailSession(@NonNull String host, @NonNull int port, @NonNull String user, @NonNull String password){
+	public static Session getMailSession(@NonNull String host, @NonNull int port, @NonNull String user, @NonNull String password){
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.auth", "true");
@@ -35,6 +36,13 @@ public class MailUtils{
 		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 		message.setSubject(object);
 		message.setText(body);
+		Transport.send(message);
+	}
+	
+	public static void sendMail(@NonNull Session session, @NonNull String emailFrom, @NonNull String fromName, Consumer<MimeMessage> messageFiller) throws MessagingException, UnsupportedEncodingException{
+		MimeMessage message = new MimeMessage(session);
+		message.setFrom(new InternetAddress(emailFrom, fromName));
+		messageFiller.accept(message);
 		Transport.send(message);
 	}
 	

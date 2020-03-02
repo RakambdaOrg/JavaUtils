@@ -5,13 +5,30 @@ import lombok.extern.slf4j.Slf4j;
 import javax.imageio.ImageIO;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
+import java.util.Properties;
 
 @Slf4j
 public class MailUtils{
+	@NonNull
+	public static Session getGMailSession(@NonNull String host, @NonNull int port, @NonNull String user, @NonNull String password){
+		Properties properties = System.getProperties();
+		properties.put("mail.smtp.starttls.enable", "true");
+		properties.put("mail.smtp.auth", "true");
+		properties.put("mail.smtp.host", host);
+		properties.put("mail.smtp.port", Integer.toString(port));
+		return Session.getInstance(properties, new Authenticator(){
+			protected PasswordAuthentication getPasswordAuthentication(){
+				return new PasswordAuthentication(user, password);
+			}
+		});
+	}
+	
 	public static void sendMail(@NonNull Session session, @NonNull String emailFrom, @NonNull String fromName, String to, @NonNull String object, @NonNull String body) throws MessagingException, UnsupportedEncodingException{
 		MimeMessage message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(emailFrom, fromName));
@@ -62,5 +79,42 @@ public class MailUtils{
 			e.printStackTrace();
 		}
 		return Optional.empty();
+	}
+	
+	public static boolean forward(@NonNull Session session, @NonNull String user, @NonNull String fromName, @NonNull String to, @NonNull String toName, @NonNull Message message, @NonNull String subjectPrefix, @NonNull String header){
+		try{
+			Message forwardMessage = new MimeMessage(session);
+			forwardMessage.setSubject(subjectPrefix + (message.getSubject() == null ? "" : message.getSubject()));
+			forwardMessage.setFrom(new InternetAddress(user, fromName));
+			forwardMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to, toName));
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setText(header);
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			try{
+				Object content = message.getContent();
+				if(content instanceof String){
+					BodyPart parts = new MimeBodyPart();
+					parts.setText(String.valueOf(content));
+					multipart.addBodyPart(parts);
+				}
+				else if(content instanceof Multipart){
+					Multipart parts = (Multipart) content;
+					for(int i = 0; i < parts.getCount(); i++){
+						multipart.addBodyPart(parts.getBodyPart(i));
+					}
+				}
+			}
+			catch(MessagingException | IOException e){
+				e.printStackTrace();
+			}
+			forwardMessage.setContent(multipart);
+			Transport.send(forwardMessage);
+			return true;
+		}
+		catch(Exception e){
+			log.warn("Failed to forward message", e);
+			return false;
+		}
 	}
 }

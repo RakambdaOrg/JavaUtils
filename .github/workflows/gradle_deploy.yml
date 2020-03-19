@@ -32,4 +32,5 @@ jobs:
       - name: Deploy app
         run: ./gradlew publish
         env:
+          GITHUB_USER: RakSrinaNa
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 @Slf4j
 public class MailUtils{
 	@NonNull
-	public static Session getMailSession(@NonNull String host, @NonNull int port, @NonNull String user, @NonNull String password){
+	public static Session getMailSession(@NonNull String host, int port, @NonNull String user, @NonNull String password){
 		Properties properties = System.getProperties();
 		properties.put("mail.smtp.starttls.enable", "true");
 		properties.put("mail.smtp.auth", "true");

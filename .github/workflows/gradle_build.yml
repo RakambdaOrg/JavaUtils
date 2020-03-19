@@ -29,4 +29,5 @@ jobs:
       - name: Check project
         run: ./gradlew check
         env:
+          GITHUB_USER: RakSrinaNa
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

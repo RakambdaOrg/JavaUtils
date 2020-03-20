@@ -78,3 +78,7 @@ subprojects {
         }
     }
 }
+
+tasks.withType(Wrapper) {
+    gradleVersion = project.wrapper_version
+}

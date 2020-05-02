@@ -1,13 +1,13 @@
 package fr.raksrinana.utils.mail;
 
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import javax.imageio.ImageIO;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;

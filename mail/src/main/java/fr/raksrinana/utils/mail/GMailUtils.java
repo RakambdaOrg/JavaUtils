@@ -1,9 +1,9 @@
 package fr.raksrinana.utils.mail;
 
+import jakarta.mail.*;
+import jakarta.mail.event.MessageCountEvent;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import javax.mail.*;
-import javax.mail.event.MessageCountEvent;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;

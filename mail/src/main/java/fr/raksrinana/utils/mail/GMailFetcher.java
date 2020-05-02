@@ -2,12 +2,12 @@ package fr.raksrinana.utils.mail;
 
 import com.sun.mail.imap.IMAPFolder;
 import fr.raksrinana.utils.javafx.ThreadLoop;
+import jakarta.mail.*;
+import jakarta.mail.event.MessageCountEvent;
+import jakarta.mail.event.MessageCountListener;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import javax.mail.*;
-import javax.mail.event.MessageCountEvent;
-import javax.mail.event.MessageCountListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;

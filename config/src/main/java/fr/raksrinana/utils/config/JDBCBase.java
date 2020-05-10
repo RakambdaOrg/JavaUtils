@@ -5,9 +5,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
@@ -173,6 +171,53 @@ public abstract class JDBCBase implements AutoCloseable{
 			try(var preparedStatement = connection.prepareStatement(request.replace(";", ""))){
 				filler.fill(preparedStatement);
 				result += preparedStatement.executeUpdate();
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Sends a batch prepared update.
+	 *
+	 * @param request The prepared request.
+	 * @param fillers The fillers of the requests.
+	 *
+	 * @return The promise.
+	 */
+	@NonNull
+	public CompletableFuture<Integer> sendCompletablePreparedBatchUpdateRequest(@NonNull String request, @NonNull Collection<PreparedStatementFiller> fillers){
+		final var future = CompletableFuture.supplyAsync(() -> {
+			try{
+				return sendPreparedBatchUpdateRequest(request, fillers);
+			}
+			catch(SQLException e){
+				throw new CompletionException(e);
+			}
+		});
+		futures.add(future);
+		return future;
+	}
+	
+	/**
+	 * Sends a batch prepared update.
+	 *
+	 * @param request The prepared request.
+	 * @param fillers The fillers of the requests.
+	 *
+	 * @return The number of lines modified.
+	 *
+	 * @throws SQLException If a request couldn't be made.
+	 */
+	public int sendPreparedBatchUpdateRequest(@NonNull String request, @NonNull Collection<PreparedStatementFiller> fillers) throws SQLException{
+		int result = 0;
+		try(var connection = this.getDatasource().getConnection()){
+			log.debug("Sending SQL update to {}: {}\nWith fillers {}", NAME, request, fillers);
+			try(var preparedStatement = connection.prepareStatement(request.replace(";", ""))){
+				for(var filler : fillers){
+					filler.fill(preparedStatement);
+					preparedStatement.addBatch();
+				}
+				result += Arrays.stream(preparedStatement.executeBatch()).sum();
 			}
 		}
 		return result;

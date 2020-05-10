@@ -59,7 +59,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	private <T> List<T> sendQueryRequest(@NonNull String query, @NonNull ResultsParser<T> parser) throws SQLException{
+	public <T> List<T> sendQueryRequest(@NonNull String query, @NonNull ResultsParser<T> parser) throws SQLException{
 		ResultSet result;
 		try(var connection = getDatasource().getConnection()){
 			log.debug("Sending SQL request to {}: {}", NAME, query);
@@ -105,7 +105,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	private int sendUpdateRequest(@NonNull String query) throws SQLException{
+	public int sendUpdateRequest(@NonNull String query) throws SQLException{
 		int result = 0;
 		try(var connection = this.getDatasource().getConnection()){
 			log.debug("Sending SQL update to {}: {}", NAME, query);
@@ -161,7 +161,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	private int sendPreparedUpdateRequest(@NonNull String request, @NonNull PreparedStatementFiller filler) throws SQLException{
+	public int sendPreparedUpdateRequest(@NonNull String request, @NonNull PreparedStatementFiller filler) throws SQLException{
 		int result = 0;
 		try(var connection = this.getDatasource().getConnection()){
 			log.debug("Sending SQL update to {}: {}\nWith filler {}", NAME, request, filler);

@@ -1,7 +1,3 @@
-plugins{
-    id 'io.freefair.lombok' version '5.0.1'
-}
-
 ext.moduleName = project.moduleName
 
 dependencies {

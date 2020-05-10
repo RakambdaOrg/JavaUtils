@@ -1,17 +1,7 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "org.javamodularity:moduleplugin:1.6.0"
-    }
-}
-
 plugins {
-    id "com.github.ben-manes.versions" version "0.28.0"
+    id 'com.github.ben-manes.versions' version '0.28.0'
     id 'com.novoda.build-properties' version '0.4.1'
+    id 'io.freefair.lombok' version '5.0.1'
 }
 
 buildProperties {
@@ -23,7 +13,6 @@ buildProperties {
     }
 }
 
-
 description = 'RakSrinaNa Utils'
 
 import org.apache.tools.ant.filters.ReplaceTokens
@@ -31,7 +20,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 subprojects {
     apply plugin: 'java'
     apply plugin: "maven-publish"
-    apply plugin: "org.javamodularity.moduleplugin"
+    apply plugin: "io.freefair.lombok"
 
     repositories {
         maven {
@@ -53,7 +42,7 @@ subprojects {
 
     processResources {
         from 'src/main/resources'
-        filter(ReplaceTokens, tokens: [bot_version: project.version, bot_name: project.name])
+        filter(ReplaceTokens, tokens: [project_version: project.version, project_name: project.name])
     }
 
     tasks.withType(JavaCompile) {
@@ -76,6 +65,12 @@ subprojects {
                 from(components.java)
             }
         }
+    }
+}
+
+plugins.withType(JavaPlugin).configureEach {
+    java {
+        modularity.inferModulePath = true
     }
 }
 

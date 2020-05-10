@@ -19,7 +19,7 @@ public class H2Manager extends JDBCBase{
 	
 	public H2Manager(@NonNull Path databaseURL) throws IOException{
 		super("H2/" + databaseURL);
-		Files.createDirectories(databaseURL);
+		Files.createDirectories(databaseURL.getParent());
 		databaseURL.getParent().toFile().mkdirs();
 		this.databaseURL = databaseURL;
 	}

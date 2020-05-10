@@ -20,7 +20,7 @@ public class SQLiteManager extends JDBCBase{
 	public SQLiteManager(@NonNull Path databaseURL) throws ClassNotFoundException, IOException{
 		super("SQLITE/" + databaseURL);
 		Class.forName("org.sqlite.JDBC");
-		Files.createDirectories(databaseURL);
+		Files.createDirectories(databaseURL.getParent());
 		this.databaseURL = databaseURL;
 	}
 	

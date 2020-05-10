@@ -5,7 +5,7 @@ plugins {
 ext.moduleName = project.moduleName
 
 dependencies {
-    implementation project(':utils.base')
+    api project(':utils.base')
 }
 
 javafx {

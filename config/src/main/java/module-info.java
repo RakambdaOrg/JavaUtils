@@ -4,7 +4,7 @@ open module fr.raksrinana.utils.config {
 	requires org.slf4j;
 	requires static lombok;
 	requires sqlite.jdbc;
-	requires com.zaxxer.hikari;
+	requires transitive com.zaxxer.hikari;
 	requires com.h2database;
 	exports fr.raksrinana.utils.config;
 }

@@ -1,8 +1,8 @@
 ext.moduleName = project.moduleName
 
 dependencies {
-    implementation project(':utils.base')
-    implementation project(':utils.javafx')
-    implementation("com.sun.mail:jakarta.mail:${project.jakarta_mail_version}")
+    api project(':utils.base')
+    api project(':utils.javafx')
+    api("com.sun.mail:jakarta.mail:${project.jakarta_mail_version}")
 }
 

@@ -1,9 +1,9 @@
 ext.moduleName = project.moduleName
 
 dependencies {
-    implementation project(':utils.base')
-    implementation("com.zaxxer:HikariCP:${project.hikari_version}")
-    implementation("mysql:mysql-connector-java:${project.mysql_connector_java_version}")
-    implementation("org.xerial:sqlite-jdbc:${project.sqlite_jdbc_version}")
-    implementation("com.h2database:h2:${project.h2_version}")
+    api project(':utils.base')
+    api("com.zaxxer:HikariCP:${project.hikari_version}")
+    api("mysql:mysql-connector-java:${project.mysql_connector_java_version}")
+    api("org.xerial:sqlite-jdbc:${project.sqlite_jdbc_version}")
+    api("com.h2database:h2:${project.h2_version}")
 }

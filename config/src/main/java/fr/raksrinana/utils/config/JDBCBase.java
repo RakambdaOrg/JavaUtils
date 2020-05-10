@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.function.Function;
 
 @Slf4j
 public abstract class JDBCBase implements AutoCloseable{
@@ -37,7 +36,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 * @return The promise.
 	 */
 	@NonNull
-	public <T> CompletableFuture<List<T>> sendCompletableQueryRequest(@NonNull String query, @NonNull Function<ResultSet, T> parser){
+	public <T> CompletableFuture<List<T>> sendCompletableQueryRequest(@NonNull String query, @NonNull ResultConverter<T> parser){
 		final var future = CompletableFuture.supplyAsync(() -> {
 			try{
 				return sendQueryRequest(query, parser);
@@ -61,7 +60,7 @@ public abstract class JDBCBase implements AutoCloseable{
 	 *
 	 * @throws SQLException If the request couldn't be made.
 	 */
-	public <T> List<T> sendQueryRequest(@NonNull String query, @NonNull Function<ResultSet, T> parser) throws SQLException{
+	public <T> List<T> sendQueryRequest(@NonNull String query, @NonNull ResultConverter<T> parser) throws SQLException{
 		ResultSet result;
 		try(var connection = getDatasource().getConnection()){
 			log.debug("Sending SQL request to {}: {}", NAME, query);
@@ -69,7 +68,7 @@ public abstract class JDBCBase implements AutoCloseable{
 				result = stmt.executeQuery(query.replace(";", ""));
 				var list = new LinkedList<T>();
 				while(result.next()){
-					list.add(parser.apply(result));
+					list.add(parser.convert(result));
 				}
 				return list;
 			}

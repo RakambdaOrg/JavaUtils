@@ -36,19 +36,10 @@ public class SQLValue{
 	 */
 	public void fill(int index, @NonNull PreparedStatement statement) throws SQLException{
 		switch(this.type){
-			case INT:
-				statement.setInt(index, (Integer) this.value);
-				break;
-			case LONG:
-				statement.setLong(index, (Long) this.value);
-				break;
-			case DOUBLE:
-				statement.setDouble(index, (Double) this.value);
-				break;
-			case STRING:
-			default:
-				statement.setString(index, this.value.toString());
-				break;
+			case INT -> statement.setInt(index, (Integer) this.value);
+			case LONG -> statement.setLong(index, (Long) this.value);
+			case DOUBLE -> statement.setDouble(index, (Double) this.value);
+			default -> statement.setString(index, this.value.toString());
 		}
 	}
 	

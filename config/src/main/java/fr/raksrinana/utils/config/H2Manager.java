@@ -12,15 +12,15 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 @Slf4j
-public class SQLiteManager extends JDBCBase{
+public class H2Manager extends JDBCBase{
 	private final Path databaseURL;
 	private HikariDataSource datasource;
 	private Consumer<HikariConfig> configurator;
 	
-	public SQLiteManager(@NonNull Path databaseURL) throws ClassNotFoundException, IOException{
-		super("SQLITE/" + databaseURL);
-		Class.forName("org.sqlite.JDBC");
+	public H2Manager(@NonNull Path databaseURL) throws IOException{
+		super("H2/" + databaseURL);
 		Files.createDirectories(databaseURL);
+		databaseURL.getParent().toFile().mkdirs();
 		this.databaseURL = databaseURL;
 	}
 	
@@ -28,9 +28,11 @@ public class SQLiteManager extends JDBCBase{
 	protected HikariDataSource getDatasource(){
 		if(Objects.isNull(datasource)){
 			final var config = new HikariConfig();
-			config.setJdbcUrl("jdbc:sqlite:" + this.databaseURL.toAbsolutePath());
+			config.setJdbcUrl("jdbc:h2:" + databaseURL.toAbsolutePath());
+			config.addDataSourceProperty("cachePrepStmts", "true");
+			config.addDataSourceProperty("prepStmtCacheSize", "250");
+			config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 			config.setMaximumPoolSize(1);
-			config.setAutoCommit(true);
 			Optional.ofNullable(configurator).ifPresent(conf -> conf.accept(config));
 			datasource = new HikariDataSource(config);
 		}

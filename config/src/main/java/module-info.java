@@ -5,4 +5,5 @@ open module fr.raksrinana.utils.config {
 	requires org.slf4j;
 	requires static lombok;
 	exports fr.raksrinana.utils.config;
+	requires com.zaxxer.hikari;
 }

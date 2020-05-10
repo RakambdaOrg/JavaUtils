@@ -3,8 +3,8 @@ open module fr.raksrinana.utils.config {
 	requires java.sql;
 	requires org.slf4j;
 	requires static lombok;
-	requires transitive sqlite.jdbc;
-	requires transitive com.zaxxer.hikari;
-	requires transitive com.h2database;
+	requires sqlite.jdbc;
+	requires com.zaxxer.hikari;
+	requires com.h2database;
 	exports fr.raksrinana.utils.config;
 }

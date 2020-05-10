@@ -31,6 +31,7 @@ public class MYSQLManager extends JDBCBase{
 	protected HikariDataSource getDatasource(){
 		if(Objects.isNull(datasource)){
 			final var config = new HikariConfig();
+			config.setDriverClassName("com.mysql.jdbc.Driver");
 			config.setJdbcUrl("jdbc:mysql://" + this.databaseURL + ":" + this.port + "/" + this.databaseName);
 			config.setUsername(this.user);
 			config.setPassword(this.password);

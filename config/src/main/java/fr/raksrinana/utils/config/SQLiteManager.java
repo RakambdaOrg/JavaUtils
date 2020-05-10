@@ -17,9 +17,8 @@ public class SQLiteManager extends JDBCBase{
 	private HikariDataSource datasource;
 	private Consumer<HikariConfig> configurator;
 	
-	public SQLiteManager(@NonNull Path databaseURL) throws ClassNotFoundException, IOException{
+	public SQLiteManager(@NonNull Path databaseURL) throws IOException{
 		super("SQLITE/" + databaseURL);
-		Class.forName("org.sqlite.JDBC");
 		Files.createDirectories(databaseURL.getParent());
 		this.databaseURL = databaseURL;
 	}
@@ -28,6 +27,7 @@ public class SQLiteManager extends JDBCBase{
 	protected HikariDataSource getDatasource(){
 		if(Objects.isNull(datasource)){
 			final var config = new HikariConfig();
+			config.setDriverClassName("org.sqlite.JDBC");
 			config.setJdbcUrl("jdbc:sqlite:" + this.databaseURL.toAbsolutePath());
 			config.setMaximumPoolSize(1);
 			config.setAutoCommit(true);

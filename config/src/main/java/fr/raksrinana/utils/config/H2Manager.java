@@ -28,6 +28,7 @@ public class H2Manager extends JDBCBase{
 	protected HikariDataSource getDatasource(){
 		if(Objects.isNull(datasource)){
 			final var config = new HikariConfig();
+			config.setDriverClassName("org.h2.Driver");
 			config.setJdbcUrl("jdbc:h2:" + databaseURL.toAbsolutePath());
 			config.addDataSourceProperty("cachePrepStmts", "true");
 			config.addDataSourceProperty("prepStmtCacheSize", "250");

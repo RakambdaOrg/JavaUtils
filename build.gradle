@@ -11,7 +11,7 @@ buildscript {
         hikari_version = '3.4.5'
         h2_version = '1.4.200'
         mysql_connector_java_version = '8.0.21'
-        sqlite_jdbc_version = '3.32.3.1'
+        sqlite_jdbc_version = '3.32.3.2'
 
         jsoup_version = '1.13.1'
         unirest_version = '3.9.00'

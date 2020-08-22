@@ -3,6 +3,6 @@ ext.moduleName = project.moduleName
 dependencies {
     api project(':utils.base')
     api project(':utils.javafx')
-    api("com.sun.mail:jakarta.mail:${project.jakarta_mail_version}")
+    api("com.sun.mail:jakarta.mail:${jakarta_mail_version}")
 }
 

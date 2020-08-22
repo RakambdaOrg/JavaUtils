@@ -1,3 +1,27 @@
+buildscript {
+    ext {
+        slf4j_version = '2.0.0-alpha1'
+
+        commons_io_version = '2.7'
+        commons_text_version = '1.8'
+
+        send_notification_version = '0.16.0'
+        jna_version = '5.6.0'
+
+        hikari_version = '3.4.5'
+        h2_version = '1.4.200'
+        mysql_connector_java_version = '8.0.21'
+        sqlite_jdbc_version = '3.32.3.1'
+
+        jsoup_version = '1.13.1'
+        unirest_version = '3.8.06'
+        httpcore_nio_version = '4.4.13'
+        jackson_version = '2.11.1'
+
+        jakarta_mail_version = '2.0.0-RC6'
+    }
+}
+
 plugins {
     id 'com.github.ben-manes.versions' version '0.29.0'
     id 'com.novoda.build-properties' version '0.4.1'
@@ -21,35 +45,28 @@ import org.apache.tools.ant.filters.ReplaceTokens
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
-    apply plugin: "maven-publish"
-    apply plugin: "io.freefair.lombok"
-    apply plugin: "org.javamodularity.moduleplugin"
+    apply plugin: 'maven-publish'
+    apply plugin: 'io.freefair.lombok'
+    apply plugin: 'org.javamodularity.moduleplugin'
 
     repositories {
-        maven {
-            url = 'https://repo.maven.apache.org/maven2'
-        }
-        maven {
-            url = 'https://jcenter.bintray.com'
-        }
-        maven {
-            url = 'https://maven.mrcraftcod.fr'
-        }
+        jcenter()
+        mavenCentral()
     }
 
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_14
 
     dependencies {
-        api("org.slf4j:slf4j-api:${project.slf4j_version}")
+        api("org.slf4j:slf4j-api:${slf4j_version}")
     }
 
     processResources {
-        from 'src/main/resources'
-        filter(ReplaceTokens, tokens: [project_version: project.version, project_name: project.name])
+        expand project.properties
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
+        options.deprecation = true
     }
 
     publishing {

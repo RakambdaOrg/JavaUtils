@@ -2,10 +2,10 @@ ext.moduleName = project.moduleName
 
 dependencies {
     api project(':utils.base')
-    api("org.jsoup:jsoup:${project.jsoup_version}")
-    api("org.apache.commons:commons-text:${project.commons_text_version}")
-    api("com.konghq:unirest-java:${project.unirest_version}")
-    api("org.apache.httpcomponents:httpcore-nio:${project.httpcore_nio_version}")
-    api("com.fasterxml.jackson.core:jackson-core:${project.jackson_version}")
-    api("com.fasterxml.jackson.core:jackson-databind:${project.jackson_version}")
+    api("org.jsoup:jsoup:${jsoup_version}")
+    api("org.apache.commons:commons-text:${commons_text_version}")
+    api("com.konghq:unirest-java:${unirest_version}")
+    api("org.apache.httpcomponents:httpcore-nio:${httpcore_nio_version}")
+    api("com.fasterxml.jackson.core:jackson-core:${jackson_version}")
+    api("com.fasterxml.jackson.core:jackson-databind:${jackson_version}")
 }

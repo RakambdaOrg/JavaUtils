@@ -26,6 +26,8 @@ jobs:
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+      - name: Set wrapper permissions
+        run: chmod +x gradlew
       - name: Check project
         run: ./gradlew check
         env:

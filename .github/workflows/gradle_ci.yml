@@ -39,6 +39,21 @@ jobs:
     needs: build
     if: "startsWith(github.ref, 'refs/tags/')"
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+      - uses: actions/cache@v1
+        name: Restore gradle cache
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.OS }}-gradle-${{ env.cache-name }}-
+            ${{ runner.OS }}-gradle-
+            ${{ runner.OS }}-
       - name: Publish project
         run: ./gradlew publish
         env:

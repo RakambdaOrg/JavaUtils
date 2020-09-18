@@ -26,8 +26,6 @@ jobs:
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-      - name: Set wrapper permissions
-        run: echo "::debug::github.ref"
       - name: Temp test
         run: chmod +x gradlew
       - name: Check project

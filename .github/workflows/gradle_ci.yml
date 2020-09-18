@@ -26,7 +26,7 @@ jobs:
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-      - name: Temp test
+      - name: Set gradle permissions
         run: chmod +x gradlew
       - name: Check project
         run: ./gradlew check
@@ -54,6 +54,8 @@ jobs:
             ${{ runner.OS }}-gradle-${{ env.cache-name }}-
             ${{ runner.OS }}-gradle-
             ${{ runner.OS }}-
+      - name: Set gradle permissions
+        run: chmod +x gradlew
       - name: Publish project
         run: ./gradlew publish
         env:

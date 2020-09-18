@@ -26,24 +26,19 @@ public class FileUtils{
 	}
 	
 	/**
-	 * Get the app data folder.
+	 * Remove forbidden characters inside a filename.
 	 *
-	 * @return The app data folder.
+	 * @param name The filename to sanitize.
 	 *
-	 * @throws IllegalStateException If the OS is unknown.
+	 * @return The filename without forbidden characters.
 	 */
 	@NonNull
-	public static Path getAppDataFolder() throws IllegalStateException{
-		final var os = OSUtils.getOs();
-		switch(os){
-			case WIN:
-				return Paths.get(System.getenv("AppData"));
-			case LINUX:
-				return getHomeFolder();
-			case OSX:
-				return getHomeFolder().resolve("Library").resolve("Application Support");
-		}
-		throw new IllegalStateException("Unknown OS type");
+	public static String sanitizeFileName(@NonNull String name){
+		return name.chars()
+				.mapToObj(i -> (char) i)
+				.filter(c -> Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.')
+				.map(String::valueOf)
+				.collect(Collectors.joining());
 	}
 	
 	/**
@@ -96,15 +91,20 @@ public class FileUtils{
 	}
 	
 	/**
-	 * Remove forbidden characters inside a filename.
+	 * Get the app data folder.
 	 *
-	 * @param name The filename to sanitize.
+	 * @return The app data folder.
 	 *
-	 * @return The filename without forbidden characters.
+	 * @throws IllegalStateException If the OS is unknown.
 	 */
 	@NonNull
-	public static String sanitizeFileName(@NonNull String name){
-		return name.chars().mapToObj(i -> (char) i).filter(c -> Character.isLetterOrDigit(c) || c == '-' || c == '_' || c == ' ' || c == '.').map(String::valueOf).collect(Collectors.joining());
+	public static Path getAppDataFolder() throws IllegalStateException{
+		final var os = OSUtils.getOs();
+		return switch(os){
+			case WIN -> Paths.get(System.getenv("AppData"));
+			case LINUX -> getHomeFolder();
+			case OSX -> getHomeFolder().resolve("Library").resolve("Application Support");
+		};
 	}
 	
 	/**

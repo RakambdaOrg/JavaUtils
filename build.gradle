@@ -27,6 +27,7 @@ plugins {
     id 'com.novoda.build-properties' version '0.4.1'
     id 'io.freefair.lombok' version '5.2.1' apply false
     id "org.javamodularity.moduleplugin" version "1.7.0" apply false
+    id "com.github.breadmoirai.github-release" version '2.2.10'
 }
 
 buildProperties {
@@ -40,8 +41,6 @@ buildProperties {
 
 description = 'RakSrinaNa Utils'
 
-import org.apache.tools.ant.filters.ReplaceTokens
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'java-library'
@@ -54,7 +53,7 @@ subprojects {
         mavenCentral()
     }
 
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_14
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_15
 
     dependencies {
         api("org.slf4j:slf4j-api:${slf4j_version}")
@@ -86,6 +85,14 @@ subprojects {
             }
         }
     }
+}
+
+githubRelease {
+    owner = "RakSrinaNa"
+    repo = "JavaUtils"
+    token = buildProperties.secrets['GITHUB_TOKEN'].string
+    tagName = "v${project.version}"
+    releaseName = "${project.version}"
 }
 
 tasks.withType(Wrapper) {

@@ -1,4 +1,4 @@
-name: Build
+name: CI
 
 on: [push]
 
@@ -27,9 +27,22 @@ jobs:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
       - name: Set wrapper permissions
+        run: echo "::debug::github.ref"
+      - name: Temp test
         run: chmod +x gradlew
       - name: Check project
         run: ./gradlew check
+        env:
+          GITHUB_USER: RakSrinaNa
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: startsWith(github.ref, "refs/tags/")
+    steps:
+      - name: Publish project
+        run: ./gradlew publish
         env:
           GITHUB_USER: RakSrinaNa
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

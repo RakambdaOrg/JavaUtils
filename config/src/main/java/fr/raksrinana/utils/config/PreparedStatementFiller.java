@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 @Slf4j
 public class PreparedStatementFiller{
-	private HashMap<Integer, SQLValue> values;
+	private final HashMap<Integer, SQLValue> values;
 	
 	/**
 	 * Constructor.

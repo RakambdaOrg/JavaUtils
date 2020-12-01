@@ -15,7 +15,7 @@ buildscript {
 
         jsoup_version = '1.13.1'
         unirest_version = '3.11.05'
-        httpcore_nio_version = '4.4.13'
+        httpcore_nio_version = '4.4.14'
         jackson_version = '2.12.0'
 
         jakarta_mail_version = '2.0.0'

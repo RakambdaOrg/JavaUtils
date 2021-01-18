@@ -10,7 +10,7 @@ buildscript {
 
         hikari_version = '3.4.3'
         h2_version = '1.4.200'
-        mysql_connector_java_version = '8.0.22'
+        mysql_connector_java_version = '8.0.23'
         sqlite_jdbc_version = '3.34.0'
 
         jsoup_version = '1.13.1'

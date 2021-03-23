@@ -6,7 +6,7 @@ buildscript {
         commons_text_version = '1.9'
 
         send_notification_version = '0.16.0'
-        jna_version = '5.7.0'
+        jna_version = '5.8.0'
 
         hikari_version = '4.0.3'
         h2_version = '1.4.200'
